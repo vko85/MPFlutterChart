@@ -2,80 +2,147 @@
 
 flutter charts just like [**MPAndroidChart**](https://github.com/PhilJay/MPAndroidChart)
 
-The minimum version currently supported is 1.7.3. If you use flutter with lower version, checkout and use 'localPosition-support' branch, this branch support for flutter version which XXXDetails and PointerXXXEvent not support wiget local postion
+The minimum version currently supported is 2.12. If you use flutter with lower version, checkout and use 'localPosition-support' branch, this branch support for flutter version which XXXDetails and PointerXXXEvent not support wiget local postion
 
 Thanks for [**MPAndroidChart**](https://github.com/PhilJay/MPAndroidChart), when translate this library to flutter I learned a lot about matrix use in animation.
 
 ## todos
 **1.potential bugs fix**
 
-## Get Start
-**1.add dependencies**
-```
-    dependencies:
-        mp_chart: ^0.2.2
-```
-
-**2.download example and see how to use**
-
 ## More Examples
 **LineCharts**
-<div>
-    <img src="https://github.com/SunPointed/MPFlutterChart/blob/master/mp_chart/img/line_charts/basic.png"  width="240" height="480"><img src="https://github.com/SunPointed/MPFlutterChart/blob/master/mp_chart/img/line_charts/multiple.png"  width="240" height="480"><img src="https://github.com/SunPointed/MPFlutterChart/blob/master/mp_chart/img/line_charts/dual_axis.png"  width="240" height="480">
+<div align=center>
+    <img src="https://raw.githubusercontent.com/SunPointed/MPFlutterChart/master/mp_chart/img/line_charts/basic.png"  width="240" height="480">
 </div>
 <br/><br/>
-<div>
-    <img src="https://github.com/SunPointed/MPFlutterChart/blob/master/mp_chart/img/line_charts/invert_axis.png"  width="240" height="480"><img src="https://github.com/SunPointed/MPFlutterChart/blob/master/mp_chart/img/line_charts/cubic.png"  width="240" height="480"><img src="https://github.com/SunPointed/MPFlutterChart/blob/master/mp_chart/img/line_charts/colorful.png"  width="240" height="480">
+<div align=center>
+    <img src="https://raw.githubusercontent.com/SunPointed/MPFlutterChart/master/mp_chart/img/line_charts/multiple.png"  width="240" height="480">
 </div>
 <br/><br/>
-<div>
-    <img src="https://github.com/SunPointed/MPFlutterChart/blob/master/mp_chart/img/line_charts/performance.png"  width="240" height="480"><img src="https://github.com/SunPointed/MPFlutterChart/blob/master/mp_chart/img/line_charts/filled.png"  width="240" height="480">
+<div align=center>
+    <img src="https://raw.githubusercontent.com/SunPointed/MPFlutterChart/master/mp_chart/img/line_charts/dual_axis.png"  width="240" height="480">
+</div>
+<br/><br/>
+<div align=center>
+    <img src="https://raw.githubusercontent.com/SunPointed/MPFlutterChart/master/mp_chart/img/line_charts/invert_axis.png"  width="240" height="480">
+</div>
+<br/><br/>
+<div align=center>
+    <img src="https://raw.githubusercontent.com/SunPointed/MPFlutterChart/master/mp_chart/img/line_charts/cubic.png"  width="240" height="480">
+</div>
+<br/><br/>
+<div align=center>
+    <img src="https://raw.githubusercontent.com/SunPointed/MPFlutterChart/master/mp_chart/img/line_charts/colorful.png"  width="240" height="480">
+</div>
+<br/><br/>
+<div align=center>
+    <img src="https://raw.githubusercontent.com/SunPointed/MPFlutterChart/master/mp_chart/img/line_charts/performance.png"  width="240" height="480">
+</div>
+<br/><br/>
+<div align=center>
+    <img src="https://raw.githubusercontent.com/SunPointed/MPFlutterChart/master/mp_chart/img/line_charts/filled.png"  width="240" height="480">
 </div>
 <br/><br/>
 
 **BarCharts**
-<div>
-    <img src="https://github.com/SunPointed/MPFlutterChart/blob/master/mp_chart/img/bar_charts/basic.png"  width="240" height="480"><img src="https://github.com/SunPointed/MPFlutterChart/blob/master/mp_chart/img/bar_charts/basic2.png"  width="240" height="480"><img src="https://github.com/SunPointed/MPFlutterChart/blob/master/mp_chart/img/bar_charts/multiple.png"  width="240" height="480">
+<div align=center>
+    <img src="https://raw.githubusercontent.com/SunPointed/MPFlutterChart/master/mp_chart/img/bar_charts/basic.png"  width="240" height="480">
 </div>
 <br/><br/>
-<div>
-    <img src="https://github.com/SunPointed/MPFlutterChart/blob/master/mp_chart/img/bar_charts/horizontal.png"  width="240" height="480"><img src="https://github.com/SunPointed/MPFlutterChart/blob/master/mp_chart/img/bar_charts/stacked.png"  width="240" height="480"><img src="https://github.com/SunPointed/MPFlutterChart/blob/master/mp_chart/img/bar_charts/negative.png"  width="240" height="480">
+<div align=center>
+    <img src="https://raw.githubusercontent.com/SunPointed/MPFlutterChart/master/mp_chart/img/bar_charts/basic2.png"  width="240" height="480">
 </div>
 <br/><br/>
-<div>
-    <img src="https://github.com/SunPointed/MPFlutterChart/blob/master/mp_chart/img/bar_charts/stacked2.png"  width="240" height="480"><img src="https://github.com/SunPointed/MPFlutterChart/blob/master/mp_chart/img/bar_charts/sine.png"  width="240" height="480">
+<div align=center>
+    <img src="https://raw.githubusercontent.com/SunPointed/MPFlutterChart/master/mp_chart/img/bar_charts/multiple.png"  width="240" height="480">
+</div>
+<br/><br/>
+<div align=center>
+    <img src="https://raw.githubusercontent.com/SunPointed/MPFlutterChart/master/mp_chart/img/bar_charts/horizontal.png"  width="240" height="480">
+</div>
+<br/><br/>
+<div align=center>
+    <img src="https://raw.githubusercontent.com/SunPointed/MPFlutterChart/master/mp_chart/img/bar_charts/stacked.png"  width="240" height="480">
+</div>
+<br/><br/>
+<div align=center>
+    <img src="https://raw.githubusercontent.com/SunPointed/MPFlutterChart/master/mp_chart/img/bar_charts/negative.png"  width="240" height="480">
+</div>
+<br/><br/>
+<div align=center>
+    <img src="https://raw.githubusercontent.com/SunPointed/MPFlutterChart/master/mp_chart/img/bar_charts/stacked2.png"  width="240" height="480">
+</div>
+<br/><br/>
+<div align=center>
+    <img src="https://raw.githubusercontent.com/SunPointed/MPFlutterChart/master/mp_chart/img/bar_charts/sine.png"  width="240" height="480">
 </div>
 <br/><br/>
 
 **PieCharts**
-<div>
-    <img src="https://github.com/SunPointed/MPFlutterChart/blob/master/mp_chart/img/pie_charts/basic.png"  width="240" height="480"><img src="https://github.com/SunPointed/MPFlutterChart/blob/master/mp_chart/img/pie_charts/value_lines.png"  width="240" height="480"><img src="https://github.com/SunPointed/MPFlutterChart/blob/master/mp_chart/img/pie_charts/half_pie.png"  width="240" height="480">
+<div align=center>
+    <img src="https://raw.githubusercontent.com/SunPointed/MPFlutterChart/master/mp_chart/img/pie_charts/basic.png"  width="240" height="480">
+</div>
+<br/><br/>
+<div align=center>
+    <img src="https://raw.githubusercontent.com/SunPointed/MPFlutterChart/master/mp_chart/img/pie_charts/value_lines.png"  width="240" height="480">
+</div>
+<br/><br/>
+<div align=center>
+    <img src="https://raw.githubusercontent.com/SunPointed/MPFlutterChart/master/mp_chart/img/pie_charts/half_pie.png"  width="240" height="480">
 </div>
 <br/><br/>
 
 **OtherCharts**
-<div>
-    <img src="https://github.com/SunPointed/MPFlutterChart/blob/master/mp_chart/img/other_charts/combined.png"  width="240" height="480"><img src="https://github.com/SunPointed/MPFlutterChart/blob/master/mp_chart/img/other_charts/scatter.png"  width="240" height="480"><img src="https://github.com/SunPointed/MPFlutterChart/blob/master/mp_chart/img/other_charts/bubble.png"  width="240" height="480">
+<div align=center>
+    <img src="https://raw.githubusercontent.com/SunPointed/MPFlutterChart/master/mp_chart/img/other_charts/combined.png"  width="240" height="480">
 </div>
 <br/><br/>
-<div>
-   <img src="https://github.com/SunPointed/MPFlutterChart/blob/master/mp_chart/img/other_charts/candle.png"  width="240" height="480"><img src="https://github.com/SunPointed/MPFlutterChart/blob/master/mp_chart/img/other_charts/radar.png"  width="240" height="480">
+<div align=center>
+    <img src="https://raw.githubusercontent.com/SunPointed/MPFlutterChart/master/mp_chart/img/other_charts/scatter.png"  width="240" height="480">
+</div>
+<br/><br/>
+<div align=center>
+    <img src="https://raw.githubusercontent.com/SunPointed/MPFlutterChart/master/mp_chart/img/other_charts/bubble.png"  width="240" height="480">
+</div>
+<br/><br/>
+<div align=center>
+    <img src="https://raw.githubusercontent.com/SunPointed/MPFlutterChart/master/mp_chart/img/other_charts/candle.png"  width="240" height="480">
+</div>
+<br/><br/>
+<div align=center>
+    <img src="https://raw.githubusercontent.com/SunPointed/MPFlutterChart/master/mp_chart/img/other_charts/radar.png"  width="240" height="480">
 </div>
 <br/><br/>
 
 **ScrollingCharts**
-<div>
-    <img src="https://github.com/SunPointed/MPFlutterChart/blob/master/mp_chart/img/scrolling_charts/multiple.png"  width="240" height="480"><img src="https://github.com/SunPointed/MPFlutterChart/blob/master/mp_chart/img/scrolling_charts/view_pager.png"  width="240" height="480"><img src="https://github.com/SunPointed/MPFlutterChart/blob/master/mp_chart/img/scrolling_charts/tall.png"  width="240" height="480">
+<div align=center>
+    <img src="https://raw.githubusercontent.com/SunPointed/MPFlutterChart/master/mp_chart/img/scrolling_charts/multiple.png"  width="240" height="480">
 </div>
 <br/><br/>
-<div>
-    <img src="https://github.com/SunPointed/MPFlutterChart/blob/master/mp_chart/img/scrolling_charts/many.png"  width="240" height="480">
+<div align=center>
+    <img src="https://raw.githubusercontent.com/SunPointed/MPFlutterChart/master/mp_chart/img/scrolling_charts/view_pager.png"  width="240" height="480">
+</div>
+<br/><br/>
+<div align=center>
+    <img src="https://raw.githubusercontent.com/SunPointed/MPFlutterChart/master/mp_chart/img/scrolling_charts/tall.png"  width="240" height="480">
+</div>
+<br/><br/>
+<div align=center>
+    <img src="https://raw.githubusercontent.com/SunPointed/MPFlutterChart/master/mp_chart/img/scrolling_charts/many.png"  width="240" height="480">
 </div>
 <br/><br/>
 
 **EvenMoreCharts**
-<div>
-    <img src="https://github.com/SunPointed/MPFlutterChart/blob/master/mp_chart/img/even_more_charts/dynamic.png"  width="240" height="480"><img src="https://github.com/SunPointed/MPFlutterChart/blob/master/mp_chart/img/even_more_charts/realtime.png"  width="240" height="480"><img src="https://github.com/SunPointed/MPFlutterChart/blob/master/mp_chart/img/even_more_charts/hourly.png"  width="240" height="480">
+<div align=center>
+    <img src="https://raw.githubusercontent.com/SunPointed/MPFlutterChart/master/mp_chart/img/even_more_charts/dynamic.png"  width="240" height="480">
+</div>
+<br/><br/>
+<div align=center>
+    <img src="https://raw.githubusercontent.com/SunPointed/MPFlutterChart/master/mp_chart/img/even_more_charts/realtime.png"  width="240" height="480">
+</div>
+<br/><br/>
+<div align=center>
+    <img src="https://raw.githubusercontent.com/SunPointed/MPFlutterChart/master/mp_chart/img/even_more_charts/hourly.png"  width="240" height="480">
 </div>
 <br/><br/>
 
