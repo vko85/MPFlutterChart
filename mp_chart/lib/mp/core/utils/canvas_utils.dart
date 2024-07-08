@@ -1,26 +1,26 @@
 import 'dart:ui' as ui;
 
 import 'package:flutter/painting.dart';
-import 'package:mp_chart/mp/core/adapter_android_mp.dart';
-import 'package:mp_chart/mp/core/limit_line.dart';
+import 'package:mp_chart_x/mp/core/adapter_android_mp.dart';
+import 'package:mp_chart_x/mp/core/limit_line.dart';
 
 abstract class CanvasUtils {
-  static void drawLines(
-      ui.Canvas canvas, List<double> pts, int offset, int count, ui.Paint paint,
-      {DashPathEffect effect}) {
+  static void drawLines(ui.Canvas canvas, List<double?> pts, int offset,
+      int count, ui.Paint? paint,
+      {DashPathEffect? effect}) {
     if (effect == null) {
       for (int i = offset; i < count; i += 4) {
-        canvas.drawLine(ui.Offset(pts[i], pts[i + 1]),
-            ui.Offset(pts[i + 2], pts[i + 3]), paint);
+        canvas.drawLine(ui.Offset(pts[i]!, pts[i + 1]!),
+            ui.Offset(pts[i + 2]!, pts[i + 3]!), paint!);
       }
     } else {
       var path = Path();
       for (int i = offset; i < count; i += 4) {
         path.reset();
-        path.moveTo(pts[i], pts[i + 1]);
-        path.lineTo(pts[i + 2], pts[i + 3]);
+        path.moveTo(pts[i]!, pts[i + 1]!);
+        path.lineTo(pts[i + 2]!, pts[i + 3]!);
         path = effect.convert2DashPath(path);
-        canvas.drawPath(path, paint);
+        canvas.drawPath(path, paint!);
       }
     }
   }
@@ -43,18 +43,18 @@ abstract class CanvasUtils {
     canvas.drawImageRect(img, inputRect, outputRect, paint);
   }
 
-  static const double LABEL_SPACE = 2;
+  static const double labelSpace = 2;
 
-  static void renderLimitLabelBackground(Canvas canvas, TextPainter textPainter,
-      Offset offset, LimitLine limitLine) {
+  static void renderLimitLabelBackground(Canvas canvas,
+      TextPainter? textPainter, Offset offset, LimitLine limitLine) {
     if (limitLine.drawBackground) {
       Paint paint = Paint()..color = limitLine.backgroundColor;
       canvas.drawRect(
           Rect.fromLTRB(
-              offset.dx - LABEL_SPACE,
-              offset.dy - LABEL_SPACE,
-              offset.dx + LABEL_SPACE + textPainter.width,
-              offset.dy + LABEL_SPACE + textPainter.height),
+              offset.dx - labelSpace,
+              offset.dy - labelSpace,
+              offset.dx + labelSpace + textPainter!.width,
+              offset.dy + labelSpace + textPainter.height),
           paint);
     }
   }

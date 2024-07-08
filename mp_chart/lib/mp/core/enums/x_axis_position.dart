@@ -1,1 +1,1 @@
-enum XAxisPosition { TOP, BOTTOM, BOTH_SIDED, TOP_INSIDE, BOTTOM_INSIDE }
+enum XAxisPosition { top, bottom, bothSided, topInside, bottomInside }

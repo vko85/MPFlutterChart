@@ -1,9 +1,9 @@
-import 'package:mp_chart/mp/core/adapter_android_mp.dart';
-import 'package:mp_chart/mp/core/data_interfaces/i_line_scatter_candle_radar_data_set.dart';
-import 'package:mp_chart/mp/core/data_set/bar_line_scatter_candle_bubble_data_set.dart';
-import 'package:mp_chart/mp/core/data_set/base_data_set.dart';
-import 'package:mp_chart/mp/core/entry/entry.dart';
-import 'package:mp_chart/mp/core/utils/utils.dart';
+import 'package:mp_chart_x/mp/core/adapter_android_mp.dart';
+import 'package:mp_chart_x/mp/core/data_interfaces/i_line_scatter_candle_radar_data_set.dart';
+import 'package:mp_chart_x/mp/core/data_set/bar_line_scatter_candle_bubble_data_set.dart';
+import 'package:mp_chart_x/mp/core/data_set/base_data_set.dart';
+import 'package:mp_chart_x/mp/core/entry/entry.dart';
+import 'package:mp_chart_x/mp/core/utils/utils.dart';
 
 abstract class LineScatterCandleRadarDataSet<T extends Entry>
     extends BarLineScatterCandleBubbleDataSet<T>
@@ -12,10 +12,10 @@ abstract class LineScatterCandleRadarDataSet<T extends Entry>
   bool _drawHorizontalHighlightIndicator = true;
 
   /// the width of the highlight indicator lines
-  double _highlightLineWidth = 0.5;
+  double? _highlightLineWidth = 0.5;
 
   /// the path effect for dashed highlight-lines
-  DashPathEffect _highlightDashPathEffect;
+  DashPathEffect? _highlightDashPathEffect;
 
   /// the path effect for dashed highlight-lines
 //   DashPathEffect mHighlightDashPathEffect = null;
@@ -61,7 +61,7 @@ abstract class LineScatterCandleRadarDataSet<T extends Entry>
   }
 
   @override
-  double getHighlightLineWidth() {
+  double? getHighlightLineWidth() {
     return _highlightLineWidth;
   }
 
@@ -89,7 +89,7 @@ abstract class LineScatterCandleRadarDataSet<T extends Entry>
   }
 
   @override
-  DashPathEffect getDashPathEffectHighlight() {
+  DashPathEffect? getDashPathEffectHighlight() {
     return _highlightDashPathEffect;
   }
 
@@ -97,6 +97,7 @@ abstract class LineScatterCandleRadarDataSet<T extends Entry>
     _highlightDashPathEffect = value;
   }
 
+  @override
   void copy(BaseDataSet baseDataSet) {
     super.copy(baseDataSet);
     if (baseDataSet is LineScatterCandleRadarDataSet) {
@@ -116,30 +117,31 @@ abstract class LineScatterCandleRadarDataSet<T extends Entry>
   /// the added entry's x value must be in range of Pre's x value(Pre : Entry at index - 1)
   /// and Cur's x value(Cur: Entry at index).
   @override
-  bool addEntryByIndex(int index, T e) {
-    if(index < 0 || index > getEntryCount()){
+  bool addEntryByIndex(int index, T? e) {
+    // TODO : should be optional? T?e
+    if (index < 0 || index > getEntryCount()) {
       return false;
     }
 
-    List<T> valueDatas = values;
+    List<T?>? valueDatas = values;
     if (getEntryCount() == 0) {
       return addEntry(e);
     }
 
-    if(index == 0){
-      var cur = valueDatas[index];
-      if (e.x >= cur.x) {
+    if (index == 0) {
+      T cur = valueDatas![index]!;
+      if (e!.x >= cur.x) {
         return false;
       }
-    } else if(index == getEntryCount()){
-      var pre = valueDatas[index - 1];
-      if(e.x <= pre.x){
+    } else if (index == getEntryCount()) {
+      T pre = valueDatas![index - 1]!;
+      if (e!.x <= pre.x) {
         return false;
       }
-    }else {
-      var cur = valueDatas[index];
+    } else {
+      T cur = valueDatas![index]!;
       var pre = valueDatas[index - 1];
-      if (e.x >= cur.x || e.x <= pre.x) {
+      if (e!.x >= cur.x || e.x <= pre!.x) {
         return false;
       }
     }

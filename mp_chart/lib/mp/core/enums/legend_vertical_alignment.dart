@@ -1,1 +1,1 @@
-enum LegendVerticalAlignment { TOP, CENTER, BOTTOM }
+enum LegendVerticalAlignment { top, center, bottom }

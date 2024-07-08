@@ -1,7 +1,7 @@
 import 'dart:ui';
 
-import 'package:mp_chart/mp/core/data_interfaces/i_line_radar_data_set.dart';
-import 'package:mp_chart/mp/core/entry/radar_entry.dart';
+import 'package:mp_chart_x/mp/core/data_interfaces/i_line_radar_data_set.dart';
+import 'package:mp_chart_x/mp/core/entry/radar_entry.dart';
 
 mixin IRadarDataSet implements ILineRadarDataSet<RadarEntry> {
   /// flag indicating whether highlight circle should be drawn or not

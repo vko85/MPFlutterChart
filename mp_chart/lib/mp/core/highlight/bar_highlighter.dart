@@ -1,21 +1,21 @@
 import 'dart:math';
 
-import 'package:mp_chart/mp/core/data/bar_data.dart';
-import 'package:mp_chart/mp/core/data/bar_line_scatter_candle_bubble_data.dart';
-import 'package:mp_chart/mp/core/data_interfaces/i_bar_data_set.dart';
-import 'package:mp_chart/mp/core/data_provider/bar_data_provider.dart';
-import 'package:mp_chart/mp/core/entry/bar_entry.dart';
-import 'package:mp_chart/mp/core/highlight/chart_hightlighter.dart';
-import 'package:mp_chart/mp/core/highlight/highlight.dart';
-import 'package:mp_chart/mp/core/poolable/point.dart';
-import 'package:mp_chart/mp/core/range.dart';
+import 'package:mp_chart_x/mp/core/data/bar_data.dart';
+import 'package:mp_chart_x/mp/core/data/bar_line_scatter_candle_bubble_data.dart';
+import 'package:mp_chart_x/mp/core/data_interfaces/i_bar_data_set.dart';
+import 'package:mp_chart_x/mp/core/data_provider/bar_data_provider.dart';
+import 'package:mp_chart_x/mp/core/entry/bar_entry.dart';
+import 'package:mp_chart_x/mp/core/highlight/chart_highlighter.dart';
+import 'package:mp_chart_x/mp/core/highlight/highlight.dart';
+import 'package:mp_chart_x/mp/core/pool/point.dart';
+import 'package:mp_chart_x/mp/core/range.dart';
 
 class BarHighlighter extends ChartHighlighter<BarDataProvider> {
   BarHighlighter(BarDataProvider chart) : super(chart);
 
   @override
-  Highlight getHighlight(double x, double y) {
-    Highlight high = super.getHighlight(x, y);
+  Highlight? getHighlight(double x, double y) {
+    Highlight? high = super.getHighlight(x, y);
 
     if (high == null) {
       return null;
@@ -23,9 +23,9 @@ class BarHighlighter extends ChartHighlighter<BarDataProvider> {
 
     MPPointD pos = getValsForTouch(x, y);
 
-    BarData barData = provider.getBarData();
+    BarData barData = provider!.getBarData()!;
 
-    IBarDataSet set = barData.getDataSetByIndex(high.dataSetIndex);
+    IBarDataSet set = barData.getDataSetByIndex(high.dataSetIndex ?? 0)!;
     if (set.isStacked()) {
       return getStackedHighlight(high, set, pos.x, pos.y);
     }
@@ -43,9 +43,9 @@ class BarHighlighter extends ChartHighlighter<BarDataProvider> {
   /// @param xVal
   /// @param yVal
   /// @return
-  Highlight getStackedHighlight(
+  Highlight? getStackedHighlight(
       Highlight high, IBarDataSet set, double xVal, double yVal) {
-    BarEntry entry = set.getEntryForXValue2(xVal, yVal);
+    BarEntry? entry = set.getEntryForXValue2(xVal, yVal);
 
     if (entry == null) return null;
 
@@ -53,14 +53,14 @@ class BarHighlighter extends ChartHighlighter<BarDataProvider> {
     if (entry.yVals == null) {
       return high;
     } else {
-      List<Range> ranges = entry.ranges;
+      List<Range?> ranges = entry.ranges!;
 
-      if (ranges.length > 0) {
+      if (ranges.isNotEmpty) {
         int stackIndex = getClosestStackIndex(ranges, yVal);
 
-        MPPointD pixels = provider
-            .getTransformer(set.getAxisDependency())
-            .getPixelForValues(high.x, ranges[stackIndex].to);
+        MPPointD pixels = provider!
+            .getTransformer(set.getAxisDependency())!
+            .getPixelForValues(high.x!, ranges[stackIndex]!.to);
 
         Highlight stackedHigh = Highlight(
             x: entry.x,
@@ -86,17 +86,18 @@ class BarHighlighter extends ChartHighlighter<BarDataProvider> {
   /// @param ranges
   /// @param value
   /// @return
-  int getClosestStackIndex(List<Range> ranges, double value) {
-    if (ranges == null || ranges.length == 0) return 0;
+  int getClosestStackIndex(List<Range?> ranges, double? value) {
+    if (ranges.isEmpty) return 0;
     int stackIndex = 0;
-    for (Range range in ranges) {
-      if (range.contains(value))
+    for (Range? range in ranges) {
+      if (range!.contains(value!)) {
         return stackIndex;
-      else
+      } else {
         stackIndex++;
+      }
     }
     int length = max(ranges.length - 1, 0);
-    return (value > ranges[length].to) ? length : 0;
+    return (value! > ranges[length]!.to) ? length : 0;
   }
 
   @override
@@ -105,7 +106,7 @@ class BarHighlighter extends ChartHighlighter<BarDataProvider> {
   }
 
   @override
-  BarLineScatterCandleBubbleData getData() {
-    return provider.getBarData();
+  BarLineScatterCandleBubbleData? getData() {
+    return provider!.getBarData();
   }
 }

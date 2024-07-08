@@ -1,5 +1,5 @@
-import 'package:mp_chart/mp/core/data/bar_line_scatter_candle_bubble_data.dart';
-import 'package:mp_chart/mp/core/data_interfaces/i_bubble_data_set.dart';
+import 'package:mp_chart_x/mp/core/data/bar_line_scatter_candle_bubble_data.dart';
+import 'package:mp_chart_x/mp/core/data_interfaces/i_bubble_data_set.dart';
 
 class BubbleData extends BarLineScatterCandleBubbleData<IBubbleDataSet> {
   BubbleData() : super();

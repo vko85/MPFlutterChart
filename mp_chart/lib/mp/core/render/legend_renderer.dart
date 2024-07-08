@@ -1,40 +1,40 @@
 import 'package:flutter/painting.dart';
-import 'package:mp_chart/mp/core/adapter_android_mp.dart';
-import 'package:mp_chart/mp/core/data/chart_data.dart';
-import 'package:mp_chart/mp/core/data_interfaces/i_bar_data_set.dart';
-import 'package:mp_chart/mp/core/data_interfaces/i_candle_data_set.dart';
-import 'package:mp_chart/mp/core/data_interfaces/i_data_set.dart';
-import 'package:mp_chart/mp/core/data_interfaces/i_pie_data_set.dart';
-import 'package:mp_chart/mp/core/enums/legend_direction.dart';
-import 'package:mp_chart/mp/core/enums/legend_form.dart';
-import 'package:mp_chart/mp/core/enums/legend_horizontal_alignment.dart';
-import 'package:mp_chart/mp/core/enums/legend_orientation.dart';
-import 'package:mp_chart/mp/core/enums/legend_vertical_alignment.dart';
-import 'package:mp_chart/mp/core/legend/legend.dart';
-import 'package:mp_chart/mp/core/legend/legend_entry.dart';
-import 'package:mp_chart/mp/core/poolable/size.dart';
-import 'package:mp_chart/mp/core/render/renderer.dart';
-import 'package:mp_chart/mp/core/utils/color_utils.dart';
-import 'package:mp_chart/mp/core/utils/painter_utils.dart';
-import 'package:mp_chart/mp/core/utils/utils.dart';
-import 'package:mp_chart/mp/core/view_port.dart';
+import 'package:mp_chart_x/mp/core/adapter_android_mp.dart';
+import 'package:mp_chart_x/mp/core/data/chart_data.dart';
+import 'package:mp_chart_x/mp/core/data_interfaces/i_bar_data_set.dart';
+import 'package:mp_chart_x/mp/core/data_interfaces/i_candle_data_set.dart';
+import 'package:mp_chart_x/mp/core/data_interfaces/i_data_set.dart';
+import 'package:mp_chart_x/mp/core/data_interfaces/i_pie_data_set.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_direction.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_form.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_horizontal_alignment.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_orientation.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_vertical_alignment.dart';
+import 'package:mp_chart_x/mp/core/legend/legend.dart';
+import 'package:mp_chart_x/mp/core/legend/legend_entry.dart';
+import 'package:mp_chart_x/mp/core/pool/size.dart';
+import 'package:mp_chart_x/mp/core/render/renderer.dart';
+import 'package:mp_chart_x/mp/core/utils/color_utils.dart';
+import 'package:mp_chart_x/mp/core/utils/painter_utils.dart';
+import 'package:mp_chart_x/mp/core/utils/utils.dart';
+import 'package:mp_chart_x/mp/core/view_port.dart';
 
 class LegendRenderer extends Renderer {
   /// paint for the legend labels
-  TextPainter _legendLabelPaint;
+  TextPainter? _legendLabelPaint;
 
   /// paint used for the legend forms
-  Paint _legendFormPaint;
+  Paint? _legendFormPaint;
 
   /// the legend object this renderer renders
-  Legend _legend;
+  Legend? _legend;
 
-  LegendRenderer(ViewPortHandler viewPortHandler, Legend legend)
+  LegendRenderer(ViewPortHandler? viewPortHandler, Legend? legend)
       : super(viewPortHandler) {
-    this._legend = legend;
+    _legend = legend;
 
     _legendLabelPaint = PainterUtils.create(
-        _legendLabelPaint, null, ColorUtils.BLACK, Utils.convertDpToPixel(9));
+        _legendLabelPaint, null, ColorUtils.black, Utils.convertDpToPixel(9));
 
     _legendFormPaint = Paint()
       ..isAntiAlias = true
@@ -42,44 +42,44 @@ class LegendRenderer extends Renderer {
   }
 
   // ignore: unnecessary_getters_setters
-  Paint get legendFormPaint => _legendFormPaint;
+  Paint? get legendFormPaint => _legendFormPaint;
 
   // ignore: unnecessary_getters_setters
-  set legendFormPaint(Paint value) {
+  set legendFormPaint(Paint? value) {
     _legendFormPaint = value;
   }
 
-  Legend get legend => _legend;
+  Legend? get legend => _legend;
 
   // ignore: unnecessary_getters_setters
-  TextPainter get legendLabelPaint => _legendLabelPaint;
+  TextPainter? get legendLabelPaint => _legendLabelPaint;
 
   // ignore: unnecessary_getters_setters
-  set legendLabelPaint(TextPainter value) {
+  set legendLabelPaint(TextPainter? value) {
     _legendLabelPaint = value;
   }
 
-  List<LegendEntry> _computedEntries = List(16);
+  List<LegendEntry?> _computedEntries = List.filled(16, null, growable: false);
 
   /// Prepares the legend and calculates all needed forms, labels and colors.
   ///
   /// @param data
-  void computeLegend(ChartData<IDataSet> data) {
-    if (!_legend.isLegendCustom) {
-      _computedEntries = List();
+  void computeLegend(ChartData<IDataSet>? data) {
+    if (!_legend!.isLegendCustom) {
+      _computedEntries = List.empty(growable: true);
 
       // loop for building up the colors and labels used in the legend
-      for (int i = 0; i < data.getDataSetCount(); i++) {
-        IDataSet dataSet = data.getDataSetByIndex(i);
+      for (int i = 0; i < data!.getDataSetCount(); i++) {
+        IDataSet dataSet = data.getDataSetByIndex(i)!;
 
-        List<Color> clrs = dataSet.getColors();
+        List<Color>? clrs = dataSet.getColors();
         int entryCount = dataSet.getEntryCount();
 
         if (dataSet is IBarDataSet && dataSet.isStacked()) {
           IBarDataSet bds = dataSet;
           List<String> sLabels = bds.getStackLabels();
 
-          for (int j = 0; j < clrs.length && j < bds.getStackSize(); j++) {
+          for (int j = 0; j < clrs!.length && j < bds.getStackSize(); j++) {
             _computedEntries.add(LegendEntry(
                 sLabels[j % sLabels.length],
                 dataSet.getForm(),
@@ -89,22 +89,15 @@ class LegendRenderer extends Renderer {
                 clrs[j]));
           }
 
-          if (bds.getLabel() != null) {
-            // add the legend description label
-            _computedEntries.add(LegendEntry(
-                dataSet.getLabel(),
-                LegendForm.NONE,
-                double.nan,
-                double.nan,
-                null,
-                ColorUtils.COLOR_NONE));
-          }
+          // add the legend description label
+          _computedEntries.add(LegendEntry(dataSet.getLabel(), LegendForm.none,
+              double.nan, double.nan, null, ColorUtils.colorNone));
         } else if (dataSet is IPieDataSet) {
           IPieDataSet pds = dataSet;
 
-          for (int j = 0; j < clrs.length && j < entryCount; j++) {
+          for (int j = 0; j < clrs!.length && j < entryCount; j++) {
             _computedEntries.add(LegendEntry(
-                pds.getEntryForIndex(j).label,
+                pds.getEntryForIndex(j)!.label,
                 dataSet.getForm(),
                 dataSet.getFormSize(),
                 dataSet.getFormLineWidth(),
@@ -112,18 +105,11 @@ class LegendRenderer extends Renderer {
                 clrs[j]));
           }
 
-          if (pds.getLabel() != null) {
-            // add the legend description label
-            _computedEntries.add(LegendEntry(
-                dataSet.getLabel(),
-                LegendForm.NONE,
-                double.nan,
-                double.nan,
-                null,
-                ColorUtils.COLOR_NONE));
-          }
+          // add the legend description label
+          _computedEntries.add(LegendEntry(dataSet.getLabel(), LegendForm.none,
+              double.nan, double.nan, null, ColorUtils.colorNone));
         } else if (dataSet is ICandleDataSet &&
-            dataSet.getDecreasingColor() != ColorUtils.COLOR_NONE) {
+            dataSet.getDecreasingColor() != ColorUtils.colorNone) {
           Color decreasingColor = dataSet.getDecreasingColor();
           Color increasingColor = dataSet.getIncreasingColor();
 
@@ -145,15 +131,15 @@ class LegendRenderer extends Renderer {
         } else {
           // all others
 
-          for (int j = 0; j < clrs.length && j < entryCount; j++) {
-            String label;
+          for (int j = 0; j < clrs!.length && j < entryCount; j++) {
+            String? label;
 
             // if multiple colors are set for a DataSet, group them
             if (j < clrs.length - 1 && j < entryCount - 1) {
               label = null;
             } else {
               // add label to the last entry
-              label = data.getDataSetByIndex(i).getLabel();
+              label = data.getDataSetByIndex(i)!.getLabel();
             }
 
             _computedEntries.add(LegendEntry(
@@ -167,148 +153,156 @@ class LegendRenderer extends Renderer {
         }
       }
 
-      if (_legend.extraEntries != null) {
-        _computedEntries.addAll(_legend.extraEntries);
+      if (_legend!.extraEntries != null) {
+        _computedEntries.addAll(_legend!.extraEntries!);
       }
 
-      _legend.entries = (_computedEntries);
+      _legend!.entries = (_computedEntries);
     }
 
     _legendLabelPaint = getLabelPainter();
 
     // calculate all dimensions of the _legend
-    _legend.calculateDimensions(_legendLabelPaint, viewPortHandler);
+    _legend!.calculateDimensions(_legendLabelPaint, viewPortHandler);
   }
 
   TextPainter getLabelPainter() {
-    var fontFamily = _legend.typeface?.fontFamily;
-    var fontWeight = _legend.typeface?.fontWeight;
-    return PainterUtils.create(_legendLabelPaint, null, _legend.textColor, _legend.textSize,
+    var fontFamily = _legend!.typeface?.fontFamily;
+    var fontWeight = _legend!.typeface?.fontWeight;
+    return PainterUtils.create(
+        _legendLabelPaint, null, _legend!.textColor, _legend!.textSize,
         fontFamily: fontFamily, fontWeight: fontWeight);
   }
 
   void renderLegend(Canvas c) {
-    if (!_legend.enabled) return;
+    if (!_legend!.enabled) return;
 
     _legendLabelPaint = getLabelPainter();
 
-    double labelLineHeight = Utils.getLineHeight1(_legendLabelPaint);
-    double labelLineSpacing = Utils.getLineSpacing1(_legendLabelPaint) +
-        Utils.convertDpToPixel(_legend.yEntrySpace);
+    double labelLineHeight = Utils.getLineHeight1(_legendLabelPaint!);
+    double labelLineSpacing = Utils.getLineSpacing1(_legendLabelPaint!) +
+        Utils.convertDpToPixel(_legend!.yEntrySpace);
     double formYOffset =
-        labelLineHeight - Utils.calcTextHeight(_legendLabelPaint, "ABC") / 2;
+        labelLineHeight - Utils.calcTextHeight(_legendLabelPaint!, "ABC") / 2;
 
-    List<LegendEntry> entries = _legend.entries;
+    List<LegendEntry?> entries = _legend!.entries;
 
-    double formToTextSpace = Utils.convertDpToPixel(_legend.formToTextSpace);
-    double xEntrySpace = Utils.convertDpToPixel(_legend.xEntrySpace);
-    LegendOrientation orientation = _legend.orientation;
-    LegendHorizontalAlignment horizontalAlignment = _legend.horizontalAlignment;
-    LegendVerticalAlignment verticalAlignment = _legend.verticalAlignment;
-    LegendDirection direction = _legend.direction;
-    double defaultFormSize = Utils.convertDpToPixel(_legend.formSize);
+    double? formToTextSpace = Utils.convertDpToPixel(_legend!.formToTextSpace);
+    double? xEntrySpace = Utils.convertDpToPixel(_legend!.xEntrySpace);
+    LegendOrientation orientation = _legend!.orientation;
+    LegendHorizontalAlignment horizontalAlignment =
+        _legend!.horizontalAlignment;
+    LegendVerticalAlignment verticalAlignment = _legend!.verticalAlignment;
+    LegendDirection direction = _legend!.direction;
+    double? defaultFormSize = Utils.convertDpToPixel(_legend!.formSize);
 
     // space between the entries
-    double stackSpace = Utils.convertDpToPixel(_legend.stackSpace);
+    double? stackSpace = Utils.convertDpToPixel(_legend!.stackSpace);
 
-    double yoffset = _legend.yOffset;
-    double xoffset = _legend.xOffset;
+    double yoffset = _legend!.yOffset;
+    double xoffset = _legend!.xOffset;
     double originPosX = 0;
 
     switch (horizontalAlignment) {
-      case LegendHorizontalAlignment.LEFT:
-        if (orientation == LegendOrientation.VERTICAL)
+      case LegendHorizontalAlignment.left:
+        if (orientation == LegendOrientation.vertical) {
           originPosX = xoffset;
-        else
-          originPosX = viewPortHandler.contentLeft() + xoffset;
+        } else {
+          originPosX = viewPortHandler!.contentLeft() + xoffset;
+        }
 
-        if (direction == LegendDirection.RIGHT_TO_LEFT)
-          originPosX += _legend.neededWidth;
-
-        break;
-
-      case LegendHorizontalAlignment.RIGHT:
-        if (orientation == LegendOrientation.VERTICAL)
-          originPosX = viewPortHandler.getChartWidth() - xoffset;
-        else
-          originPosX = viewPortHandler.contentRight() - xoffset;
-
-        if (direction == LegendDirection.LEFT_TO_RIGHT)
-          originPosX -= _legend.neededWidth;
+        if (direction == LegendDirection.rightToLeft) {
+          originPosX += _legend!.neededWidth;
+        }
 
         break;
 
-      case LegendHorizontalAlignment.CENTER:
-        if (orientation == LegendOrientation.VERTICAL)
-          originPosX = viewPortHandler.getChartWidth() / 2;
-        else
-          originPosX = viewPortHandler.contentLeft() +
-              viewPortHandler.contentWidth() / 2;
+      case LegendHorizontalAlignment.right:
+        if (orientation == LegendOrientation.vertical) {
+          originPosX = viewPortHandler!.getChartWidth() - xoffset;
+        } else {
+          originPosX = viewPortHandler!.contentRight() - xoffset;
+        }
+
+        if (direction == LegendDirection.leftToRight) {
+          originPosX -= _legend!.neededWidth;
+        }
+
+        break;
+
+      case LegendHorizontalAlignment.center:
+        if (orientation == LegendOrientation.vertical) {
+          originPosX = viewPortHandler!.getChartWidth() / 2;
+        } else {
+          originPosX = viewPortHandler!.contentLeft() +
+              viewPortHandler!.contentWidth() / 2;
+        }
 
         originPosX +=
-            (direction == LegendDirection.LEFT_TO_RIGHT ? xoffset : -xoffset);
+            (direction == LegendDirection.leftToRight ? xoffset : -xoffset);
 
         // Horizontally layed out legends do the center offset on a line basis,
         // So here we offset the vertical ones only.
-        if (orientation == LegendOrientation.VERTICAL) {
-          originPosX += (direction == LegendDirection.LEFT_TO_RIGHT
-              ? -_legend.neededWidth / 2.0 + xoffset
-              : _legend.neededWidth / 2.0 - xoffset);
+        if (orientation == LegendOrientation.vertical) {
+          originPosX += (direction == LegendDirection.leftToRight
+              ? -_legend!.neededWidth / 2.0 + xoffset
+              : _legend!.neededWidth / 2.0 - xoffset);
         }
 
         break;
     }
 
     switch (orientation) {
-      case LegendOrientation.HORIZONTAL:
+      case LegendOrientation.horizontal:
         {
-          List<FSize> calculatedLineSizes = _legend.calculatedLineSizes;
-          List<FSize> calculatedLabelSizes = _legend.calculatedLabelSizes;
-          List<bool> calculatedLabelBreakPoints =
-              _legend.calculatedLabelBreakPoints;
+          List<FSize?> calculatedLineSizes = _legend!.calculatedLineSizes;
+          List<FSize?> calculatedLabelSizes = _legend!.calculatedLabelSizes;
+          List<bool?> calculatedLabelBreakPoints =
+              _legend!.calculatedLabelBreakPoints;
 
           double posX = originPosX;
           double posY = 0;
 
           switch (verticalAlignment) {
-            case LegendVerticalAlignment.TOP:
+            case LegendVerticalAlignment.top:
               posY = yoffset;
               break;
 
-            case LegendVerticalAlignment.BOTTOM:
-              posY = viewPortHandler.getChartHeight() -
+            case LegendVerticalAlignment.bottom:
+              posY = viewPortHandler!.getChartHeight() -
                   yoffset -
-                  _legend.neededHeight;
+                  _legend!.neededHeight;
               break;
 
-            case LegendVerticalAlignment.CENTER:
-              posY = (viewPortHandler.getChartHeight() - _legend.neededHeight) /
-                      2 +
-                  yoffset;
+            case LegendVerticalAlignment.center:
+              posY =
+                  (viewPortHandler!.getChartHeight() - _legend!.neededHeight) /
+                          2 +
+                      yoffset;
               break;
           }
 
           int lineIndex = 0;
 
           for (int i = 0, count = entries.length; i < count; i++) {
-            LegendEntry e = entries[i];
-            bool drawingForm = e.form != LegendForm.NONE;
-            double formSize = e.formSize.isNaN
+            LegendEntry e = entries[i]!;
+            bool drawingForm = e.form != LegendForm.none;
+            double? formSize = e.formSize.isNaN
                 ? defaultFormSize
                 : Utils.convertDpToPixel(e.formSize);
 
             if (i < calculatedLabelBreakPoints.length &&
-                calculatedLabelBreakPoints[i]) {
+                calculatedLabelBreakPoints[i]!) {
               posX = originPosX;
               posY += labelLineHeight + labelLineSpacing;
             }
 
             if (posX == originPosX &&
-                horizontalAlignment == LegendHorizontalAlignment.CENTER &&
+                horizontalAlignment == LegendHorizontalAlignment.center &&
                 lineIndex < calculatedLineSizes.length) {
-              posX += (direction == LegendDirection.RIGHT_TO_LEFT
-                      ? calculatedLineSizes[lineIndex].width
-                      : -calculatedLineSizes[lineIndex].width) /
+              posX += (direction == LegendDirection.rightToLeft
+                      ? calculatedLineSizes[lineIndex]!.width
+                      : -calculatedLineSizes[lineIndex]!.width) /
                   2;
               lineIndex++;
             }
@@ -316,40 +310,44 @@ class LegendRenderer extends Renderer {
             bool isStacked = e.label == null; // grouped forms have null labels
 
             if (drawingForm) {
-              if (direction == LegendDirection.RIGHT_TO_LEFT) posX -= formSize;
+              if (direction == LegendDirection.rightToLeft) posX -= formSize;
 
               drawForm(c, posX, posY + formYOffset, e, _legend);
 
-              if (direction == LegendDirection.LEFT_TO_RIGHT) posX += formSize;
+              if (direction == LegendDirection.leftToRight) posX += formSize;
             }
 
             if (!isStacked) {
-              if (drawingForm)
-                posX += direction == LegendDirection.RIGHT_TO_LEFT
+              if (drawingForm) {
+                posX += direction == LegendDirection.rightToLeft
                     ? -formToTextSpace
                     : formToTextSpace;
+              }
 
-              if (direction == LegendDirection.RIGHT_TO_LEFT)
-                posX -= calculatedLabelSizes[i].width;
+              if (direction == LegendDirection.rightToLeft) {
+                posX -= calculatedLabelSizes[i]!.width;
+              }
 
               drawLabel(c, posX, posY + labelLineHeight, e.label);
 
-              if (direction == LegendDirection.LEFT_TO_RIGHT)
-                posX += calculatedLabelSizes[i].width;
+              if (direction == LegendDirection.leftToRight) {
+                posX += calculatedLabelSizes[i]!.width;
+              }
 
-              posX += direction == LegendDirection.RIGHT_TO_LEFT
+              posX += direction == LegendDirection.rightToLeft
                   ? -xEntrySpace
                   : xEntrySpace;
-            } else
-              posX += direction == LegendDirection.RIGHT_TO_LEFT
+            } else {
+              posX += direction == LegendDirection.rightToLeft
                   ? -stackSpace
                   : stackSpace;
+            }
           }
 
           break;
         }
 
-      case LegendOrientation.VERTICAL:
+      case LegendOrientation.vertical:
         {
           // contains the stacked legend size in pixels
           double stack = 0;
@@ -357,56 +355,60 @@ class LegendRenderer extends Renderer {
           double posY = 0;
 
           switch (verticalAlignment) {
-            case LegendVerticalAlignment.TOP:
-              posY = (horizontalAlignment == LegendHorizontalAlignment.CENTER
+            case LegendVerticalAlignment.top:
+              posY = (horizontalAlignment == LegendHorizontalAlignment.center
                   ? 0
-                  : viewPortHandler.contentTop());
+                  : viewPortHandler!.contentTop());
               posY += yoffset;
               break;
 
-            case LegendVerticalAlignment.BOTTOM:
-              posY = (horizontalAlignment == LegendHorizontalAlignment.CENTER
-                  ? viewPortHandler.getChartHeight()
-                  : viewPortHandler.contentBottom());
-              posY -= _legend.neededHeight + yoffset;
+            case LegendVerticalAlignment.bottom:
+              posY = (horizontalAlignment == LegendHorizontalAlignment.center
+                  ? viewPortHandler!.getChartHeight()
+                  : viewPortHandler!.contentBottom());
+              posY -= _legend!.neededHeight + yoffset;
               break;
 
-            case LegendVerticalAlignment.CENTER:
-              posY = viewPortHandler.getChartHeight() / 2 -
-                  _legend.neededHeight / 2 +
-                  _legend.yOffset;
+            case LegendVerticalAlignment.center:
+              posY = viewPortHandler!.getChartHeight() / 2 -
+                  _legend!.neededHeight / 2 +
+                  _legend!.yOffset;
               break;
           }
 
           for (int i = 0; i < entries.length; i++) {
-            LegendEntry e = entries[i];
-            bool drawingForm = e.form != LegendForm.NONE;
-            double formSize = e.formSize.isNaN
+            LegendEntry e = entries[i]!;
+            bool drawingForm = e.form != LegendForm.none;
+            double? formSize = e.formSize.isNaN
                 ? defaultFormSize
                 : Utils.convertDpToPixel(e.formSize);
 
-            double posX = originPosX;
+            double? posX = originPosX;
 
             if (drawingForm) {
-              if (direction == LegendDirection.LEFT_TO_RIGHT)
+              if (direction == LegendDirection.leftToRight) {
                 posX += stack;
-              else
+              } else {
                 posX -= formSize - stack;
+              }
 
               drawForm(c, posX, posY + formYOffset, e, _legend);
 
-              if (direction == LegendDirection.LEFT_TO_RIGHT) posX += formSize;
+              if (direction == LegendDirection.leftToRight) posX += formSize;
             }
 
             if (e.label != null) {
-              if (drawingForm && !wasStacked)
-                posX += direction == LegendDirection.LEFT_TO_RIGHT
+              if (drawingForm && !wasStacked) {
+                posX += direction == LegendDirection.leftToRight
                     ? formToTextSpace
                     : -formToTextSpace;
-              else if (wasStacked) posX = originPosX;
+              } else if (wasStacked) {
+                posX = originPosX;
+              }
 
-              if (direction == LegendDirection.RIGHT_TO_LEFT)
-                posX -= Utils.calcTextWidth(_legendLabelPaint, e.label);
+              if (direction == LegendDirection.rightToLeft) {
+                posX -= Utils.calcTextWidth(_legendLabelPaint!, e.label);
+              }
 
               if (!wasStacked) {
                 drawLabel(c, posX, posY + labelLineHeight, e.label);
@@ -439,78 +441,76 @@ class LegendRenderer extends Renderer {
   /// @param entry  the entry to render
   /// @param legend the legend context
   void drawForm(
-      Canvas c, double x, double y, LegendEntry entry, Legend legend) {
-    if (entry.formColor == ColorUtils.COLOR_SKIP ||
-        entry.formColor == ColorUtils.COLOR_NONE) return;
+      Canvas c, double? x, double y, LegendEntry entry, Legend? legend) {
+    if (entry.formColor == ColorUtils.colorSkip ||
+        entry.formColor == ColorUtils.colorNone) return;
 
     c.save();
 
     LegendForm form = entry.form;
-    if (form == LegendForm.DEFAULT) form = legend.shape;
+    if (form == LegendForm.defaults) form = legend!.shape;
 
     final double formSize = Utils.convertDpToPixel(
-        entry.formSize.isNaN ? legend.formSize : entry.formSize);
+        entry.formSize.isNaN ? legend!.formSize : entry.formSize);
     final double half = formSize / 2;
 
     switch (form) {
-      case LegendForm.NONE:
+      case LegendForm.none:
         // Do nothing
         break;
 
-      case LegendForm.EMPTY:
+      case LegendForm.empty:
         // Do not draw, but keep space for the form
         break;
 
-      case LegendForm.DEFAULT:
-      case LegendForm.CIRCLE:
+      case LegendForm.defaults:
+      case LegendForm.circle:
         _legendFormPaint = Paint()
           ..isAntiAlias = true
           ..color = entry.formColor
           ..style = PaintingStyle.fill;
-        c.drawCircle(Offset(x + half, y), half, _legendFormPaint);
+        c.drawCircle(Offset(x! + half, y), half, _legendFormPaint!);
         break;
 
-      case LegendForm.SQUARE:
+      case LegendForm.square:
         _legendFormPaint = Paint()
           ..isAntiAlias = true
           ..color = entry.formColor
           ..style = PaintingStyle.fill;
-        c.drawRect(Rect.fromLTRB(x, y - half, x + formSize, y + half),
-            _legendFormPaint);
+        c.drawRect(Rect.fromLTRB(x!, y - half, x + formSize, y + half),
+            _legendFormPaint!);
         break;
 
-      case LegendForm.LINE:
+      case LegendForm.line:
         {
           final double formLineWidth = Utils.convertDpToPixel(
               entry.formLineWidth.isNaN
-                  ? legend.formLineWidth
+                  ? legend!.formLineWidth
                   : entry.formLineWidth);
-          final DashPathEffect formLineDashEffect =
-              entry.formLineDashEffect == null
-                  ? legend.getFormLineDashEffect()
-                  : entry.formLineDashEffect;
+          final DashPathEffect? formLineDashEffect =
+              entry.formLineDashEffect ?? legend!.getFormLineDashEffect();
           _legendFormPaint = Paint()
             ..isAntiAlias = true
             ..color = entry.formColor
             ..style = PaintingStyle.stroke
             ..strokeWidth = formLineWidth;
           _lineFormPath.reset();
-          _lineFormPath.moveTo(x, y);
+          _lineFormPath.moveTo(x!, y);
           _lineFormPath.lineTo(x + formSize, y);
           if (formLineDashEffect != null) {
             _lineFormPath = formLineDashEffect.convert2DashPath(_lineFormPath);
           }
-          c.drawPath(_lineFormPath, _legendFormPaint);
+          c.drawPath(_lineFormPath, _legendFormPaint!);
         }
         break;
     }
     c.restore();
   }
 
-  void drawLabel(Canvas c, double x, double y, String label) {
-    _legendLabelPaint.text =
-        TextSpan(text: label, style: _legendLabelPaint.text.style);
-    _legendLabelPaint.layout();
-    _legendLabelPaint.paint(c, Offset(x, y - _legendLabelPaint.height));
+  void drawLabel(Canvas c, double x, double y, String? label) {
+    _legendLabelPaint!.text =
+        TextSpan(text: label, style: _legendLabelPaint!.text!.style);
+    _legendLabelPaint!.layout();
+    _legendLabelPaint!.paint(c, Offset(x, y - _legendLabelPaint!.height));
   }
 }

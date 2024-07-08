@@ -1,8 +1,8 @@
-import 'package:mp_chart/mp/core/data/bar_data.dart';
-import 'package:mp_chart/mp/core/data_provider/bar_line_scatter_candle_bubble_data_provider.dart';
+import 'package:mp_chart_x/mp/core/data/bar_data.dart';
+import 'package:mp_chart_x/mp/core/data_provider/bar_line_scatter_candle_bubble_data_provider.dart';
 
 mixin BarDataProvider implements BarLineScatterCandleBubbleDataProvider {
-  BarData getBarData();
+  BarData? getBarData();
 
   bool isDrawBarShadowEnabled();
 

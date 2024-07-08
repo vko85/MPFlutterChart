@@ -1,8 +1,8 @@
 import 'package:flutter/painting.dart';
-import 'package:mp_chart/mp/core/axis/axis_base.dart';
-import 'package:mp_chart/mp/core/enums/x_axis_position.dart';
-import 'package:mp_chart/mp/core/utils/painter_utils.dart';
-import 'package:mp_chart/mp/core/utils/utils.dart';
+import 'package:mp_chart_x/mp/core/axis/axis_base.dart';
+import 'package:mp_chart_x/mp/core/enums/x_axis_position.dart';
+import 'package:mp_chart_x/mp/core/utils/painter_utils.dart';
+import 'package:mp_chart_x/mp/core/utils/utils.dart';
 
 class XAxis extends AxisBase {
   /// width of the x-axis labels in pixels - this is automatically
@@ -29,7 +29,7 @@ class XAxis extends AxisBase {
   bool _avoidFirstLastClipping = false;
 
   /// the position of the x-labels relative to the chart
-  XAxisPosition _position = XAxisPosition.TOP;
+  XAxisPosition _position = XAxisPosition.top;
 
   XAxis() : super() {
     yOffset = Utils.convertDpToPixel(4);
@@ -91,7 +91,7 @@ class XAxis extends AxisBase {
     _labelWidth = value;
   }
 
-  int getRequiredHeightSpace(TextPainter p) {
+  int getRequiredHeightSpace(TextPainter? p) {
     p = PainterUtils.create(p, null, null, textSize);
 
     int height = Utils.calcTextHeight(p, "A");

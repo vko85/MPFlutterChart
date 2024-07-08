@@ -1,16 +1,16 @@
-import 'package:mp_chart/mp/core/data_interfaces/i_bubble_data_set.dart';
-import 'package:mp_chart/mp/core/data_set/bar_line_scatter_candle_bubble_data_set.dart';
-import 'package:mp_chart/mp/core/data_set/base_data_set.dart';
-import 'package:mp_chart/mp/core/data_set/data_set.dart';
-import 'package:mp_chart/mp/core/entry/bubble_entry.dart';
-import 'package:mp_chart/mp/core/utils/utils.dart';
+import 'package:mp_chart_x/mp/core/data_interfaces/i_bubble_data_set.dart';
+import 'package:mp_chart_x/mp/core/data_set/bar_line_scatter_candle_bubble_data_set.dart';
+import 'package:mp_chart_x/mp/core/data_set/base_data_set.dart';
+import 'package:mp_chart_x/mp/core/data_set/data_set.dart';
+import 'package:mp_chart_x/mp/core/entry/bubble_entry.dart';
+import 'package:mp_chart_x/mp/core/utils/utils.dart';
 
 class BubbleDataSet extends BarLineScatterCandleBubbleDataSet<BubbleEntry>
     implements IBubbleDataSet {
   double _maxSize = 0.0;
   bool _normalizeSize = true;
 
-  double _highlightCircleWidth = 2.5;
+  double? _highlightCircleWidth = 2.5;
 
   BubbleDataSet(List<BubbleEntry> yVals, String label) : super(yVals, label);
 
@@ -20,15 +20,15 @@ class BubbleDataSet extends BarLineScatterCandleBubbleDataSet<BubbleEntry>
   }
 
   @override
-  double getHighlightCircleWidth() {
+  double? getHighlightCircleWidth() {
     return _highlightCircleWidth;
   }
 
   @override
-  void calcMinMax1(BubbleEntry e) {
+  void calcMinMax1(BubbleEntry? e) {
     super.calcMinMax1(e);
 
-    final double size = e.size;
+    final double size = e?.size ?? 0;
 
     if (size > _maxSize) {
       _maxSize = size;
@@ -37,15 +37,16 @@ class BubbleDataSet extends BarLineScatterCandleBubbleDataSet<BubbleEntry>
 
   @override
   DataSet<BubbleEntry> copy1() {
-    List<BubbleEntry> entries = List<BubbleEntry>();
-    for (int i = 0; i < values.length; i++) {
-      entries.add(values[i].copy());
+    List<BubbleEntry> entries = List<BubbleEntry>.empty(growable: true);
+    for (int i = 0; i < values!.length; i++) {
+      entries.add(values![i].copy());
     }
     BubbleDataSet copied = BubbleDataSet(entries, getLabel());
     copy(copied);
     return copied;
   }
 
+  @override
   void copy(BaseDataSet baseDataSet) {
     super.copy(baseDataSet);
     if (baseDataSet is BubbleDataSet) {

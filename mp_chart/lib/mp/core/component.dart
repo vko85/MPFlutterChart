@@ -1,7 +1,7 @@
 import 'package:flutter/painting.dart';
-import 'package:mp_chart/mp/core/adapter_android_mp.dart';
-import 'package:mp_chart/mp/core/utils/color_utils.dart';
-import 'package:mp_chart/mp/core/utils/utils.dart';
+import 'package:mp_chart_x/mp/core/adapter_android_mp.dart';
+import 'package:mp_chart_x/mp/core/utils/color_utils.dart';
+import 'package:mp_chart_x/mp/core/utils/utils.dart';
 
 abstract class ComponentBase {
   /// flag that indicates if this axis / legend is enabled or not
@@ -14,13 +14,13 @@ abstract class ComponentBase {
   double _yOffset = 5;
 
   /// the typeface used for the labels
-  TypeFace _typeface;
+  TypeFace? _typeface;
 
   /// the text size of the labels
-  double _textSize = Utils.convertDpToPixel(10);
+  double? _textSize = Utils.convertDpToPixel(10);
 
   /// the text color to use for the labels
-  Color _textColor = ColorUtils.BLACK;
+  Color _textColor = ColorUtils.black;
 
   // ignore: unnecessary_getters_setters
   bool get enabled => _enabled;
@@ -43,14 +43,14 @@ abstract class ComponentBase {
   }
 
   // ignore: unnecessary_getters_setters
-  TypeFace get typeface => _typeface;
+  TypeFace? get typeface => _typeface;
 
   // ignore: unnecessary_getters_setters
-  set typeface(TypeFace value) {
+  set typeface(TypeFace? value) {
     _typeface = value;
   }
 
-  double get textSize => _textSize;
+  double get textSize => _textSize!;
 
   set textSize(double value) {
     if (value > 24) value = 24;

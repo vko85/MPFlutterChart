@@ -1,27 +1,27 @@
 import 'package:intl/intl.dart';
-import 'package:mp_chart/mp/core/value_formatter/value_formatter.dart';
+import 'package:mp_chart_x/mp/core/value_formatter/value_formatter.dart';
 
 class LargeValueFormatter extends ValueFormatter {
-  List<String> _suffix = List()
+  List<String> _suffix = List.empty(growable: true)
     ..add("")
     ..add("k")
     ..add("m")
     ..add("b")
     ..add("t");
   int _maxLength = 5;
-  NumberFormat _format;
+  late NumberFormat _format;
   String _text = "";
 
   /// Creates a formatter that appends a specified text to the result string
   ///
   /// @param appendix a text that will be appended
   LargeValueFormatter({String appendix = ""}) {
-    _format = new NumberFormat("###E00");
+    _format = NumberFormat("###E00");
     _text = appendix;
   }
 
   @override
-  String getFormattedValue1(double value) {
+  String getFormattedValue1(double? value) {
     return makePretty(value) + _text;
   }
 
@@ -29,7 +29,7 @@ class LargeValueFormatter extends ValueFormatter {
   ///
   /// @param appendix
   void setAppendix(String appendix) {
-    this._text = appendix;
+    _text = appendix;
   }
 
   /// Set custom suffix to be appended after the values.
@@ -37,19 +37,19 @@ class LargeValueFormatter extends ValueFormatter {
   ///
   /// @param suffix new suffix
   void setSuffix(List<String> suffix) {
-    this._suffix = suffix;
+    _suffix = suffix;
   }
 
   void setMaxLength(int maxLength) {
-    this._maxLength = maxLength;
+    _maxLength = maxLength;
   }
 
   /// Formats each number properly. Special thanks to Roman Gromov
   /// (https://github.com/romangromov) for this piece of code.
-  String makePretty(double number) {
+  String makePretty(double? number) {
     String r = _format.format(number);
-    int numericValue1 = int.tryParse(r[r.length - 1]);
-    int numericValue2 = int.tryParse(r[r.length - 2]);
+    int? numericValue1 = int.tryParse(r[r.length - 1]);
+    int? numericValue2 = int.tryParse(r[r.length - 2]);
     int combined = int.parse("$numericValue2$numericValue1");
 
     r = r.replaceAllMapped(

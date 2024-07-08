@@ -1,8 +1,8 @@
 import 'dart:ui';
 
-import 'package:mp_chart/mp/core/entry/entry.dart';
-import 'package:mp_chart/mp/core/highlight/highlight.dart';
-import 'package:mp_chart/mp/core/poolable/point.dart';
+import 'package:mp_chart_x/mp/core/entry/entry.dart';
+import 'package:mp_chart_x/mp/core/highlight/highlight.dart';
+import 'package:mp_chart_x/mp/core/pool/point.dart';
 
 mixin IMarker {
   /// @return The desired (general) offset you wish the IMarker to have on the x- and y-axis.

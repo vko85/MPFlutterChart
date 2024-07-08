@@ -1,20 +1,20 @@
 import 'package:flutter/painting.dart';
-import 'package:mp_chart/mp/core/component.dart';
-import 'package:mp_chart/mp/core/adapter_android_mp.dart';
-import 'package:mp_chart/mp/core/enums/limit_label_postion.dart';
-import 'package:mp_chart/mp/core/utils/utils.dart';
+import 'package:mp_chart_x/mp/core/component.dart';
+import 'package:mp_chart_x/mp/core/adapter_android_mp.dart';
+import 'package:mp_chart_x/mp/core/enums/limit_label_postion.dart';
+import 'package:mp_chart_x/mp/core/utils/utils.dart';
 
 class LimitLine extends ComponentBase {
   /// limit / maximum (the y-value or xIndex)
   double _limit = 0;
 
   /// the width of the limit line
-  double _lineWidth = 2;
+  double? _lineWidth = 2;
 
   /// the color of the limit line
-  Color _lineColor = Color.fromARGB(255, 237, 91, 91);
+  Color _lineColor = const Color.fromARGB(255, 237, 91, 91);
 
-  Color _backgroundColor = Color.fromARGB(255, 255, 255, 0);
+  Color _backgroundColor = const Color.fromARGB(255, 255, 255, 0);
 
   bool _drawBackground = false;
 
@@ -22,13 +22,13 @@ class LimitLine extends ComponentBase {
   PaintingStyle _textStyle = PaintingStyle.fill;
 
   /// label string that is drawn next to the limit line
-  String _label = "";
+  String? _label = "";
 
   /// the path effect of this LimitLine that makes dashed lines possible
-  DashPathEffect _dashPathEffect;
+  DashPathEffect? _dashPathEffect;
 
   /// indicates the position of the LimitLine label
-  LimitLabelPosition _labelPosition = LimitLabelPosition.RIGHT_TOP;
+  LimitLabelPosition _labelPosition = LimitLabelPosition.rightTop;
 
   LimitLine(this._limit, [this._label]);
 
@@ -44,7 +44,7 @@ class LimitLine extends ComponentBase {
     _lineWidth = Utils.convertDpToPixel(width);
   }
 
-  double get lineWidth => _lineWidth;
+  double? get lineWidth => _lineWidth;
 
   // ignore: unnecessary_getters_setters
   Color get lineColor => _lineColor;
@@ -77,10 +77,10 @@ class LimitLine extends ComponentBase {
   }
 
   // ignore: unnecessary_getters_setters
-  DashPathEffect get dashPathEffect => _dashPathEffect;
+  DashPathEffect? get dashPathEffect => _dashPathEffect;
 
   // ignore: unnecessary_getters_setters
-  set dashPathEffect(DashPathEffect value) {
+  set dashPathEffect(DashPathEffect? value) {
     _dashPathEffect = value;
   }
 
@@ -101,10 +101,10 @@ class LimitLine extends ComponentBase {
   }
 
   // ignore: unnecessary_getters_setters
-  String get label => _label;
+  String? get label => _label;
 
   // ignore: unnecessary_getters_setters
-  set label(String value) {
+  set label(String? value) {
     _label = value;
   }
 
@@ -123,6 +123,4 @@ class LimitLine extends ComponentBase {
   set drawBackground(bool value) {
     _drawBackground = value;
   }
-
-
 }

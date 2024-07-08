@@ -1,20 +1,20 @@
 import 'dart:ui';
 
-import 'package:mp_chart/mp/core/data_interfaces/i_scatter_data_set.dart';
-import 'package:mp_chart/mp/core/render/i_shape_renderer.dart';
-import 'package:mp_chart/mp/core/utils/color_utils.dart';
-import 'package:mp_chart/mp/core/view_port.dart';
-import 'package:mp_chart/mp/core/utils/utils.dart';
+import 'package:mp_chart_x/mp/core/data_interfaces/i_scatter_data_set.dart';
+import 'package:mp_chart_x/mp/core/render/i_shape_renderer.dart';
+import 'package:mp_chart_x/mp/core/utils/color_utils.dart';
+import 'package:mp_chart_x/mp/core/view_port.dart';
+import 'package:mp_chart_x/mp/core/utils/utils.dart';
 
 class CircleShapeRenderer implements IShapeRenderer {
   @override
   void renderShape(
       Canvas c,
       IScatterDataSet dataSet,
-      ViewPortHandler viewPortHandler,
-      double posX,
-      double posY,
-      Paint renderPaint) {
+      ViewPortHandler? viewPortHandler,
+      double? posX,
+      double? posY,
+      Paint? renderPaint) {
     final double shapeSize = dataSet.getScatterShapeSize();
     final double shapeHalf = shapeSize / 2;
     final double shapeHoleSizeHalf =
@@ -27,13 +27,13 @@ class CircleShapeRenderer implements IShapeRenderer {
 
     if (shapeSize > 0.0) {
       renderPaint
-        ..style = PaintingStyle.stroke
+        ?..style = PaintingStyle.stroke
         ..strokeWidth = shapeStrokeSize;
 
-      c.drawCircle(Offset(posX, posY), shapeHoleSizeHalf + shapeStrokeSizeHalf,
-          renderPaint);
+      c.drawCircle(Offset(posX!, posY!),
+          shapeHoleSizeHalf + shapeStrokeSizeHalf, renderPaint!);
 
-      if (shapeHoleColor != ColorUtils.COLOR_NONE) {
+      if (shapeHoleColor != ColorUtils.colorNone) {
         renderPaint
           ..style = PaintingStyle.fill
           ..color = shapeHoleColor;
@@ -41,9 +41,9 @@ class CircleShapeRenderer implements IShapeRenderer {
         c.drawCircle(Offset(posX, posY), shapeHoleSizeHalf, renderPaint);
       }
     } else {
-      renderPaint.style = PaintingStyle.fill;
+      renderPaint!.style = PaintingStyle.fill;
 
-      c.drawCircle(Offset(posX, posY), shapeHalf, renderPaint);
+      c.drawCircle(Offset(posX!, posY!), shapeHalf, renderPaint);
     }
   }
 }

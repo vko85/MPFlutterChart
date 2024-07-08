@@ -1,10 +1,10 @@
 import 'dart:math';
 
-import 'package:mp_chart/mp/controller/bar_line_scatter_candle_bubble_controller.dart';
-import 'package:mp_chart/mp/core/value_formatter/value_formatter.dart';
+import 'package:mp_chart_x/mp/controller/bar_line_scatter_candle_bubble_controller.dart';
+import 'package:mp_chart_x/mp/core/value_formatter/value_formatter.dart';
 
 class DayAxisValueFormatter extends ValueFormatter {
-  final List<String> _months = List()
+  final List<String> _months = List.empty(growable: true)
     ..add("Jan")
     ..add("Feb")
     ..add("Mar")
@@ -18,15 +18,15 @@ class DayAxisValueFormatter extends ValueFormatter {
     ..add("Nov")
     ..add("Dec");
 
-  BarLineScatterCandleBubbleController _controller;
+  late BarLineScatterCandleBubbleController _controller;
 
   DayAxisValueFormatter(BarLineScatterCandleBubbleController controller) {
-    this._controller = controller;
+    _controller = controller;
   }
 
   @override
-  String getFormattedValue1(double value) {
-    int days = value.toInt();
+  String getFormattedValue1(double? value) {
+    int days = value!.toInt();
 
     int year = determineYear(days);
 
@@ -34,8 +34,8 @@ class DayAxisValueFormatter extends ValueFormatter {
     String monthName = _months[month % _months.length];
     String yearName = year.toString();
 
-    if (_controller.painter.getVisibleXRange() > 30 * 6) {
-      return monthName + " " + yearName;
+    if (_controller.painter!.getVisibleXRange() > 30 * 6) {
+      return "$monthName $yearName";
     } else {
       int dayOfMonth = determineDayOfMonth(days, month + 12 * (year - 2016));
 
@@ -75,18 +75,20 @@ class DayAxisValueFormatter extends ValueFormatter {
     if (month == 1) {
       bool is29Feb = false;
 
-      if (year < 1582)
+      if (year < 1582) {
         is29Feb = (year < 1 ? year + 1 : year) % 4 == 0;
-      else if (year > 1582)
+      } else if (year > 1582) {
         is29Feb = year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);
+      }
 
       return is29Feb ? 29 : 28;
     }
 
-    if (month == 3 || month == 5 || month == 8 || month == 10)
+    if (month == 3 || month == 5 || month == 8 || month == 10) {
       return 30;
-    else
+    } else {
       return 31;
+    }
   }
 
   int determineMonth(int dayOfYear) {
@@ -119,15 +121,16 @@ class DayAxisValueFormatter extends ValueFormatter {
   }
 
   int determineYear(int days) {
-    if (days <= 366)
+    if (days <= 366) {
       return 2016;
-    else if (days <= 730)
+    } else if (days <= 730) {
       return 2017;
-    else if (days <= 1094)
+    } else if (days <= 1094) {
       return 2018;
-    else if (days <= 1458)
+    } else if (days <= 1458) {
       return 2019;
-    else
+    } else {
       return 2020;
+    }
   }
 }

@@ -1,7 +1,7 @@
 import 'dart:ui';
 
-import 'package:mp_chart/mp/core/data_interfaces/i_scatter_data_set.dart';
-import 'package:mp_chart/mp/core/view_port.dart';
+import 'package:mp_chart_x/mp/core/data_interfaces/i_scatter_data_set.dart';
+import 'package:mp_chart_x/mp/core/view_port.dart';
 
 mixin IShapeRenderer {
   /// Renders the provided ScatterDataSet with a shape.
@@ -15,8 +15,8 @@ mixin IShapeRenderer {
   void renderShape(
       Canvas c,
       IScatterDataSet dataSet,
-      ViewPortHandler viewPortHandler,
-      double posX,
-      double posY,
-      Paint renderPaint);
+      ViewPortHandler? viewPortHandler,
+      double? posX,
+      double? posY,
+      Paint? renderPaint);
 }

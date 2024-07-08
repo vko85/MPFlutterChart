@@ -1,15 +1,15 @@
 import 'package:flutter/painting.dart';
-import 'package:mp_chart/mp/chart/pie_chart.dart';
-import 'package:mp_chart/mp/controller/pie_radar_controller.dart';
-import 'package:mp_chart/mp/core/adapter_android_mp.dart';
-import 'package:mp_chart/mp/core/common_interfaces.dart';
-import 'package:mp_chart/mp/core/data/pie_data.dart';
-import 'package:mp_chart/mp/core/description.dart';
-import 'package:mp_chart/mp/core/functions.dart';
-import 'package:mp_chart/mp/core/marker/bar_chart_marker.dart';
-import 'package:mp_chart/mp/core/marker/i_marker.dart';
-import 'package:mp_chart/mp/core/utils/color_utils.dart';
-import 'package:mp_chart/mp/painter/pie_chart_painter.dart';
+import 'package:mp_chart_x/mp/chart/pie_chart.dart';
+import 'package:mp_chart_x/mp/controller/pie_radar_controller.dart';
+import 'package:mp_chart_x/mp/core/adapter_android_mp.dart';
+import 'package:mp_chart_x/mp/core/common_interfaces.dart';
+import 'package:mp_chart_x/mp/core/data/pie_data.dart';
+import 'package:mp_chart_x/mp/core/description.dart';
+import 'package:mp_chart_x/mp/core/functions.dart';
+import 'package:mp_chart_x/mp/core/marker/bar_chart_marker.dart';
+import 'package:mp_chart_x/mp/core/marker/i_marker.dart';
+import 'package:mp_chart_x/mp/core/utils/color_utils.dart';
+import 'package:mp_chart_x/mp/painter/pie_chart_painter.dart';
 
 class PieChartController extends PieRadarController<PieChartPainter> {
   bool drawEntryLabels;
@@ -26,12 +26,12 @@ class PieChartController extends PieRadarController<PieChartPainter> {
   double minAngleForSlices; // = 0
   double centerTextOffsetX;
   double centerTextOffsetY;
-  TypeFace centerTextTypeface;
-  TypeFace entryLabelTypeface;
-  Color backgroundColor;
+  TypeFace? centerTextTypeface;
+  TypeFace? entryLabelTypeface;
+  Color? backgroundColor;
   Color holeColor;
-  Color centerTextColor;
-  double centerTextSize;
+  Color? centerTextColor;
+  double? centerTextSize;
 
   PieChartController({
     this.drawEntryLabels = true,
@@ -51,15 +51,15 @@ class PieChartController extends PieRadarController<PieChartPainter> {
     this.centerTextTypeface,
     this.entryLabelTypeface,
     this.backgroundColor,
-    this.holeColor = ColorUtils.WHITE,
+    this.holeColor = ColorUtils.white,
     this.centerTextColor,
     this.centerTextSize,
-    IMarker marker,
-    Description description,
-    XAxisSettingFunction xAxisSettingFunction,
-    LegendSettingFunction legendSettingFunction,
-    DataRendererSettingFunction rendererSettingFunction,
-    OnChartValueSelectedListener selectionListener,
+    IMarker? marker,
+    Description? description,
+    XAxisSettingFunction? xAxisSettingFunction,
+    LegendSettingFunction? legendSettingFunction,
+    DataRendererSettingFunction? rendererSettingFunction,
+    OnChartValueSelectedListener? selectionListener,
     double rotationAngle = 270,
     double rawRotationAngle = 270,
     bool rotateEnabled = true,
@@ -76,9 +76,9 @@ class PieChartController extends PieRadarController<PieChartPainter> {
     bool resolveGestureVerticalConflict = false,
     double descTextSize = 12,
     double infoTextSize = 12,
-    Color descTextColor,
-    Color infoTextColor,
-    Color infoBgColor,
+    Color? descTextColor,
+    Color? infoTextColor,
+    Color? infoBgColor,
   }) : super(
             marker: marker,
             noDataText: noDataText,
@@ -109,11 +109,11 @@ class PieChartController extends PieRadarController<PieChartPainter> {
   @override
   IMarker initMarker() => BarChartMarker();
 
-  PieData get data => super.data;
+  @override
+  PieData? get data => super.data as PieData?;
 
-  PieChartPainter get painter => super.painter;
-
-  PieChartState get state => super.state;
+  @override
+  PieChartState get state => super.state as PieChartState;
 
   @override
   void initialPainter() {

@@ -1,20 +1,20 @@
 import 'dart:ui';
 
-import 'package:mp_chart/mp/core/data_interfaces/i_scatter_data_set.dart';
-import 'package:mp_chart/mp/core/data_set/base_data_set.dart';
-import 'package:mp_chart/mp/core/data_set/data_set.dart';
-import 'package:mp_chart/mp/core/data_set/line_scatter_candle_radar_data_set.dart';
-import 'package:mp_chart/mp/core/entry/entry.dart';
-import 'package:mp_chart/mp/core/enums/scatter_shape.dart';
-import 'package:mp_chart/mp/core/render/chevron_down_shape_renderer.dart';
-import 'package:mp_chart/mp/core/render/chevron_up_shape_renderer.dart';
-import 'package:mp_chart/mp/core/render/circle_shape_renderer.dart';
-import 'package:mp_chart/mp/core/render/cross_shape_renderer.dart';
-import 'package:mp_chart/mp/core/render/i_shape_renderer.dart';
-import 'package:mp_chart/mp/core/render/square_shape_renderer.dart';
-import 'package:mp_chart/mp/core/render/triangle_shape_renderer.dart';
-import 'package:mp_chart/mp/core/render/x_shape_renderer.dart';
-import 'package:mp_chart/mp/core/utils/color_utils.dart';
+import 'package:mp_chart_x/mp/core/data_interfaces/i_scatter_data_set.dart';
+import 'package:mp_chart_x/mp/core/data_set/base_data_set.dart';
+import 'package:mp_chart_x/mp/core/data_set/data_set.dart';
+import 'package:mp_chart_x/mp/core/data_set/line_scatter_candle_radar_data_set.dart';
+import 'package:mp_chart_x/mp/core/entry/entry.dart';
+import 'package:mp_chart_x/mp/core/enums/scatter_shape.dart';
+import 'package:mp_chart_x/mp/core/render/chevron_down_shape_renderer.dart';
+import 'package:mp_chart_x/mp/core/render/chevron_up_shape_renderer.dart';
+import 'package:mp_chart_x/mp/core/render/circle_shape_renderer.dart';
+import 'package:mp_chart_x/mp/core/render/cross_shape_renderer.dart';
+import 'package:mp_chart_x/mp/core/render/i_shape_renderer.dart';
+import 'package:mp_chart_x/mp/core/render/square_shape_renderer.dart';
+import 'package:mp_chart_x/mp/core/render/triangle_shape_renderer.dart';
+import 'package:mp_chart_x/mp/core/render/x_shape_renderer.dart';
+import 'package:mp_chart_x/mp/core/utils/color_utils.dart';
 
 class ScatterDataSet extends LineScatterCandleRadarDataSet<Entry>
     implements IScatterDataSet {
@@ -22,7 +22,7 @@ class ScatterDataSet extends LineScatterCandleRadarDataSet<Entry>
   double _shapeSize = 15;
 
   /// Renderer responsible for rendering this DataSet, default: square
-  IShapeRenderer _shapeRenderer = SquareShapeRenderer();
+  IShapeRenderer? _shapeRenderer = SquareShapeRenderer();
 
   /// The radius of the hole in the shape (applies to Square, Circle and Triangle)
   /// - default: 0.0
@@ -31,15 +31,15 @@ class ScatterDataSet extends LineScatterCandleRadarDataSet<Entry>
   /// Color for the hole in the shape.
   /// Setting to `ColorUtils.COLOR_NONE` will behave as transparent.
   /// - default: ColorUtils.COLOR_NONE
-  Color _scatterShapeHoleColor = ColorUtils.COLOR_NONE;
+  Color _scatterShapeHoleColor = ColorUtils.colorNone;
 
   ScatterDataSet(List<Entry> yVals, String label) : super(yVals, label);
 
   @override
   DataSet<Entry> copy1() {
-    List<Entry> entries = List<Entry>();
-    for (int i = 0; i < values.length; i++) {
-      entries.add(values[i].copy());
+    List<Entry> entries = List<Entry>.empty(growable: true);
+    for (int i = 0; i < values!.length; i++) {
+      entries.add(values![i].copy());
     }
     ScatterDataSet copied = ScatterDataSet(entries, getLabel());
     copy(copied);
@@ -88,7 +88,7 @@ class ScatterDataSet extends LineScatterCandleRadarDataSet<Entry>
   }
 
   @override
-  IShapeRenderer getShapeRenderer() {
+  IShapeRenderer? getShapeRenderer() {
     return _shapeRenderer;
   }
 
@@ -117,24 +117,23 @@ class ScatterDataSet extends LineScatterCandleRadarDataSet<Entry>
     return _scatterShapeHoleColor;
   }
 
-  static IShapeRenderer getRendererForShape(ScatterShape shape) {
+  static IShapeRenderer? getRendererForShape(ScatterShape shape) {
+    // TODO : should be optional? IShapeRenderer
     switch (shape) {
-      case ScatterShape.SQUARE:
+      case ScatterShape.square:
         return SquareShapeRenderer();
-      case ScatterShape.CIRCLE:
+      case ScatterShape.circle:
         return CircleShapeRenderer();
-      case ScatterShape.TRIANGLE:
+      case ScatterShape.triangle:
         return TriangleShapeRenderer();
-      case ScatterShape.CROSS:
+      case ScatterShape.cross:
         return CrossShapeRenderer();
-      case ScatterShape.X:
+      case ScatterShape.x:
         return XShapeRenderer();
-      case ScatterShape.CHEVRON_UP:
+      case ScatterShape.chevronUp:
         return ChevronUpShapeRenderer();
-      case ScatterShape.CHEVRON_DOWN:
+      case ScatterShape.chevronDown:
         return ChevronDownShapeRenderer();
     }
-
-    return null;
   }
 }

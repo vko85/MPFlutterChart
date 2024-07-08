@@ -1,7 +1,7 @@
 import 'dart:ui';
 
-import 'package:mp_chart/mp/core/data_interfaces/i_bar_line_scatter_candle_bubble_data_set.dart';
-import 'package:mp_chart/mp/core/entry/bar_entry.dart';
+import 'package:mp_chart_x/mp/core/data_interfaces/i_bar_line_scatter_candle_bubble_data_set.dart';
+import 'package:mp_chart_x/mp/core/entry/bar_entry.dart';
 
 mixin IBarDataSet implements IBarLineScatterCandleBubbleDataSet<BarEntry> {
   /// Returns true if this DataSet is stacked (stacksize > 1) or not.

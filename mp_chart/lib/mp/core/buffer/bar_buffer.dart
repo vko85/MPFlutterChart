@@ -1,6 +1,6 @@
-import 'package:mp_chart/mp/core/buffer/abstract_buffer.dart';
-import 'package:mp_chart/mp/core/data_interfaces/i_bar_data_set.dart';
-import 'package:mp_chart/mp/core/entry/bar_entry.dart';
+import 'package:mp_chart_x/mp/core/buffer/abstract_buffer.dart';
+import 'package:mp_chart_x/mp/core/data_interfaces/i_bar_data_set.dart';
+import 'package:mp_chart_x/mp/core/entry/bar_entry.dart';
 
 class BarBuffer extends AbstractBuffer<IBarDataSet> {
   int _dataSetIndex = 0;
@@ -12,8 +12,8 @@ class BarBuffer extends AbstractBuffer<IBarDataSet> {
   double _barWidth = 1.0;
 
   BarBuffer(int size, int dataSetCount, bool containsStacks) : super(size) {
-    this._dataSetCount = dataSetCount;
-    this._containsStacks = containsStacks;
+    _dataSetCount = dataSetCount;
+    _containsStacks = containsStacks;
   }
 
   // ignore: unnecessary_getters_setters
@@ -24,14 +24,14 @@ class BarBuffer extends AbstractBuffer<IBarDataSet> {
     _dataSetIndex = value;
   }
 
-  void addBar(double left, double top, double right, double bottom) {
-    buffer[index] = left;
+  void addBar(double? left, double? top, double? right, double? bottom) {
+    buffer![index] = left;
     index += 1;
-    buffer[index] = top;
+    buffer![index] = top;
     index += 1;
-    buffer[index] = right;
+    buffer![index] = right;
     index += 1;
-    buffer[index] = bottom;
+    buffer![index] = bottom;
     index += 1;
   }
 
@@ -41,18 +41,18 @@ class BarBuffer extends AbstractBuffer<IBarDataSet> {
     double barWidthHalf = _barWidth / 2.0;
 
     for (int i = 0; i < size; i++) {
-      BarEntry e = data.getEntryForIndex(i);
+      BarEntry? e = data.getEntryForIndex(i);
 
       if (e == null) continue;
 
-      double x = e.x;
-      double y = e.y;
-      List<double> vals = e.yVals;
+      double? x = e.x;
+      double? y = e.y;
+      List<double>? vals = e.yVals;
 
       if (!_containsStacks || vals == null) {
         double left = x - barWidthHalf;
         double right = x + barWidthHalf;
-        double bottom, top;
+        double? bottom, top;
 
         if (_inverted) {
           bottom = y >= 0 ? y : 0;
@@ -63,15 +63,16 @@ class BarBuffer extends AbstractBuffer<IBarDataSet> {
         }
 
         // multiply the height of the rect with the phase
-        if (top > 0)
+        if (top > 0) {
           top *= phaseY;
-        else
+        } else {
           bottom *= phaseY;
+        }
 
         addBar(left, top, right, bottom);
       } else {
         double posY = 0.0;
-        double negY = -e.negativeSum;
+        double negY = -e.negativeSum!;
         double yStart = 0.0;
 
         // fill the stack

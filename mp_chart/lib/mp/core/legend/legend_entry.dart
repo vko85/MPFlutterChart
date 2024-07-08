@@ -1,37 +1,36 @@
 import 'dart:ui';
 
-import 'package:mp_chart/mp/core/adapter_android_mp.dart';
-import 'package:mp_chart/mp/core/enums/legend_form.dart';
-import 'package:mp_chart/mp/core/utils/color_utils.dart';
+import 'package:mp_chart_x/mp/core/adapter_android_mp.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_form.dart';
+import 'package:mp_chart_x/mp/core/utils/color_utils.dart';
 
 class LegendEntry {
   LegendEntry.empty();
 
   LegendEntry(
-      String label,
+      String? label,
       LegendForm form,
       double formSize,
       double formLineWidth,
-      DashPathEffect formLineDashEffect,
+      this.formLineDashEffect,
       Color formColor) {
-    this._label = label;
-    this._form = form;
-    this._formSize = formSize;
-    this._formLineWidth = formLineWidth;
-    this.formLineDashEffect = formLineDashEffect;
-    this._formColor = formColor;
+    _label = label;
+    _form = form;
+    _formSize = formSize;
+    _formLineWidth = formLineWidth;
+    _formColor = formColor;
   }
 
   /// The legend entry text.
   /// A `null` label will start a group.
-  String _label;
+  String? _label;
 
   /// The form to draw for this entry.
   ///
   /// `NONE` will avoid drawing a form, and any related space.
   /// `EMPTY` will avoid drawing a form, but keep its space.
   /// `DEFAULT` will use the Legend's default.
-  LegendForm _form = LegendForm.DEFAULT;
+  LegendForm _form = LegendForm.defaults;
 
   /// Form size will be considered except for when .None is used
   ///
@@ -46,16 +45,16 @@ class LegendEntry {
   /// Line dash path effect used for shapes that consist of lines.
   ///
   /// Set to null to use the legend's default
-  DashPathEffect formLineDashEffect;
+  DashPathEffect? formLineDashEffect;
 
   /// The color for drawing the form
-  Color _formColor = ColorUtils.COLOR_NONE;
+  Color _formColor = ColorUtils.colorNone;
 
   // ignore: unnecessary_getters_setters
-  String get label => _label;
+  String? get label => _label;
 
   // ignore: unnecessary_getters_setters
-  set label(String value) {
+  set label(String? value) {
     _label = value;
   }
 

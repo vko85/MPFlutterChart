@@ -1,1 +1,1 @@
-enum YAxisLabelPosition { OUTSIDE_CHART, INSIDE_CHART }
+enum YAxisLabelPosition { outsideChart, insideChart }

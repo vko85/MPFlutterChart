@@ -1,27 +1,27 @@
 import 'dart:ui';
 
-import 'package:mp_chart/mp/core/adapter_android_mp.dart';
-import 'package:mp_chart/mp/core/component.dart';
-import 'package:mp_chart/mp/core/limit_line.dart';
-import 'package:mp_chart/mp/core/utils/color_utils.dart';
-import 'package:mp_chart/mp/core/value_formatter/default_axis_value_formatter.dart';
-import 'package:mp_chart/mp/core/value_formatter/value_formatter.dart';
+import 'package:mp_chart_x/mp/core/adapter_android_mp.dart';
+import 'package:mp_chart_x/mp/core/component.dart';
+import 'package:mp_chart_x/mp/core/limit_line.dart';
+import 'package:mp_chart_x/mp/core/utils/color_utils.dart';
+import 'package:mp_chart_x/mp/core/value_formatter/default_axis_value_formatter.dart';
+import 'package:mp_chart_x/mp/core/value_formatter/value_formatter.dart';
 
 abstract class AxisBase extends ComponentBase {
   /// custom formatter that is used instead of the auto-formatter if set
-  ValueFormatter _axisValueFormatter;
+  ValueFormatter? _axisValueFormatter;
 
-  Color _gridColor = ColorUtils.GRAY;
+  Color _gridColor = ColorUtils.gray;
 
   double _gridLineWidth = 1;
 
-  Color _axisLineColor = ColorUtils.GRAY;
+  Color _axisLineColor = ColorUtils.gray;
 
   double _axisLineWidth = 1;
 
-  List<double> _entries = List();
+  List<double> _entries = List.empty(growable: true);
 
-  List<double> _centeredEntries = List();
+  List<double?> _centeredEntries = List.empty(growable: true);
 
   /// the number of entries the legend contains
   int _entryCount = 0;
@@ -56,13 +56,13 @@ abstract class AxisBase extends ComponentBase {
   bool _centerAxisLabels = false;
 
   /// the path effect of the axis line that makes dashed lines possible
-  DashPathEffect _axisLineDashPathEffect;
+  DashPathEffect? _axisLineDashPathEffect;
 
   /// the path effect of the grid lines that makes dashed lines possible
-  DashPathEffect _gridDashPathEffect;
+  DashPathEffect? _gridDashPathEffect;
 
   /// array of limit lines that can be set for the axis
-  List<LimitLine> _limitLines;
+  List<LimitLine>? _limitLines;
 
   /// flag indicating the limit lines layer depth
   bool _drawLimitLineBehindData = false;
@@ -83,10 +83,10 @@ abstract class AxisBase extends ComponentBase {
   bool _customAxisMax = false;
 
   /// don't touch this direclty, use setter
-  double _axisMaximum = 0;
+  double? _axisMaximum = 0;
 
   /// don't touch this directly, use setter
-  double _axisMinimum = 0;
+  double? _axisMinimum = 0;
 
   /// the total range of values this axis covers
   double _axisRange = 0;
@@ -95,14 +95,14 @@ abstract class AxisBase extends ComponentBase {
     textSize = 10;
     xOffset = 5;
     yOffset = 5;
-    this._limitLines = List<LimitLine>();
+    _limitLines = List<LimitLine>.empty(growable: true);
   }
 
   // ignore: unnecessary_getters_setters
-  ValueFormatter get axisValueFormatter => _axisValueFormatter;
+  ValueFormatter? get axisValueFormatter => _axisValueFormatter;
 
   // ignore: unnecessary_getters_setters
-  set axisValueFormatter(ValueFormatter value) {
+  set axisValueFormatter(ValueFormatter? value) {
     _axisValueFormatter = value;
   }
 
@@ -115,12 +115,12 @@ abstract class AxisBase extends ComponentBase {
   }
 
   // ignore: unnecessary_getters_setters
-  set axisMaximum(double value) {
+  set axisMaximum(double? value) {
     _axisMaximum = value;
   }
 
   // ignore: unnecessary_getters_setters
-  set axisMinimum(double value) {
+  set axisMinimum(double? value) {
     _axisMinimum = value;
   }
 
@@ -253,25 +253,25 @@ abstract class AxisBase extends ComponentBase {
   ///
   /// @param l
   void addLimitLine(LimitLine l) {
-    _limitLines.add(l);
+    _limitLines!.add(l);
   }
 
   /// Removes the specified LimitLine from the axis.
   ///
   /// @param l
   void removeLimitLine(LimitLine l) {
-    _limitLines.remove(l);
+    _limitLines!.remove(l);
   }
 
   /// Removes all LimitLines from the axis.
   void removeAllLimitLines() {
-    _limitLines.clear();
+    _limitLines!.clear();
   }
 
   /// Returns the LimitLines of this axis.
   ///
   /// @return
-  List<LimitLine> getLimitLines() {
+  List<LimitLine>? getLimitLines() {
     return _limitLines;
   }
 
@@ -301,17 +301,18 @@ abstract class AxisBase extends ComponentBase {
     for (int i = 0; i < _entries.length; i++) {
       String text = getFormattedLabel(i);
 
-      if (text != null && longest.length < text.length) longest = text;
+      if (longest.length < text.length) longest = text;
     }
 
     return longest;
   }
 
   String getFormattedLabel(int index) {
-    if (index < 0 || index >= _entries.length)
+    if (index < 0 || index >= _entries.length) {
       return "";
-    else
-      return getValueFormatter().getAxisLabel(_entries[index], this);
+    } else {
+      return getValueFormatter()!.getAxisLabel(_entries[index], this);
+    }
   }
 
   /// Sets the formatter to be used for formatting the axis labels. If no formatter is set, the
@@ -321,22 +322,25 @@ abstract class AxisBase extends ComponentBase {
   /// the chart. Use chart.getDefaultValueFormatter() to use the formatter calculated by the chart.
   ///
   /// @param f
-  void setValueFormatter(ValueFormatter f) {
-    if (f == null)
+  void setValueFormatter(ValueFormatter? f) {
+    if (f == null) {
       _axisValueFormatter = DefaultAxisValueFormatter(_decimals);
-    else
+    } else {
       _axisValueFormatter = f;
+    }
   }
 
   /// Returns the formatter used for formatting the axis labels.
   ///
   /// @return
-  ValueFormatter getValueFormatter() {
+  ValueFormatter? getValueFormatter() {
+    // TODO: ALWAYS not null, remove optional
     if (_axisValueFormatter == null ||
         (_axisValueFormatter is DefaultAxisValueFormatter &&
             (_axisValueFormatter as DefaultAxisValueFormatter).digits !=
-                _decimals))
+                _decimals)) {
       _axisValueFormatter = DefaultAxisValueFormatter(_decimals);
+    }
 
     return _axisValueFormatter;
   }
@@ -354,10 +358,10 @@ abstract class AxisBase extends ComponentBase {
   }
 
   // ignore: unnecessary_getters_setters
-  DashPathEffect get gridDashPathEffect => _gridDashPathEffect;
+  DashPathEffect? get gridDashPathEffect => _gridDashPathEffect;
 
   // ignore: unnecessary_getters_setters
-  set gridDashPathEffect(DashPathEffect value) {
+  set gridDashPathEffect(DashPathEffect? value) {
     _gridDashPathEffect = value;
   }
 
@@ -381,7 +385,6 @@ abstract class AxisBase extends ComponentBase {
   /// @param spaceLength the length of space in between the pieces
   /// @param phase       offset, in degrees (normally, use 0)
   void enableAxisLineDashedLine(
-
       double lineLength, double spaceLength, double phase) {
     _axisLineDashPathEffect = DashPathEffect(lineLength, spaceLength, phase);
   }
@@ -399,20 +402,20 @@ abstract class AxisBase extends ComponentBase {
   }
 
   // ignore: unnecessary_getters_setters
-  DashPathEffect get axisLineDashPathEffect => _axisLineDashPathEffect;
+  DashPathEffect? get axisLineDashPathEffect => _axisLineDashPathEffect;
 
   // ignore: unnecessary_getters_setters
-  set axisLineDashPathEffect(DashPathEffect value) {
+  set axisLineDashPathEffect(DashPathEffect? value) {
     _axisLineDashPathEffect = value;
   }
 
   /// ###### BELOW CODE RELATED TO CUSTOM AXIS VALUES ######
 
   // ignore: unnecessary_getters_setters
-  double get axisMaximum => _axisMaximum;
+  double? get axisMaximum => _axisMaximum;
 
   // ignore: unnecessary_getters_setters
-  double get axisMinimum => _axisMinimum;
+  double? get axisMinimum => _axisMinimum;
 
   /// By calling this method, any custom maximum value that has been previously set is reseted,
   /// and the calculation is
@@ -449,7 +452,7 @@ abstract class AxisBase extends ComponentBase {
   void setAxisMinimum(double min) {
     _customAxisMin = true;
     _axisMinimum = min;
-    this._axisRange = (_axisMaximum - min).abs();
+    _axisRange = (_axisMaximum! - min).abs();
   }
 
   /// Use setAxisMinimum(...) instead.
@@ -467,7 +470,7 @@ abstract class AxisBase extends ComponentBase {
   void setAxisMaximum(double max) {
     _customAxisMax = true;
     _axisMaximum = max;
-    this._axisRange = (max - _axisMinimum).abs();
+    _axisRange = (max - _axisMinimum!).abs();
   }
 
   /// Use setAxisMaximum(...) instead.
@@ -484,8 +487,8 @@ abstract class AxisBase extends ComponentBase {
   /// @param dataMax the max value according to chart data
   void calculate(double dataMin, double dataMax) {
     // if custom, use value as is, else use data value
-    double min = _customAxisMin ? _axisMinimum : (dataMin - _spaceMin);
-    double max = _customAxisMax ? _axisMaximum : (dataMax + _spaceMax);
+    double min = _customAxisMin ? _axisMinimum! : (dataMin - _spaceMin);
+    double max = _customAxisMax ? _axisMaximum! : (dataMax + _spaceMax);
 
     // temporary range (before calculations)
     double range = (max - min).abs();
@@ -496,11 +499,11 @@ abstract class AxisBase extends ComponentBase {
       min = min - 1;
     }
 
-    this._axisMinimum = min;
-    this._axisMaximum = max;
+    _axisMinimum = min;
+    _axisMaximum = max;
 
     // actual range
-    this._axisRange = (max - min).abs();
+    _axisRange = (max - min).abs();
   }
 
   // ignore: unnecessary_getters_setters
@@ -528,10 +531,10 @@ abstract class AxisBase extends ComponentBase {
   }
 
   // ignore: unnecessary_getters_setters
-  List<double> get centeredEntries => _centeredEntries;
+  List<double?> get centeredEntries => _centeredEntries;
 
   // ignore: unnecessary_getters_setters
-  set centeredEntries(List<double> value) {
+  set centeredEntries(List<double?> value) {
     _centeredEntries = value;
   }
 
@@ -552,10 +555,10 @@ abstract class AxisBase extends ComponentBase {
   }
 
   // ignore: unnecessary_getters_setters
-  List<LimitLine> get limitLines => _limitLines;
+  List<LimitLine>? get limitLines => _limitLines;
 
   // ignore: unnecessary_getters_setters
-  set limitLines(List<LimitLine> value) {
+  set limitLines(List<LimitLine>? value) {
     _limitLines = value;
   }
 }

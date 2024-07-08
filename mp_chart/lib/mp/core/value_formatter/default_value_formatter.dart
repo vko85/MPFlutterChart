@@ -1,11 +1,11 @@
 import 'package:intl/intl.dart';
-import 'package:mp_chart/mp/core/value_formatter/value_formatter.dart';
+import 'package:mp_chart_x/mp/core/value_formatter/value_formatter.dart';
 
 class DefaultValueFormatter extends ValueFormatter {
   /// DecimalFormat for formatting
-  NumberFormat _format;
+  late NumberFormat _format;
 
-  int _decimalDigits;
+  int? _decimalDigits;
 
   /// Constructor that specifies to how many digits the value should be
   /// formatted.
@@ -19,7 +19,7 @@ class DefaultValueFormatter extends ValueFormatter {
   ///
   /// @param digits
   void setup(int digits) {
-    this._decimalDigits = digits;
+    _decimalDigits = digits;
 
     if (digits < 1) {
       digits = 1;
@@ -30,11 +30,11 @@ class DefaultValueFormatter extends ValueFormatter {
     for (int i = 0; i < digits; i++) {
       b.write("0");
     }
-    _format = NumberFormat("###,###,###,##0" + b.toString());
+    _format = NumberFormat("###,###,###,##0$b");
   }
 
   @override
-  String getFormattedValue1(double value) {
+  String getFormattedValue1(double? value) {
     // put more logic here ...
     // avoid memory allocations here (for performance reasons)
 
@@ -46,5 +46,5 @@ class DefaultValueFormatter extends ValueFormatter {
     return _format.toString();
   }
 
-  int get decimalDigits => _decimalDigits;
+  int? get decimalDigits => _decimalDigits;
 }

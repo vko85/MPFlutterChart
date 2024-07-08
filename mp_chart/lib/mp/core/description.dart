@@ -1,16 +1,16 @@
 import 'dart:core';
 import 'dart:ui';
 
-import 'package:mp_chart/mp/core/component.dart';
-import 'package:mp_chart/mp/core/poolable/point.dart';
-import 'package:mp_chart/mp/core/utils/utils.dart';
+import 'package:mp_chart_x/mp/core/component.dart';
+import 'package:mp_chart_x/mp/core/pool/point.dart';
+import 'package:mp_chart_x/mp/core/utils/utils.dart';
 
 class Description extends ComponentBase {
   /// the text used in the description
   String _text = "Description Label";
 
   /// the custom position of the description text
-  MPPointF _position;
+  MPPointF? _position;
 
   /// the alignment of the description text
   TextAlign _textAlign = TextAlign.center;
@@ -36,12 +36,12 @@ class Description extends ComponentBase {
     if (_position == null) {
       _position = MPPointF.getInstance1(x, y);
     } else {
-      _position.x = x;
-      _position.y = y;
+      _position?.x = x;
+      _position?.y = y;
     }
   }
 
-  MPPointF get position => _position;
+  MPPointF? get position => _position;
 
   // ignore: unnecessary_getters_setters
   TextAlign get textAlign => _textAlign;

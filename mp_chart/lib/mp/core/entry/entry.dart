@@ -1,11 +1,11 @@
-import 'package:mp_chart/mp/core/entry/base_entry.dart';
+import 'package:mp_chart_x/mp/core/entry/base_entry.dart';
 import 'dart:ui' as ui;
 
 class Entry extends BaseEntry {
   double _x = 0;
 
-  Entry({double x, double y, ui.Image icon, Object data})
-      : this._x = x,
+  Entry({required double x, required double y, ui.Image? icon, Object? data})
+      : _x = x,
         super(y: y, icon: icon, data: data);
 
   Entry copy() {

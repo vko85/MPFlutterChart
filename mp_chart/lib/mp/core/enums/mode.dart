@@ -1,1 +1,1 @@
-enum Mode { LINEAR, STEPPED, CUBIC_BEZIER, HORIZONTAL_BEZIER }
+enum Mode { linear, stepped, cubicBezier, horizontalBezier }

@@ -1,13 +1,12 @@
 import 'dart:math';
-import 'dart:ui';
 
 import 'package:flutter/painting.dart';
-import 'package:mp_chart/mp/core/axis/axis_base.dart';
-import 'package:mp_chart/mp/core/enums/axis_dependency.dart';
-import 'package:mp_chart/mp/core/enums/y_axis_label_position.dart';
-import 'package:mp_chart/mp/core/utils/color_utils.dart';
-import 'package:mp_chart/mp/core/utils/painter_utils.dart';
-import 'package:mp_chart/mp/core/utils/utils.dart';
+import 'package:mp_chart_x/mp/core/axis/axis_base.dart';
+import 'package:mp_chart_x/mp/core/enums/axis_dependency.dart';
+import 'package:mp_chart_x/mp/core/enums/y_axis_label_position.dart';
+import 'package:mp_chart_x/mp/core/utils/color_utils.dart';
+import 'package:mp_chart_x/mp/core/utils/painter_utils.dart';
+import 'package:mp_chart_x/mp/core/utils/utils.dart';
 
 class YAxis extends AxisBase {
   /// indicates if the bottom y-label entry is drawn or not
@@ -29,7 +28,7 @@ class YAxis extends AxisBase {
   bool _useAutoScaleRestrictionMax = false;
 
   /// Color of the zero line
-  Color _zeroLineColor = ColorUtils.GRAY;
+  Color _zeroLineColor = ColorUtils.gray;
 
   /// Width of the zero line in pixels
   double _zeroLineWidth = 1;
@@ -41,10 +40,10 @@ class YAxis extends AxisBase {
   double _spacePercentBottom = 10;
 
   /// the position of the y-labels relative to the chart
-  YAxisLabelPosition _position = YAxisLabelPosition.OUTSIDE_CHART;
+  YAxisLabelPosition _position = YAxisLabelPosition.outsideChart;
 
   /// the side this axis object represents
-  AxisDependency _axisDependency;
+  AxisDependency? _axisDependency;
 
   /// the minimum width that the axis should take (in dp).
   /// <p/>
@@ -56,12 +55,12 @@ class YAxis extends AxisBase {
   /// default: Float.POSITIVE_INFINITY (no maximum specified)
   double _maxWidth = double.infinity;
 
-  YAxis({AxisDependency position = AxisDependency.LEFT}) : super() {
-    this._axisDependency = position;
+  YAxis({AxisDependency position = AxisDependency.left}) : super() {
+    _axisDependency = position;
     yOffset = 0;
   }
 
-  AxisDependency get axisDependency => _axisDependency;
+  AxisDependency? get axisDependency => _axisDependency;
 
   // ignore: unnecessary_getters_setters
   double get minWidth => _minWidth;
@@ -116,10 +115,11 @@ class YAxis extends AxisBase {
   ///
   /// @param startAtZero
   void setStartAtZero(bool startAtZero) {
-    if (startAtZero)
+    if (startAtZero) {
       setAxisMinimum(0);
-    else
+    } else {
       resetAxisMinimum();
+    }
   }
 
   // ignore: unnecessary_getters_setters
@@ -150,8 +150,8 @@ class YAxis extends AxisBase {
   /// grid-lines are enabled or not. Default: false
   ///
   /// @param _drawZeroLine
-  void setDrawZeroLine(bool _drawZeroLine) {
-    this._drawZeroLine = _drawZeroLine;
+  void setDrawZeroLine(bool drawZeroLine) {
+    _drawZeroLine = drawZeroLine;
   }
 
   // ignore: unnecessary_getters_setters
@@ -174,13 +174,14 @@ class YAxis extends AxisBase {
   ///
   /// @param p
   /// @return
-  double getRequiredWidthSpace(TextPainter p) {
+  double getRequiredWidthSpace(TextPainter? p) {
     p = PainterUtils.create(p, null, null, textSize);
     String label = getLongestLabel();
     double width = Utils.calcTextWidth(p, label) + xOffset * 2;
     if (minWidth > 0) minWidth = Utils.convertDpToPixel(minWidth);
-    if (maxWidth > 0 && maxWidth != double.infinity)
+    if (maxWidth > 0 && maxWidth != double.infinity) {
       maxWidth = Utils.convertDpToPixel(maxWidth);
+    }
     width = max(minWidth, min(width, maxWidth > 0.0 ? maxWidth : width));
     return width;
   }
@@ -189,7 +190,7 @@ class YAxis extends AxisBase {
   ///
   /// @param p
   /// @return
-  double getRequiredHeightSpace(TextPainter p) {
+  double getRequiredHeightSpace(TextPainter? p) {
     p = PainterUtils.create(p, null, null, textSize);
 
     String label = getLongestLabel();
@@ -200,10 +201,11 @@ class YAxis extends AxisBase {
   ///
   /// @return
   bool needsOffset() {
-    if (enabled && drawLabels && position == YAxisLabelPosition.OUTSIDE_CHART)
+    if (enabled && drawLabels && position == YAxisLabelPosition.outsideChart) {
       return true;
-    else
+    } else {
       return false;
+    }
   }
 
   // ignore: unnecessary_getters_setters
@@ -223,9 +225,9 @@ class YAxis extends AxisBase {
   }
 
   @override
-  void calculate(double dataMin, double dataMax) {
-    double min = dataMin;
-    double max = dataMax;
+  void calculate(double? dataMin, double? dataMax) {
+    double min = dataMin!;
+    double max = dataMax!;
 
     double range = (max - min).abs();
 
@@ -239,13 +241,13 @@ class YAxis extends AxisBase {
     range = (max - min).abs();
 
     // calc extra spacing
-    this.axisMinimum = customAxisMin
-        ? this.axisMinimum
+    axisMinimum = customAxisMin
+        ? axisMinimum
         : min - (range / 100) * spacePercentBottom;
-    this.axisMaximum = customAxisMax
-        ? this.axisMaximum
+    axisMaximum = customAxisMax
+        ? axisMaximum
         : max + (range / 100) * spacePercentTop;
 
-    this.axisRange = (this.axisMinimum - this.axisMaximum).abs();
+    axisRange = (axisMinimum! - axisMaximum!).abs();
   }
 }

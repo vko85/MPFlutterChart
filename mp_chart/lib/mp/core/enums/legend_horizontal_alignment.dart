@@ -1,1 +1,1 @@
-enum LegendHorizontalAlignment { LEFT, CENTER, RIGHT }
+enum LegendHorizontalAlignment { left, center, right }

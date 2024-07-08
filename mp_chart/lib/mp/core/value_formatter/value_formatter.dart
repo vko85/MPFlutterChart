@@ -1,11 +1,11 @@
-import 'package:mp_chart/mp/core/axis/axis_base.dart';
-import 'package:mp_chart/mp/core/entry/bar_entry.dart';
-import 'package:mp_chart/mp/core/entry/bubble_entry.dart';
-import 'package:mp_chart/mp/core/entry/candle_entry.dart';
-import 'package:mp_chart/mp/core/entry/entry.dart';
-import 'package:mp_chart/mp/core/entry/pie_entry.dart';
-import 'package:mp_chart/mp/core/entry/radar_entry.dart';
-import 'package:mp_chart/mp/core/view_port.dart';
+import 'package:mp_chart_x/mp/core/axis/axis_base.dart';
+import 'package:mp_chart_x/mp/core/entry/bar_entry.dart';
+import 'package:mp_chart_x/mp/core/entry/bubble_entry.dart';
+import 'package:mp_chart_x/mp/core/entry/candle_entry.dart';
+import 'package:mp_chart_x/mp/core/entry/entry.dart';
+import 'package:mp_chart_x/mp/core/entry/pie_entry.dart';
+import 'package:mp_chart_x/mp/core/entry/radar_entry.dart';
+import 'package:mp_chart_x/mp/core/view_port.dart';
 
 abstract class ValueFormatter {
   String getFormattedValue2(double value, AxisBase axis) {
@@ -21,7 +21,7 @@ abstract class ValueFormatter {
     return value.toString();
   }
 
-  String getAxisLabel(double value, AxisBase axis) {
+  String getAxisLabel(double value, AxisBase? axis) {
     return getFormattedValue1(value);
   }
 

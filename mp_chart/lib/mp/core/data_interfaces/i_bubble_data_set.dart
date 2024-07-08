@@ -1,5 +1,5 @@
-import 'package:mp_chart/mp/core/data_interfaces/i_bar_line_scatter_candle_bubble_data_set.dart';
-import 'package:mp_chart/mp/core/entry/bubble_entry.dart';
+import 'package:mp_chart_x/mp/core/data_interfaces/i_bar_line_scatter_candle_bubble_data_set.dart';
+import 'package:mp_chart_x/mp/core/entry/bubble_entry.dart';
 
 mixin IBubbleDataSet
     implements IBarLineScatterCandleBubbleDataSet<BubbleEntry> {
@@ -15,5 +15,5 @@ mixin IBubbleDataSet
 
   /// Returns the width of the highlight-circle that surrounds the bubble
   /// @return
-  double getHighlightCircleWidth();
+  double? getHighlightCircleWidth();
 }

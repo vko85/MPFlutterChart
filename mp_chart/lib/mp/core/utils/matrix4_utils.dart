@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/rendering.dart';
 import 'package:vector_math/vector_math_64.dart';
 
@@ -98,12 +96,12 @@ abstract class Matrix4Utils {
     (Matrix4.identity()..setTranslationRaw(tx, ty, 0.0)).copyInto(m);
   }
 
-  static void mapPoints(Matrix4 m, List<double> valuePoints) {
+  static void mapPoints(Matrix4 m, List<double?> valuePoints) {
     double x = 0;
     double y = 0;
     for (int i = 0; i < valuePoints.length; i += 2) {
-      x = valuePoints[i] == null ? 0 : valuePoints[i];
-      y = valuePoints[i + 1] == null ? 0 : valuePoints[i + 1];
+      x = valuePoints[i] ?? 0;
+      y = valuePoints[i + 1] ?? 0;
       final Vector3 transformed = m.perspectiveTransform(Vector3(x, y, 0));
       valuePoints[i] = transformed.x;
       valuePoints[i + 1] = transformed.y;

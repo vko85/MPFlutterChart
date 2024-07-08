@@ -1,15 +1,15 @@
 import 'dart:ui';
 
-import 'package:mp_chart/mp/core/data_interfaces/i_data_set.dart';
-import 'package:mp_chart/mp/core/entry/pie_entry.dart';
-import 'package:mp_chart/mp/core/enums/value_position.dart';
+import 'package:mp_chart_x/mp/core/data_interfaces/i_data_set.dart';
+import 'package:mp_chart_x/mp/core/entry/pie_entry.dart';
+import 'package:mp_chart_x/mp/core/enums/value_position.dart';
 
 mixin IPieDataSet implements IDataSet<PieEntry> {
-  /// Returns the space that is set to be between the piechart-slices of this
+  /// Returns the space that is set to be between the pieChart-slices of this
   /// DataSet, in pixels.
   ///
   /// @return
-  double getSliceSpace();
+  double? getSliceSpace();
 
   /// When enabled, slice spacing will be 0.0 when the smallest value is going to be
   ///   smaller than the slice spacing itself.
@@ -17,11 +17,11 @@ mixin IPieDataSet implements IDataSet<PieEntry> {
   /// @return
   bool isAutomaticallyDisableSliceSpacingEnabled();
 
-  /// Returns the distance a highlighted piechart slice is "shifted" away from
+  /// Returns the distance a highlighted pieChart slice is "shifted" away from
   /// the chart-center in dp.
   ///
   /// @return
-  double getSelectionShift();
+  double? getSelectionShift();
 
   ValuePosition getXValuePosition();
 

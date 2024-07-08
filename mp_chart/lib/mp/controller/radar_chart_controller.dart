@@ -1,28 +1,28 @@
 import 'package:flutter/painting.dart';
-import 'package:mp_chart/mp/chart/radar_chart.dart';
-import 'package:mp_chart/mp/controller/pie_radar_controller.dart';
-import 'package:mp_chart/mp/core/axis/y_axis.dart';
-import 'package:mp_chart/mp/core/common_interfaces.dart';
-import 'package:mp_chart/mp/core/data/radar_data.dart';
-import 'package:mp_chart/mp/core/description.dart';
-import 'package:mp_chart/mp/core/enums/axis_dependency.dart';
-import 'package:mp_chart/mp/core/functions.dart';
-import 'package:mp_chart/mp/core/marker/i_marker.dart';
-import 'package:mp_chart/mp/core/marker/radar_chart_marker.dart';
-import 'package:mp_chart/mp/painter/radar_chart_painter.dart';
+import 'package:mp_chart_x/mp/chart/radar_chart.dart';
+import 'package:mp_chart_x/mp/controller/pie_radar_controller.dart';
+import 'package:mp_chart_x/mp/core/axis/y_axis.dart';
+import 'package:mp_chart_x/mp/core/common_interfaces.dart';
+import 'package:mp_chart_x/mp/core/data/radar_data.dart';
+import 'package:mp_chart_x/mp/core/description.dart';
+import 'package:mp_chart_x/mp/core/enums/axis_dependency.dart';
+import 'package:mp_chart_x/mp/core/functions.dart';
+import 'package:mp_chart_x/mp/core/marker/i_marker.dart';
+import 'package:mp_chart_x/mp/core/marker/radar_chart_marker.dart';
+import 'package:mp_chart_x/mp/painter/radar_chart_painter.dart';
 
 class RadarChartController extends PieRadarController<RadarChartPainter> {
   double webLineWidth;
   double innerWebLineWidth;
-  Color webColor;
-  Color webColorInner;
+  Color? webColor;
+  Color? webColorInner;
   int webAlpha;
   bool drawWeb;
   int skipWebLineCount;
-  YAxis yAxis;
-  Color backgroundColor;
+  YAxis? yAxis;
+  Color? backgroundColor;
 
-  YAxisSettingFunction yAxisSettingFunction;
+  YAxisSettingFunction? yAxisSettingFunction;
 
   RadarChartController({
     this.webLineWidth = 1.5,
@@ -35,12 +35,12 @@ class RadarChartController extends PieRadarController<RadarChartPainter> {
     this.yAxis,
     this.backgroundColor,
     this.yAxisSettingFunction,
-    IMarker marker,
-    Description description,
-    XAxisSettingFunction xAxisSettingFunction,
-    LegendSettingFunction legendSettingFunction,
-    DataRendererSettingFunction rendererSettingFunction,
-    OnChartValueSelectedListener selectionListener,
+    IMarker? marker,
+    Description? description,
+    XAxisSettingFunction? xAxisSettingFunction,
+    LegendSettingFunction? legendSettingFunction,
+    DataRendererSettingFunction? rendererSettingFunction,
+    OnChartValueSelectedListener? selectionListener,
     double rotationAngle = 270,
     double rawRotationAngle = 270,
     bool rotateEnabled = true,
@@ -57,46 +57,47 @@ class RadarChartController extends PieRadarController<RadarChartPainter> {
     bool resolveGestureVerticalConflict = false,
     double descTextSize = 12,
     double infoTextSize = 12,
-    Color descTextColor,
-    Color infoTextColor,
-    Color infoBgColor,
+    Color? descTextColor,
+    Color? infoTextColor,
+    Color? infoBgColor,
   }) : super(
-            marker: marker,
-            noDataText: noDataText,
-            xAxisSettingFunction: xAxisSettingFunction,
-            legendSettingFunction: legendSettingFunction,
-            rendererSettingFunction: rendererSettingFunction,
-            description: description,
-            selectionListener: selectionListener,
-            maxHighlightDistance: maxHighlightDistance,
-            highLightPerTapEnabled: highLightPerTapEnabled,
-            extraTopOffset: extraTopOffset,
-            extraRightOffset: extraRightOffset,
-            extraBottomOffset: extraBottomOffset,
-            extraLeftOffset: extraLeftOffset,
-            drawMarkers: drawMarkers,
-            resolveGestureHorizontalConflict: resolveGestureHorizontalConflict,
-            resolveGestureVerticalConflict: resolveGestureVerticalConflict,
-            descTextSize: descTextSize,
-            infoTextSize: infoTextSize,
-            descTextColor: descTextColor,
-            infoTextColor: infoTextColor,
-            infoBgColor: infoBgColor,
-            rotationAngle: rotationAngle,
-            rawRotationAngle: rawRotationAngle,
-            rotateEnabled: rotateEnabled,
-            minOffset: minOffset);
+      marker: marker,
+      noDataText: noDataText,
+      xAxisSettingFunction: xAxisSettingFunction,
+      legendSettingFunction: legendSettingFunction,
+      rendererSettingFunction: rendererSettingFunction,
+      description: description,
+      selectionListener: selectionListener,
+      maxHighlightDistance: maxHighlightDistance,
+      highLightPerTapEnabled: highLightPerTapEnabled,
+      extraTopOffset: extraTopOffset,
+      extraRightOffset: extraRightOffset,
+      extraBottomOffset: extraBottomOffset,
+      extraLeftOffset: extraLeftOffset,
+      drawMarkers: drawMarkers,
+      resolveGestureHorizontalConflict: resolveGestureHorizontalConflict,
+      resolveGestureVerticalConflict: resolveGestureVerticalConflict,
+      descTextSize: descTextSize,
+      infoTextSize: infoTextSize,
+      descTextColor: descTextColor,
+      infoTextColor: infoTextColor,
+      infoBgColor: infoBgColor,
+      rotationAngle: rotationAngle,
+      rawRotationAngle: rawRotationAngle,
+      rotateEnabled: rotateEnabled,
+      minOffset: minOffset);
 
   @override
   IMarker initMarker() => RadarChartMarker();
 
-  YAxis initYAxis() => YAxis(position: AxisDependency.LEFT);
+  YAxis initYAxis() => YAxis(position: AxisDependency.left);
 
-  RadarData get data => super.data;
+  @override
+  RadarData? get data => super.data as RadarData?;
 
-  RadarChartPainter get painter => super.painter;
 
-  RadarChartState get state => super.state;
+  @override
+  RadarChartState get state => super.state as RadarChartState;
 
   @override
   void initialPainter() {
@@ -139,11 +140,11 @@ class RadarChartController extends PieRadarController<RadarChartPainter> {
   @override
   void doneBeforePainterInit() {
     super.doneBeforePainterInit();
-    webColor ??= Color.fromARGB(255, 122, 122, 122);
-    webColorInner ??= Color.fromARGB(255, 122, 122, 122);
+    webColor ??= const Color.fromARGB(255, 122, 122, 122);
+    webColorInner ??= const Color.fromARGB(255, 122, 122, 122);
     yAxis = initYAxis();
     if (yAxisSettingFunction != null) {
-      yAxisSettingFunction(yAxis, this);
+      yAxisSettingFunction!(yAxis!, this);
     }
   }
 

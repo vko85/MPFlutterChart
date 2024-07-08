@@ -1,5 +1,5 @@
 enum Rounding {
-  UP,
-  DOWN,
-  CLOSEST,
+  up,
+  down,
+  closest,
 }

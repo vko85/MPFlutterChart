@@ -1,22 +1,22 @@
 import 'dart:ui';
 
-import 'package:mp_chart/mp/core/data_interfaces/i_radar_data_set.dart';
-import 'package:mp_chart/mp/core/data_set/base_data_set.dart';
-import 'package:mp_chart/mp/core/data_set/data_set.dart';
-import 'package:mp_chart/mp/core/data_set/line_radar_data_set.dart';
-import 'package:mp_chart/mp/core/entry/radar_entry.dart';
-import 'package:mp_chart/mp/core/utils/color_utils.dart';
+import 'package:mp_chart_x/mp/core/data_interfaces/i_radar_data_set.dart';
+import 'package:mp_chart_x/mp/core/data_set/base_data_set.dart';
+import 'package:mp_chart_x/mp/core/data_set/data_set.dart';
+import 'package:mp_chart_x/mp/core/data_set/line_radar_data_set.dart';
+import 'package:mp_chart_x/mp/core/entry/radar_entry.dart';
+import 'package:mp_chart_x/mp/core/utils/color_utils.dart';
 
 class RadarDataSet extends LineRadarDataSet<RadarEntry>
     implements IRadarDataSet {
   /// flag indicating whether highlight circle should be drawn or not
   bool _drawHighlightCircleEnabled = false;
 
-  Color _highlightCircleFillColor = ColorUtils.WHITE;
+  Color _highlightCircleFillColor = ColorUtils.white;
 
   /// The stroke color for highlight circle.
   /// If Utils.COLOR_NONE, the color of the dataset is taken.
-  Color _highlightCircleStrokeColor = ColorUtils.COLOR_NONE;
+  Color _highlightCircleStrokeColor = ColorUtils.colorNone;
 
   int _highlightCircleStrokeAlpha = (0.3 * 255).toInt();
   double _highlightCircleInnerRadius = 3.0;
@@ -97,9 +97,9 @@ class RadarDataSet extends LineRadarDataSet<RadarEntry>
 
   @override
   DataSet<RadarEntry> copy1() {
-    List<RadarEntry> entries = List<RadarEntry>();
-    for (int i = 0; i < values.length; i++) {
-      entries.add(values[i].copy());
+    List<RadarEntry> entries = List<RadarEntry>.empty(growable: true);
+    for (int i = 0; i < values!.length; i++) {
+      entries.add(values![i].copy());
     }
     RadarDataSet copied = RadarDataSet(entries, getLabel());
     copy(copied);
@@ -121,7 +121,7 @@ class RadarDataSet extends LineRadarDataSet<RadarEntry>
   }
 
   @override
-  bool addEntryByIndex(int index, RadarEntry e) {
+  bool addEntryByIndex(int index, RadarEntry? e) {
     return false;
   }
 }

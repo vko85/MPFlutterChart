@@ -1,1 +1,1 @@
-enum AxisDependency { LEFT, RIGHT }
+enum AxisDependency { left, right }

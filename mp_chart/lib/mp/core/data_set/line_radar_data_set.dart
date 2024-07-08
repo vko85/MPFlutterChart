@@ -1,16 +1,15 @@
 import 'dart:ui';
 
-import 'package:mp_chart/mp/core/data_interfaces/i_line_radar_data_set.dart';
-import 'package:mp_chart/mp/core/data_set/base_data_set.dart';
-import 'package:mp_chart/mp/core/data_set/line_scatter_candle_radar_data_set.dart';
-import 'package:mp_chart/mp/core/entry/entry.dart';
-import 'package:mp_chart/mp/core/utils/utils.dart';
+import 'package:mp_chart_x/mp/core/data_interfaces/i_line_radar_data_set.dart';
+import 'package:mp_chart_x/mp/core/data_set/base_data_set.dart';
+import 'package:mp_chart_x/mp/core/data_set/line_scatter_candle_radar_data_set.dart';
+import 'package:mp_chart_x/mp/core/entry/entry.dart';
+import 'package:mp_chart_x/mp/core/utils/utils.dart';
 
 abstract class LineRadarDataSet<T extends Entry>
-    extends LineScatterCandleRadarDataSet<T>
-    implements ILineRadarDataSet<T> {
+    extends LineScatterCandleRadarDataSet<T> implements ILineRadarDataSet<T> {
   /// the color that is used for filling the line surface
-  Color _fillColor = Color.fromARGB(255, 140, 234, 255);
+  Color _fillColor = const Color.fromARGB(255, 140, 234, 255);
 
   /**
    * the drawable to be used for filling the line surface
@@ -21,7 +20,7 @@ abstract class LineRadarDataSet<T extends Entry>
   int _fillAlpha = 85;
 
   /// the width of the drawn data lines
-  double _lineWidth = 2.5;
+  double? _lineWidth = 2.5;
 
   /// if true, the data will also be drawn filled
   bool _drawFilled = false;
@@ -39,17 +38,20 @@ abstract class LineRadarDataSet<T extends Entry>
   /// Resets an eventually set "fillDrawable".
   ///
   /// @param color
-  void setFillColor(Color color) {
-    if(color != null) {
+  void setFillColor(Color? color) {
+    // TODO : should be optional?
+    if (color != null) {
       _fillColor = color;
 //    mFillDrawable = null;
-    setGradientFilled(false);
+      setGradientFilled(false);
     }
   }
 
-  void setGradientColor(Color start, Color end) {
-    if(start != null && end != null) {
-      super.setGradientColor(start, end);
+  @override
+  void setGradientColor(Color? startColor, Color? endColor) {
+    // TODO : should be optional?
+    if (startColor != null && endColor != null) {
+      super.setGradientColor(startColor, endColor);
       setGradientFilled(true);
     }
   }
@@ -90,7 +92,7 @@ abstract class LineRadarDataSet<T extends Entry>
   }
 
   @override
-  double getLineWidth() {
+  double? getLineWidth() {
     return _lineWidth;
   }
 
@@ -130,7 +132,6 @@ abstract class LineRadarDataSet<T extends Entry>
 
   @override
   String toString() {
-    return '${super
-        .toString()}\nLineRadarDataSet{_fillColor: $_fillColor,\n _fillAlpha: $_fillAlpha,\n _lineWidth: $_lineWidth,\n _drawFilled: $_drawFilled}';
+    return '${super.toString()}\nLineRadarDataSet{_fillColor: $_fillColor,\n _fillAlpha: $_fillAlpha,\n _lineWidth: $_lineWidth,\n _drawFilled: $_drawFilled}';
   }
 }

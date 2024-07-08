@@ -1,4 +1,4 @@
-import 'package:mp_chart/mp/core/entry/entry.dart';
+import 'package:mp_chart_x/mp/core/entry/entry.dart';
 import 'dart:ui' as ui;
 
 class CandleEntry extends Entry {
@@ -9,24 +9,24 @@ class CandleEntry extends Entry {
   double _shadowLow = 0;
 
   /// close value
-  double _close = 0;
+  double? _close = 0;
 
   /// open value
-  double _open = 0;
+  double? _open = 0;
 
   CandleEntry(
-      {double x,
-      double shadowH,
-      double shadowL,
-      double open,
-      double close,
-      ui.Image icon,
-      Object data})
+      {required double x,
+      required double shadowH,
+      required double shadowL,
+      double? open,
+      double? close,
+      ui.Image? icon,
+      Object? data})
       : super(x: x, y: (shadowH + shadowL) / 2, icon: icon, data: data) {
-    this._shadowHigh = shadowH;
-    this._shadowLow = shadowL;
-    this._open = open;
-    this._close = close;
+    _shadowHigh = shadowH;
+    _shadowLow = shadowL;
+    _open = open;
+    _close = close;
   }
 
   /// Returns the overall range (difference) between shadow-high and
@@ -41,9 +41,10 @@ class CandleEntry extends Entry {
   ///
   /// @return
   double getBodyRange() {
-    return (_open - _close).abs();
+    return (_open! - _close!).abs();
   }
 
+  @override
   CandleEntry copy() {
     CandleEntry c = CandleEntry(
         x: x,
@@ -56,18 +57,18 @@ class CandleEntry extends Entry {
   }
 
   // ignore: unnecessary_getters_setters
-  double get open => _open;
+  double? get open => _open;
 
   // ignore: unnecessary_getters_setters
-  set open(double value) {
+  set open(double? value) {
     _open = value;
   }
 
   // ignore: unnecessary_getters_setters
-  double get close => _close;
+  double? get close => _close;
 
   // ignore: unnecessary_getters_setters
-  set close(double value) {
+  set close(double? value) {
     _close = value;
   }
 

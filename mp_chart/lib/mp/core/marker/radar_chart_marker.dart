@@ -1,43 +1,42 @@
-import 'dart:ui';
-
 import 'package:flutter/painting.dart';
-import 'package:mp_chart/mp/core/entry/entry.dart';
-import 'package:mp_chart/mp/core/highlight/highlight.dart';
-import 'package:mp_chart/mp/core/marker/i_marker.dart';
-import 'package:mp_chart/mp/core/poolable/point.dart';
-import 'package:mp_chart/mp/core/utils/color_utils.dart';
-import 'package:mp_chart/mp/core/utils/painter_utils.dart';
-import 'package:mp_chart/mp/core/utils/utils.dart';
-import 'package:mp_chart/mp/core/value_formatter/default_value_formatter.dart';
+import 'package:mp_chart_x/mp/core/entry/entry.dart';
+import 'package:mp_chart_x/mp/core/highlight/highlight.dart';
+import 'package:mp_chart_x/mp/core/marker/i_marker.dart';
+import 'package:mp_chart_x/mp/core/pool/point.dart';
+import 'package:mp_chart_x/mp/core/utils/color_utils.dart';
+import 'package:mp_chart_x/mp/core/utils/painter_utils.dart';
+import 'package:mp_chart_x/mp/core/utils/utils.dart';
+import 'package:mp_chart_x/mp/core/value_formatter/default_value_formatter.dart';
 
 class RadarChartMarker implements IMarker {
-  Entry _entry;
+  late Entry _entry;
+
   // ignore: unused_field
-  Highlight _highlight;
+  Highlight? _highlight;
   double _dx = 0.0;
   double _dy = 0.0;
 
-  DefaultValueFormatter _formatter;
-  Color _textColor;
-  Color _backColor;
-  double _fontSize;
+  late DefaultValueFormatter _formatter;
+  Color? _textColor;
+  Color? _backColor;
+  double? _fontSize;
 
-  RadarChartMarker({Color textColor, Color backColor, double fontSize})
+  RadarChartMarker({Color? textColor, Color? backColor, double? fontSize})
       : _textColor = textColor,
         _backColor = backColor,
         _fontSize = fontSize {
     _formatter = DefaultValueFormatter(0);
-    this._textColor ??= ColorUtils.PURPLE;
-    this._backColor ??= ColorUtils.WHITE;
-    this._fontSize ??= Utils.convertDpToPixel(10);
+    _textColor ??= ColorUtils.purple;
+    _backColor ??= ColorUtils.white;
+    _fontSize ??= Utils.convertDpToPixel(10);
   }
 
   @override
-  void draw(Canvas canvas, double posX, double posY) {
+  void draw(Canvas canvas, double? posX, double? posY) {
     TextPainter painter = PainterUtils.create(null,
-        "${_formatter.getFormattedValue1(_entry.y)}", _textColor, _fontSize);
+        _formatter.getFormattedValue1(_entry.y), _textColor, _fontSize);
     Paint paint = Paint()
-      ..color = _backColor
+      ..color = _backColor!
       ..strokeWidth = 2
       ..isAntiAlias = true
       ..style = PaintingStyle.fill;
@@ -47,10 +46,10 @@ class RadarChartMarker implements IMarker {
     canvas.save();
     painter.layout();
     Offset pos = calculatePos(
-        posX + offset.x, posY + offset.y, painter.width, painter.height);
+        posX! + offset.x, posY! + offset.y, painter.width, painter.height);
     canvas.drawRRect(
         RRect.fromLTRBR(pos.dx - 5, pos.dy - 5, pos.dx + painter.width + 5,
-            pos.dy + painter.height + 5, Radius.circular(5)),
+            pos.dy + painter.height + 5, const Radius.circular(5)),
         paint);
     painter.paint(canvas, pos);
     canvas.restore();
@@ -66,7 +65,7 @@ class RadarChartMarker implements IMarker {
   }
 
   @override
-  MPPointF getOffsetForDrawingAtPoint(double posX, double posY) {
+  MPPointF getOffsetForDrawingAtPoint(double? posX, double? posY) {
     return getOffset();
   }
 

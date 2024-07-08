@@ -1,4 +1,4 @@
-import 'package:mp_chart/mp/core/entry/entry.dart';
+import 'package:mp_chart_x/mp/core/entry/entry.dart';
 import 'dart:ui' as ui;
 
 class BubbleEntry extends Entry {
@@ -10,11 +10,17 @@ class BubbleEntry extends Entry {
   /// @param x The value on the x-axis.
   /// @param y The value on the y-axis.
   /// @param size The size of the bubble.
-  BubbleEntry({double x, double y, double size, Object data, ui.Image icon})
+  BubbleEntry(
+      {required double x,
+      required double y,
+      double size=0,
+      Object? data,
+      ui.Image? icon})
       : super(x: x, y: y, data: data, icon: icon) {
-    this._size = size;
+    _size = size;
   }
 
+  @override
   BubbleEntry copy() {
     BubbleEntry c = BubbleEntry(x: x, y: y, size: _size, data: mData);
     return c;

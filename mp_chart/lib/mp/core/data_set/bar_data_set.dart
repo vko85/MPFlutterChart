@@ -1,11 +1,11 @@
 import 'dart:ui';
 
-import 'package:mp_chart/mp/core/data_interfaces/i_bar_data_set.dart';
-import 'package:mp_chart/mp/core/data_set/bar_line_scatter_candle_bubble_data_set.dart';
-import 'package:mp_chart/mp/core/data_set/base_data_set.dart';
-import 'package:mp_chart/mp/core/data_set/data_set.dart';
-import 'package:mp_chart/mp/core/entry/bar_entry.dart';
-import 'package:mp_chart/mp/core/utils/color_utils.dart';
+import 'package:mp_chart_x/mp/core/data_interfaces/i_bar_data_set.dart';
+import 'package:mp_chart_x/mp/core/data_set/bar_line_scatter_candle_bubble_data_set.dart';
+import 'package:mp_chart_x/mp/core/data_set/base_data_set.dart';
+import 'package:mp_chart_x/mp/core/data_set/data_set.dart';
+import 'package:mp_chart_x/mp/core/entry/bar_entry.dart';
+import 'package:mp_chart_x/mp/core/utils/color_utils.dart';
 
 class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry>
     implements IBarDataSet {
@@ -14,11 +14,11 @@ class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry>
   int _stackSize = 1;
 
   /// the color used for drawing the bar shadows
-  Color _barShadowColor = Color.fromARGB(255, 215, 215, 215);
+  Color _barShadowColor = const Color.fromARGB(255, 215, 215, 215);
 
   double _barBorderWidth = 0.0;
 
-  Color _barBorderColor = ColorUtils.BLACK;
+  Color _barBorderColor = ColorUtils.black;
 
   /// the alpha value used to draw the highlight indicator bar
   int _highLightAlpha = 120;
@@ -27,25 +27,26 @@ class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry>
   int _entryCountStacks = 0;
 
   /// array of labels used to describe the different values of the stacked bars
-  List<String> _stackLabels = List()..add("Stack");
+  List<String> _stackLabels = List.empty(growable: true)..add("Stack");
 
   BarDataSet(List<BarEntry> yVals, String label) : super(yVals, label) {
-    setHighLightColor(Color.fromARGB(255, 0, 0, 0));
+    setHighLightColor(const Color.fromARGB(255, 0, 0, 0));
     calcStackSize(yVals);
     calcEntryCountIncludingStacks(yVals);
   }
 
   @override
   DataSet<BarEntry> copy1() {
-    List<BarEntry> entries = List();
-    for (int i = 0; i < values.length; i++) {
-      entries.add(values[i].copy());
+    List<BarEntry> entries = List.empty(growable: true);
+    for (int i = 0; i < values!.length; i++) {
+      entries.add(values![i].copy());
     }
     BarDataSet copied = BarDataSet(entries, getLabel());
     copy(copied);
     return copied;
   }
 
+  @override
   void copy(BaseDataSet baseDataSet) {
     super.copy(baseDataSet);
     if (baseDataSet is BarDataSet) {
@@ -64,12 +65,13 @@ class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry>
     _entryCountStacks = 0;
 
     for (int i = 0; i < yVals.length; i++) {
-      List<double> vals = yVals[i].yVals;
+      List<double>? vals = yVals[i].yVals;
 
-      if (vals == null)
+      if (vals == null) {
         _entryCountStacks++;
-      else
+      } else {
         _entryCountStacks += vals.length;
+      }
     }
   }
 
@@ -77,23 +79,23 @@ class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry>
   /// DataSet
   void calcStackSize(List<BarEntry> yVals) {
     for (int i = 0; i < yVals.length; i++) {
-      List<double> vals = yVals[i].yVals;
+      List<double>? vals = yVals[i].yVals;
 
       if (vals != null && vals.length > _stackSize) _stackSize = vals.length;
     }
   }
 
   @override
-  void calcMinMax1(BarEntry e) {
+  void calcMinMax1(BarEntry? e) {
     if (e != null && !e.y.isNaN) {
       if (e.yVals == null) {
         if (e.y < getYMin()) yMin = e.y;
 
         if (e.y > getYMax()) yMax = e.y;
       } else {
-        if (-e.negativeSum < getYMin()) yMin = -e.negativeSum;
+        if (-e.negativeSum! < getYMin()) yMin = -e.negativeSum!;
 
-        if (e.positiveSum > getYMax()) yMax = e.positiveSum;
+        if (e.positiveSum! > getYMax()) yMax = e.positiveSum!;
       }
 
       calcMinMaxX1(e);

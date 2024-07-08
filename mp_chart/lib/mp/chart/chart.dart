@@ -1,23 +1,23 @@
+import 'dart:typed_data';
+
 import 'package:flutter/widgets.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'package:mp_chart/mp/controller/controller.dart';
-import 'package:optimized_gesture_detector/details.dart';
-import 'package:optimized_gesture_detector/optimized_gesture_detector.dart';
-import 'package:screenshot/screenshot.dart';
+import 'package:mp_chart_x/mp/controller/controller.dart';
+import 'package:gesture_detector_x/details.dart';
+import 'package:gesture_detector_x/gesture_detector_x.dart';
 
 abstract class Chart<C extends Controller> extends StatefulWidget {
   final C controller;
 
   @override
-  State createState() {
+  State<StatefulWidget> createState() {
     return controller.createChartState();
   }
 
-  const Chart(this.controller);
+  const Chart(this.controller, {Key? key}) : super(key: key);
 }
 
 abstract class ChartState<T extends Chart> extends State<T> {
-  final ScreenshotController _screenshotController = ScreenshotController();
+
   bool isCapturing = false;
 
   void setStateIfNotDispose() {
@@ -28,16 +28,19 @@ abstract class ChartState<T extends Chart> extends State<T> {
 
   void updatePainter();
 
-  void capture() async {
-    if (isCapturing) return;
-    isCapturing = true;
-
-    _screenshotController.capture(pixelRatio: 3.0).then((imgFile) {
-      ImageGallerySaver.saveImage(imgFile);
-      isCapturing = false;
-    }).catchError((error) {
-      isCapturing = false;
-    });
+  Future<Uint8List?> capture() async {
+    // if (!isCapturing) {
+    //   isCapturing = true;
+    //   Uint8List? imgFile;
+    //   try {
+    //     imgFile = await _screenshotController.capture(pixelRatio: 3.0);
+    //     isCapturing = false;
+    //   } catch (e) {
+    //     isCapturing = false;
+    //   }
+    //   return imgFile;
+    // }
+    return null;
   }
 
   @override
@@ -52,17 +55,14 @@ abstract class ChartState<T extends Chart> extends State<T> {
     widget.controller.doneBeforePainterInit();
     widget.controller.initialPainter();
     updatePainter();
-    return Screenshot(
-        controller: _screenshotController,
-        child: Container(
-            child: Stack(
-                // Center is a layout widget. It takes a single child and positions it
-                // in the middle of the parent.
-                children: [
+    return  Stack(
+            // Center is a layout widget. It takes a single child and positions it
+            // in the middle of the parent.
+            children: [
               ConstrainedBox(
-                  constraints: BoxConstraints(
+                  constraints: const BoxConstraints(
                       minHeight: double.infinity, minWidth: double.infinity),
-                  child: OptimizedGestureDetector(
+                  child: GestureDetectorX(
                       tapDown: (details) {
                         onTapDown(details);
                       },
@@ -104,7 +104,7 @@ abstract class ChartState<T extends Chart> extends State<T> {
                       needVerticalConflictFunc:
                           widget.controller.verticalConflictResolveFunc,
                       child: CustomPaint(painter: widget.controller.painter))),
-            ])));
+            ]);
   }
 
   @override

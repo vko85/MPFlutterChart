@@ -1,26 +1,26 @@
 import 'dart:math';
 
 import 'package:flutter/rendering.dart';
-import 'package:mp_chart/mp/core/animator.dart';
-import 'package:mp_chart/mp/core/axis/x_axis.dart';
-import 'package:mp_chart/mp/core/axis/y_axis.dart';
-import 'package:mp_chart/mp/core/common_interfaces.dart';
-import 'package:mp_chart/mp/core/data/radar_data.dart';
-import 'package:mp_chart/mp/core/description.dart';
-import 'package:mp_chart/mp/core/enums/axis_dependency.dart';
-import 'package:mp_chart/mp/core/functions.dart';
-import 'package:mp_chart/mp/core/highlight/radar_highlighter.dart';
-import 'package:mp_chart/mp/core/legend/legend.dart';
-import 'package:mp_chart/mp/core/marker/i_marker.dart';
-import 'package:mp_chart/mp/core/render/legend_renderer.dart';
-import 'package:mp_chart/mp/core/render/radar_chart_renderer.dart';
-import 'package:mp_chart/mp/core/render/x_axis_renderer_radar_chart.dart';
-import 'package:mp_chart/mp/core/render/y_axis_renderer_radar_chart.dart';
-import 'package:mp_chart/mp/core/utils/utils.dart';
-import 'package:mp_chart/mp/core/view_port.dart';
-import 'package:mp_chart/mp/painter/pie_redar_chart_painter.dart';
+import 'package:mp_chart_x/mp/core/animator.dart';
+import 'package:mp_chart_x/mp/core/axis/x_axis.dart';
+import 'package:mp_chart_x/mp/core/axis/y_axis.dart';
+import 'package:mp_chart_x/mp/core/common_interfaces.dart';
+import 'package:mp_chart_x/mp/core/data/radar_data.dart';
+import 'package:mp_chart_x/mp/core/description.dart';
+import 'package:mp_chart_x/mp/core/enums/axis_dependency.dart';
+import 'package:mp_chart_x/mp/core/functions.dart';
+import 'package:mp_chart_x/mp/core/highlight/radar_highlighter.dart';
+import 'package:mp_chart_x/mp/core/legend/legend.dart';
+import 'package:mp_chart_x/mp/core/marker/i_marker.dart';
+import 'package:mp_chart_x/mp/core/render/legend_renderer.dart';
+import 'package:mp_chart_x/mp/core/render/radar_chart_renderer.dart';
+import 'package:mp_chart_x/mp/core/render/x_axis_renderer_radar_chart.dart';
+import 'package:mp_chart_x/mp/core/render/y_axis_renderer_radar_chart.dart';
+import 'package:mp_chart_x/mp/core/utils/utils.dart';
+import 'package:mp_chart_x/mp/core/view_port.dart';
+import 'package:mp_chart_x/mp/painter/pie_radar_chart_painter.dart';
 
-class RadarChartPainter extends PieRadarChartPainter<RadarData> {
+class RadarChartPainter extends PieRadarChartPainter<RadarData?> {
   /// width of the main web lines
   final double _webLineWidth;
 
@@ -28,10 +28,10 @@ class RadarChartPainter extends PieRadarChartPainter<RadarData> {
   final double _innerWebLineWidth;
 
   /// color for the main web lines
-  final Color _webColor; // = Color.fromARGB(255, 122, 122, 122)
+  final Color? _webColor; // = Color.fromARGB(255, 122, 122, 122)
 
   /// color for the inner web
-  final Color _webColorInner; // = Color.fromARGB(255, 122, 122, 122)
+  final Color? _webColorInner; // = Color.fromARGB(255, 122, 122, 122)
 
   /// transparency the grid is drawn with (0-255)
   final int _webAlpha;
@@ -43,15 +43,15 @@ class RadarChartPainter extends PieRadarChartPainter<RadarData> {
   final int _skipWebLineCount;
 
   /// the object reprsenting the y-axis labels
-  final YAxis _yAxis;
+  final YAxis? _yAxis;
 
   ////////////
-  YAxisRendererRadarChart _yAxisRenderer;
-  XAxisRendererRadarChart _xAxisRenderer;
+  late YAxisRendererRadarChart _yAxisRenderer;
+  late XAxisRendererRadarChart _xAxisRenderer;
 
-  Color get webColor => _webColor;
+  Color? get webColor => _webColor;
 
-  Color get webColorInner => _webColorInner;
+  Color? get webColorInner => _webColorInner;
 
   double get webLineWidth => _webLineWidth;
 
@@ -61,42 +61,42 @@ class RadarChartPainter extends PieRadarChartPainter<RadarData> {
 
   int get skipWebLineCount => _skipWebLineCount;
 
-  YAxis get yAxis => _yAxis;
+  YAxis? get yAxis => _yAxis;
 
   RadarChartPainter(
-      RadarData data,
-      Animator animator,
-      ViewPortHandler viewPortHandler,
-      double maxHighlightDistance,
+      RadarData? data,
+      Animator? animator,
+      ViewPortHandler? viewPortHandler,
+      double? maxHighlightDistance,
       bool highLightPerTapEnabled,
       double extraLeftOffset,
       double extraTopOffset,
       double extraRightOffset,
       double extraBottomOffset,
-      IMarker marker,
-      Description desc,
+      IMarker? marker,
+      Description? desc,
       bool drawMarkers,
-      Color infoBgColor,
-      TextPainter infoPainter,
-      TextPainter descPainter,
-      XAxis xAxis,
-      Legend legend,
-      LegendRenderer legendRenderer,
-      DataRendererSettingFunction rendererSettingFunction,
-      OnChartValueSelectedListener selectedListener,
+      Color? infoBgColor,
+      TextPainter? infoPainter,
+      TextPainter? descPainter,
+      XAxis? xAxis,
+      Legend? legend,
+      LegendRenderer? legendRenderer,
+      DataRendererSettingFunction? rendererSettingFunction,
+      OnChartValueSelectedListener? selectedListener,
       double rotationAngle,
-      double rawRotationAngle,
+      double? rawRotationAngle,
       bool rotateEnabled,
       double minOffset,
       double webLineWidth,
       double innerWebLineWidth,
-      Color webColor,
-      Color webColorInner,
+      Color? webColor,
+      Color? webColorInner,
       int webAlpha,
       bool drawWeb,
       int skipWebLineCount,
-      YAxis yAxis,
-      Color backgroundColor)
+      YAxis? yAxis,
+      Color? backgroundColor)
       : _webLineWidth = webLineWidth,
         _innerWebLineWidth = innerWebLineWidth,
         _webColor = webColor,
@@ -138,17 +138,17 @@ class RadarChartPainter extends PieRadarChartPainter<RadarData> {
     super.initDefaultWithData();
     renderer = RadarChartRenderer(this, animator, viewPortHandler);
     highlighter = RadarHighlighter(this);
-    _yAxisRenderer = YAxisRendererRadarChart(viewPortHandler, _yAxis, this);
-    _xAxisRenderer = XAxisRendererRadarChart(viewPortHandler, xAxis, this);
+    _yAxisRenderer = YAxisRendererRadarChart(viewPortHandler!, _yAxis, this);
+    _xAxisRenderer = XAxisRendererRadarChart(viewPortHandler!, xAxis, this);
   }
 
   @override
   void calcMinMax() {
     super.calcMinMax();
-    _yAxis.calculate(getData().getYMin2(AxisDependency.LEFT),
-        getData().getYMax2(AxisDependency.LEFT));
-    xAxis.calculate(
-        0, getData().getMaxEntryCountSet().getEntryCount().toDouble());
+    _yAxis!.calculate(getData()!.getYMin2(AxisDependency.left),
+        getData()!.getYMax2(AxisDependency.left));
+    xAxis!.calculate(
+        0, getData()!.getMaxEntryCountSet()!.getEntryCount().toDouble());
   }
 
   @override
@@ -156,38 +156,45 @@ class RadarChartPainter extends PieRadarChartPainter<RadarData> {
     super.calculateOffsets();
     calcMinMax();
     _yAxisRenderer.computeAxis(
-        _yAxis.axisMinimum, _yAxis.axisMaximum, _yAxis.inverted);
-    _xAxisRenderer.computeAxis(xAxis.axisMinimum, xAxis.axisMaximum, false);
-    if (legend != null && !legend.isLegendCustom)
-      legendRenderer.computeLegend(getData());
+        _yAxis!.axisMinimum ?? 0, _yAxis!.axisMaximum ?? 0, _yAxis!.inverted);
+    _xAxisRenderer.computeAxis(
+        xAxis!.axisMinimum ?? 0, xAxis!.axisMaximum ?? 0, false);
+    if (legend != null && !legend!.isLegendCustom) {
+      legendRenderer!.computeLegend(getData());
+    }
   }
 
   @override
   void onPaint(Canvas canvas, Size size) {
     super.onPaint(canvas, size);
-    if (xAxis.enabled)
-      _xAxisRenderer.computeAxis(xAxis.axisMinimum, xAxis.axisMaximum, false);
+    if (xAxis!.enabled) {
+      _xAxisRenderer.computeAxis(
+          xAxis!.axisMinimum ?? 0, xAxis!.axisMaximum ?? 0, false);
+    }
 
     _xAxisRenderer.renderAxisLabels(canvas);
 
-    if (_drawWeb) renderer.drawExtras(canvas);
+    if (_drawWeb) renderer!.drawExtras(canvas);
 
-    if (_yAxis.enabled && _yAxis.drawLimitLineBehindData)
+    if (_yAxis!.enabled && _yAxis!.drawLimitLineBehindData) {
       _yAxisRenderer.renderLimitLines(canvas);
+    }
 
-    renderer.drawData(canvas);
+    renderer!.drawData(canvas);
 
-    if (valuesToHighlight())
-      renderer.drawHighlighted(canvas, indicesToHighlight);
+    if (valuesToHighlight()) {
+      renderer!.drawHighlighted(canvas, indicesToHighlight);
+    }
 
-    if (_yAxis.enabled && !_yAxis.drawLimitLineBehindData)
+    if (_yAxis!.enabled && !_yAxis!.drawLimitLineBehindData) {
       _yAxisRenderer.renderLimitLines(canvas);
+    }
 
     _yAxisRenderer.renderAxisLabels(canvas);
 
-    renderer.drawValues(canvas);
+    renderer!.drawValues(canvas);
 
-    legendRenderer.renderLegend(canvas);
+    legendRenderer!.renderLegend(canvas);
 
     drawDescription(canvas, size);
 
@@ -198,15 +205,15 @@ class RadarChartPainter extends PieRadarChartPainter<RadarData> {
   ///
   /// @return
   double getFactor() {
-    Rect content = viewPortHandler.getContentRect();
-    return min(content.width / 2, content.height / 2) / _yAxis.axisRange;
+    Rect content = viewPortHandler!.getContentRect();
+    return min(content.width / 2, content.height / 2) / _yAxis!.axisRange;
   }
 
   /// Returns the angle that each slice in the radar chart occupies.
   ///
   /// @return
   double getSliceAngle() {
-    return 360 / getData().getMaxEntryCountSet().getEntryCount();
+    return 360 / getData()!.getMaxEntryCountSet()!.getEntryCount();
   }
 
   @override
@@ -214,14 +221,14 @@ class RadarChartPainter extends PieRadarChartPainter<RadarData> {
     // take the current angle of the chart into consideration
     double a = Utils.getNormalizedAngle(angle - getRotationAngle());
 
-    double sliceangle = getSliceAngle();
+    double sliceAngle = getSliceAngle();
 
-    int max = getData().getMaxEntryCountSet().getEntryCount();
+    int max = getData()!.getMaxEntryCountSet()!.getEntryCount();
 
     int index = 0;
 
     for (int i = 0; i < max; i++) {
-      double referenceAngle = sliceangle * (i + 1) - sliceangle / 2;
+      double referenceAngle = sliceAngle * (i + 1) - sliceAngle / 2;
 
       if (referenceAngle > a) {
         index = i;
@@ -234,30 +241,32 @@ class RadarChartPainter extends PieRadarChartPainter<RadarData> {
 
   @override
   double getRequiredLegendOffset() {
-    var size = legendRenderer.legendLabelPaint.text.style.fontSize;
-    return (size == null ? Utils.convertDpToPixel(9) : size) * 4.0;
+    var size = legendRenderer!.legendLabelPaint!.text!.style!.fontSize;
+    return (size ?? Utils.convertDpToPixel(9)) * 4.0;
   }
 
   @override
-  double getRequiredBaseOffset() {
-    return xAxis.enabled && xAxis.drawLabels
-        ? xAxis.labelRotatedWidth.toDouble()
+  double? getRequiredBaseOffset() {
+    return xAxis!.enabled && xAxis!.drawLabels
+        ? xAxis!.labelRotatedWidth.toDouble()
         : Utils.convertDpToPixel(10);
   }
 
   @override
   double getRadius() {
-    Rect content = viewPortHandler.getContentRect();
+    Rect content = viewPortHandler!.getContentRect();
     return min(content.width / 2, content.height / 2);
   }
 
   /// Returns the maximum value this chart can display on it's y-axis.
-  double getYChartMax() {
-    return _yAxis.axisMaximum;
+  @override
+  double? getYChartMax() {
+    return _yAxis!.axisMaximum;
   }
 
   /// Returns the minimum value this chart can display on it's y-axis.
-  double getYChartMin() {
-    return _yAxis.axisMinimum;
+  @override
+  double? getYChartMin() {
+    return _yAxis!.axisMinimum;
   }
 }

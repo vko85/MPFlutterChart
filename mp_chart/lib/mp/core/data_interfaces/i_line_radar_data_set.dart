@@ -1,7 +1,7 @@
 import 'dart:ui';
 
-import 'package:mp_chart/mp/core/data_interfaces/i_line_scatter_candle_radar_data_set.dart';
-import 'package:mp_chart/mp/core/entry/entry.dart';
+import 'package:mp_chart_x/mp/core/data_interfaces/i_line_scatter_candle_radar_data_set.dart';
+import 'package:mp_chart_x/mp/core/entry/entry.dart';
 
 mixin ILineRadarDataSet<T extends Entry>
     implements ILineScatterCandleRadarDataSet<T> {
@@ -24,7 +24,7 @@ mixin ILineRadarDataSet<T extends Entry>
   /// Returns the stroke-width of the drawn line
   ///
   /// @return
-  double getLineWidth();
+  double? getLineWidth();
 
   /// Returns true if filled drawing is enabled, false if not
   ///
