@@ -2,27 +2,29 @@ import 'dart:math';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
-import 'package:mp_chart/mp/chart/scatter_chart.dart';
-import 'package:mp_chart/mp/controller/scatter_chart_controller.dart';
-import 'package:mp_chart/mp/core/common_interfaces.dart';
-import 'package:mp_chart/mp/core/data/scatter_data.dart';
-import 'package:mp_chart/mp/core/data_interfaces/i_scatter_data_set.dart';
-import 'package:mp_chart/mp/core/data_set/scatter_data_set.dart';
-import 'package:mp_chart/mp/core/description.dart';
-import 'package:mp_chart/mp/core/entry/entry.dart';
-import 'package:mp_chart/mp/core/enums/legend_horizontal_alignment.dart';
-import 'package:mp_chart/mp/core/enums/legend_orientation.dart';
-import 'package:mp_chart/mp/core/enums/legend_vertical_alignment.dart';
-import 'package:mp_chart/mp/core/enums/scatter_shape.dart';
-import 'package:mp_chart/mp/core/highlight/highlight.dart';
-import 'package:mp_chart/mp/core/image_loader.dart';
-import 'package:mp_chart/mp/core/render/i_shape_renderer.dart';
-import 'package:mp_chart/mp/core/utils/color_utils.dart';
-import 'package:mp_chart/mp/core/view_port.dart';
+import 'package:mp_chart_x/mp/chart/scatter_chart.dart';
+import 'package:mp_chart_x/mp/controller/scatter_chart_controller.dart';
+import 'package:mp_chart_x/mp/core/common_interfaces.dart';
+import 'package:mp_chart_x/mp/core/data/scatter_data.dart';
+import 'package:mp_chart_x/mp/core/data_interfaces/i_scatter_data_set.dart';
+import 'package:mp_chart_x/mp/core/data_set/scatter_data_set.dart';
+import 'package:mp_chart_x/mp/core/description.dart';
+import 'package:mp_chart_x/mp/core/entry/entry.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_horizontal_alignment.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_orientation.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_vertical_alignment.dart';
+import 'package:mp_chart_x/mp/core/enums/scatter_shape.dart';
+import 'package:mp_chart_x/mp/core/highlight/highlight.dart';
+import 'package:mp_chart_x/mp/core/image_loader.dart';
+import 'package:mp_chart_x/mp/core/render/i_shape_renderer.dart';
+import 'package:mp_chart_x/mp/core/utils/color_utils.dart';
+import 'package:mp_chart_x/mp/core/view_port.dart';
 import 'package:example/demo/action_state.dart';
 import 'package:example/demo/util.dart';
 
 class OtherChartScatterPlot extends StatefulWidget {
+  const OtherChartScatterPlot({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return OtherChartScatterPlotState();
@@ -88,7 +90,7 @@ class OtherChartScatterPlotState
                         textDirection: TextDirection.ltr,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: ColorUtils.BLACK,
+                            color: ColorUtils.black,
                             fontSize: 12,
                             fontWeight: FontWeight.bold),
                       ))),
@@ -118,7 +120,7 @@ class OtherChartScatterPlotState
                         textDirection: TextDirection.ltr,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: ColorUtils.BLACK,
+                            color: ColorUtils.black,
                             fontSize: 12,
                             fontWeight: FontWeight.bold),
                       ))),
@@ -144,9 +146,9 @@ class OtherChartScatterPlotState
         },
         legendSettingFunction: (legend, controller) {
           legend
-            ..verticalAlignment = (LegendVerticalAlignment.TOP)
-            ..horizontalAlignment = (LegendHorizontalAlignment.RIGHT)
-            ..orientation = (LegendOrientation.VERTICAL)
+            ..verticalAlignment = (LegendVerticalAlignment.top)
+            ..horizontalAlignment = (LegendHorizontalAlignment.right)
+            ..orientation = (LegendOrientation.vertical)
             ..drawInside = (false)
             ..typeface = Util.LIGHT
             ..xOffset = (5);
@@ -169,14 +171,14 @@ class OtherChartScatterPlotState
   }
 
   void _initScatterData(int count, double range) async {
-    List<ui.Image> imgs = List(3);
-    imgs[0] = await ImageLoader.loadImage('assets/img/star.png');
-    imgs[1] = await ImageLoader.loadImage('assets/img/add.png');
-    imgs[2] = await ImageLoader.loadImage('assets/img/close.png');
+    List<ui.Image> imgs = [];
+    imgs.add(await ImageLoader.loadImage('assets/img/star.png'));
+    imgs.add(await ImageLoader.loadImage('assets/img/add.png'));
+    imgs.add(await ImageLoader.loadImage('assets/img/close.png'));
 
-    List<Entry> values1 = List();
-    List<Entry> values2 = List();
-    List<Entry> values3 = List();
+    List<Entry> values1 = [];
+    List<Entry> values2 = [];
+    List<Entry> values3 = [];
 
     for (int i = 0; i < count; i++) {
       double val = (random.nextDouble() * range) + 3;
@@ -195,29 +197,29 @@ class OtherChartScatterPlotState
 
     // create a dataset and give it a type
     ScatterDataSet set1 = ScatterDataSet(values1, "DS 1");
-    set1.setScatterShape(ScatterShape.SQUARE);
-    set1.setColor1(ColorUtils.COLORFUL_COLORS[0]);
+    set1.setScatterShape(ScatterShape.square);
+    set1.setColor1(ColorUtils.colorfulColors[0]);
     ScatterDataSet set2 = ScatterDataSet(values2, "DS 2");
-    set2.setScatterShape(ScatterShape.CIRCLE);
-    set2.setScatterShapeHoleColor(ColorUtils.COLORFUL_COLORS[3]);
+    set2.setScatterShape(ScatterShape.circle);
+    set2.setScatterShapeHoleColor(ColorUtils.colorfulColors[3]);
     set2.setScatterShapeHoleRadius(3);
-    set2.setColor1(ColorUtils.COLORFUL_COLORS[1]);
+    set2.setColor1(ColorUtils.colorfulColors[1]);
     ScatterDataSet set3 = ScatterDataSet(values3, "DS 3");
     set3.setShapeRenderer(CustomScatterShapeRenderer());
-    set3.setColor1(ColorUtils.COLORFUL_COLORS[2]);
+    set3.setColor1(ColorUtils.colorfulColors[2]);
 
     set1.setScatterShapeSize(8);
     set2.setScatterShapeSize(8);
     set3.setScatterShapeSize(8);
 
-    List<IScatterDataSet> dataSets = List();
+    List<IScatterDataSet> dataSets = [];
     dataSets.add(set1); // add the data sets
     dataSets.add(set2);
     dataSets.add(set3);
 
     // create a data object with the data sets
     controller.data = ScatterData.fromList(dataSets);
-    controller.data.setValueTypeface(Util.LIGHT);
+    controller.data?.setValueTypeface(Util.LIGHT);
 
     setState(() {});
   }
@@ -226,7 +228,7 @@ class OtherChartScatterPlotState
   void onNothingSelected() {}
 
   @override
-  void onValueSelected(Entry e, Highlight h) {}
+  void onValueSelected(Entry? e, Highlight? h) {}
 }
 
 class CustomScatterShapeRenderer implements IShapeRenderer {
@@ -234,13 +236,13 @@ class CustomScatterShapeRenderer implements IShapeRenderer {
   void renderShape(
       Canvas c,
       IScatterDataSet dataSet,
-      ViewPortHandler viewPortHandler,
-      double posX,
-      double posY,
-      Paint renderPaint) {
+      ViewPortHandler? viewPortHandler,
+      double? posX,
+      double? posY,
+      Paint? renderPaint) {
     final double shapeHalf = dataSet.getScatterShapeSize() / 2;
 
-    c.drawLine(Offset(posX - shapeHalf, posY - shapeHalf),
-        Offset(posX + shapeHalf, posY + shapeHalf), renderPaint);
+    c.drawLine(Offset(posX! - shapeHalf, posY! - shapeHalf),
+        Offset(posX + shapeHalf, posY + shapeHalf), renderPaint!);
   }
 }

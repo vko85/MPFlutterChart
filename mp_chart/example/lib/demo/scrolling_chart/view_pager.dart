@@ -1,39 +1,41 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:mp_chart/mp/chart/bar_chart.dart';
-import 'package:mp_chart/mp/chart/line_chart.dart';
-import 'package:mp_chart/mp/chart/pie_chart.dart';
-import 'package:mp_chart/mp/chart/scatter_chart.dart';
-import 'package:mp_chart/mp/controller/bar_chart_controller.dart';
-import 'package:mp_chart/mp/controller/line_chart_controller.dart';
-import 'package:mp_chart/mp/controller/pie_chart_controller.dart';
-import 'package:mp_chart/mp/controller/scatter_chart_controller.dart';
-import 'package:mp_chart/mp/core/data/bar_data.dart';
-import 'package:mp_chart/mp/core/data/line_data.dart';
-import 'package:mp_chart/mp/core/data/pie_data.dart';
-import 'package:mp_chart/mp/core/data/scatter_data.dart';
-import 'package:mp_chart/mp/core/data_interfaces/i_bar_data_set.dart';
-import 'package:mp_chart/mp/core/data_interfaces/i_line_data_set.dart';
-import 'package:mp_chart/mp/core/data_interfaces/i_scatter_data_set.dart';
-import 'package:mp_chart/mp/core/data_set/bar_data_set.dart';
-import 'package:mp_chart/mp/core/data_set/line_data_set.dart';
-import 'package:mp_chart/mp/core/data_set/pie_data_set.dart';
-import 'package:mp_chart/mp/core/data_set/scatter_data_set.dart';
-import 'package:mp_chart/mp/core/description.dart';
-import 'package:mp_chart/mp/core/entry/bar_entry.dart';
-import 'package:mp_chart/mp/core/entry/entry.dart';
-import 'package:mp_chart/mp/core/entry/pie_entry.dart';
-import 'package:mp_chart/mp/core/enums/legend_horizontal_alignment.dart';
-import 'package:mp_chart/mp/core/enums/legend_orientation.dart';
-import 'package:mp_chart/mp/core/enums/legend_vertical_alignment.dart';
-import 'package:mp_chart/mp/core/enums/scatter_shape.dart';
-import 'package:mp_chart/mp/core/enums/x_axis_position.dart';
-import 'package:mp_chart/mp/core/utils/color_utils.dart';
+import 'package:mp_chart_x/mp/chart/bar_chart.dart';
+import 'package:mp_chart_x/mp/chart/line_chart.dart';
+import 'package:mp_chart_x/mp/chart/pie_chart.dart';
+import 'package:mp_chart_x/mp/chart/scatter_chart.dart';
+import 'package:mp_chart_x/mp/controller/bar_chart_controller.dart';
+import 'package:mp_chart_x/mp/controller/line_chart_controller.dart';
+import 'package:mp_chart_x/mp/controller/pie_chart_controller.dart';
+import 'package:mp_chart_x/mp/controller/scatter_chart_controller.dart';
+import 'package:mp_chart_x/mp/core/data/bar_data.dart';
+import 'package:mp_chart_x/mp/core/data/line_data.dart';
+import 'package:mp_chart_x/mp/core/data/pie_data.dart';
+import 'package:mp_chart_x/mp/core/data/scatter_data.dart';
+import 'package:mp_chart_x/mp/core/data_interfaces/i_bar_data_set.dart';
+import 'package:mp_chart_x/mp/core/data_interfaces/i_line_data_set.dart';
+import 'package:mp_chart_x/mp/core/data_interfaces/i_scatter_data_set.dart';
+import 'package:mp_chart_x/mp/core/data_set/bar_data_set.dart';
+import 'package:mp_chart_x/mp/core/data_set/line_data_set.dart';
+import 'package:mp_chart_x/mp/core/data_set/pie_data_set.dart';
+import 'package:mp_chart_x/mp/core/data_set/scatter_data_set.dart';
+import 'package:mp_chart_x/mp/core/description.dart';
+import 'package:mp_chart_x/mp/core/entry/bar_entry.dart';
+import 'package:mp_chart_x/mp/core/entry/entry.dart';
+import 'package:mp_chart_x/mp/core/entry/pie_entry.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_horizontal_alignment.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_orientation.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_vertical_alignment.dart';
+import 'package:mp_chart_x/mp/core/enums/scatter_shape.dart';
+import 'package:mp_chart_x/mp/core/enums/x_axis_position.dart';
+import 'package:mp_chart_x/mp/core/utils/color_utils.dart';
 import 'package:example/demo/action_state.dart';
 import 'package:example/demo/util.dart';
 
 class ScrollingChartViewPager extends StatefulWidget {
+  const ScrollingChartViewPager({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return ScrollingChartViewPagerState();
@@ -42,11 +44,11 @@ class ScrollingChartViewPager extends StatefulWidget {
 
 class ScrollingChartViewPagerState
     extends SimpleActionState<ScrollingChartViewPager> {
-  LineChartController _lineChartController1;
-  LineChartController _lineChartController2;
-  BarChartController _barChartController;
-  ScatterChartController _scatterChartController;
-  PieChartController _pieChartController;
+  late LineChartController _lineChartController1;
+  late LineChartController _lineChartController2;
+  late BarChartController _barChartController;
+  late ScatterChartController _scatterChartController;
+  late PieChartController _pieChartController;
   var random = Random(1);
 
   @override
@@ -124,7 +126,7 @@ class ScrollingChartViewPagerState
             left: 0,
             bottom: 0,
             child: Container(
-                color: ColorUtils.HOLO_BLUE_LIGHT,
+                color: ColorUtils.holoBlueLight,
                 constraints: BoxConstraints.expand(height: 100),
                 child: Center(
                     child: Text(
@@ -132,7 +134,7 @@ class ScrollingChartViewPagerState
                   textDirection: TextDirection.ltr,
                   textAlign: TextAlign.left,
                   style: TextStyle(
-                      color: ColorUtils.BLACK,
+                      color: ColorUtils.black,
                       fontSize: 12,
                       fontWeight: FontWeight.bold),
                 ))))
@@ -209,7 +211,7 @@ class ScrollingChartViewPagerState
             ..yOffset = (13);
         },
         xAxisSettingFunction: (xAxis, controller) {
-          xAxis.position = (XAxisPosition.BOTTOM);
+          xAxis.position = (XAxisPosition.bottom);
         },
         drawGridBackground: false,
         dragXEnabled: true,
@@ -223,9 +225,9 @@ class ScrollingChartViewPagerState
         resolveGestureHorizontalConflict: true,
         legendSettingFunction: (legend, controller) {
           legend
-            ..verticalAlignment = (LegendVerticalAlignment.TOP)
-            ..horizontalAlignment = (LegendHorizontalAlignment.RIGHT)
-            ..orientation = (LegendOrientation.VERTICAL)
+            ..verticalAlignment = (LegendVerticalAlignment.top)
+            ..horizontalAlignment = (LegendHorizontalAlignment.right)
+            ..orientation = (LegendOrientation.vertical)
             ..drawInside = (false);
         },
         centerText: _generateCenterText(),
@@ -235,10 +237,10 @@ class ScrollingChartViewPagerState
   }
 
   void _initLineData1() {
-    List<ILineDataSet> sets = List();
+    List<ILineDataSet> sets = [];
 
     Util.loadAsset("sine.txt").then((value) {
-      List<Entry> data = List();
+      List<Entry> data = [];
       List<String> lines = value.split("\n");
       for (int i = 0; i < lines.length; i++) {
         var datas = lines[i].split("#");
@@ -249,7 +251,7 @@ class ScrollingChartViewPagerState
       LineDataSet ds1 = LineDataSet(data, "Sine function");
       ds1.setLineWidth(2);
       ds1.setDrawCircles(false);
-      ds1.setColor1(ColorUtils.VORDIPLOM_COLORS[0]);
+      ds1.setColor1(ColorUtils.vordiplomColors[0]);
       sets.add(ds1);
       if (sets.length == 2) {
         _lineChartController1.data = LineData.fromList(sets);
@@ -259,7 +261,7 @@ class ScrollingChartViewPagerState
     });
 
     Util.loadAsset("cosine.txt").then((value) {
-      List<Entry> data = List();
+      List<Entry> data = [];
       List<String> lines = value.split("\n");
       for (int i = 0; i < lines.length; i++) {
         var datas = lines[i].split("#");
@@ -270,7 +272,7 @@ class ScrollingChartViewPagerState
       LineDataSet ds2 = LineDataSet(data, "Cosine function");
       ds2.setLineWidth(2);
       ds2.setDrawCircles(false);
-      ds2.setColor1(ColorUtils.VORDIPLOM_COLORS[1]);
+      ds2.setColor1(ColorUtils.vordiplomColors[1]);
       sets.add(ds2);
       if (sets.length == 2) {
         _lineChartController1.data = LineData.fromList(sets);
@@ -281,10 +283,10 @@ class ScrollingChartViewPagerState
   }
 
   void _initLineData2() {
-    List<ILineDataSet> sets = List();
+    List<ILineDataSet> sets = [];
 
     Util.loadAsset("n.txt").then((value) {
-      List<Entry> data = List();
+      List<Entry> data = [];
       List<String> lines = value.split("\n");
       for (int i = 0; i < lines.length; i++) {
         var datas = lines[i].split("#");
@@ -296,8 +298,8 @@ class ScrollingChartViewPagerState
       ds.setLineWidth(2.5);
       ds.setCircleRadius(3);
       ds.setDrawCircles(false);
-      ds.setColor1(ColorUtils.VORDIPLOM_COLORS[0]);
-      ds.setCircleColor(ColorUtils.VORDIPLOM_COLORS[0]);
+      ds.setColor1(ColorUtils.vordiplomColors[0]);
+      ds.setCircleColor(ColorUtils.vordiplomColors[0]);
       sets.add(ds);
       if (sets.length == 4) {
         _lineChartController2.data = LineData.fromList(sets);
@@ -307,7 +309,7 @@ class ScrollingChartViewPagerState
     });
 
     Util.loadAsset("nlogn.txt").then((value) {
-      List<Entry> data = List();
+      List<Entry> data = [];
       List<String> lines = value.split("\n");
       for (int i = 0; i < lines.length; i++) {
         var datas = lines[i].split("#");
@@ -319,8 +321,8 @@ class ScrollingChartViewPagerState
       ds.setLineWidth(2.5);
       ds.setCircleRadius(3);
       ds.setDrawCircles(false);
-      ds.setColor1(ColorUtils.VORDIPLOM_COLORS[1]);
-      ds.setCircleColor(ColorUtils.VORDIPLOM_COLORS[1]);
+      ds.setColor1(ColorUtils.vordiplomColors[1]);
+      ds.setCircleColor(ColorUtils.vordiplomColors[1]);
       sets.add(ds);
       if (sets.length == 4) {
         _lineChartController2.data = LineData.fromList(sets);
@@ -330,7 +332,7 @@ class ScrollingChartViewPagerState
     });
 
     Util.loadAsset("square.txt").then((value) {
-      List<Entry> data = List();
+      List<Entry> data = [];
       List<String> lines = value.split("\n");
       for (int i = 0; i < lines.length; i++) {
         var datas = lines[i].split("#");
@@ -342,8 +344,8 @@ class ScrollingChartViewPagerState
       ds.setLineWidth(2.5);
       ds.setCircleRadius(3);
       ds.setDrawCircles(false);
-      ds.setColor1(ColorUtils.VORDIPLOM_COLORS[2]);
-      ds.setCircleColor(ColorUtils.VORDIPLOM_COLORS[2]);
+      ds.setColor1(ColorUtils.vordiplomColors[2]);
+      ds.setCircleColor(ColorUtils.vordiplomColors[2]);
       sets.add(ds);
       if (sets.length == 4) {
         _lineChartController2.data = LineData.fromList(sets);
@@ -353,7 +355,7 @@ class ScrollingChartViewPagerState
     });
 
     Util.loadAsset("three.txt").then((value) {
-      List<Entry> data = List();
+      List<Entry> data = [];
       List<String> lines = value.split("\n");
       for (int i = 0; i < lines.length; i++) {
         var datas = lines[i].split("#");
@@ -365,8 +367,8 @@ class ScrollingChartViewPagerState
       ds.setLineWidth(2.5);
       ds.setCircleRadius(3);
       ds.setDrawCircles(false);
-      ds.setColor1(ColorUtils.VORDIPLOM_COLORS[3]);
-      ds.setCircleColor(ColorUtils.VORDIPLOM_COLORS[3]);
+      ds.setColor1(ColorUtils.vordiplomColors[3]);
+      ds.setCircleColor(ColorUtils.vordiplomColors[3]);
       sets.add(ds);
       if (sets.length == 4) {
         _lineChartController2.data = LineData.fromList(sets);
@@ -376,20 +378,14 @@ class ScrollingChartViewPagerState
     });
   }
 
-  List<String> _labels = List()
-    ..add("Company A")
-    ..add("Company B")
-    ..add("Company C")
-    ..add("Company D")
-    ..add("Company E")
-    ..add("Company F");
+  final List<String> _labels = ["Company A","Company B","Company C","Company D","Company E","Company F"];
 
   void _initBarData() {
-    List<IBarDataSet> sets = List();
+    List<IBarDataSet> sets = [];
 
     var range = 20000;
     for (int i = 0; i < 1; i++) {
-      List<BarEntry> entries = List();
+      List<BarEntry> entries = [];
 
       for (int j = 0; j < 12; j++) {
         entries.add(BarEntry(
@@ -397,7 +393,7 @@ class ScrollingChartViewPagerState
       }
 
       BarDataSet ds = BarDataSet(entries, _labels[i]);
-      ds.setColors1(ColorUtils.VORDIPLOM_COLORS);
+      ds.setColors1(ColorUtils.vordiplomColors);
       sets.add(ds);
     }
 
@@ -409,12 +405,12 @@ class ScrollingChartViewPagerState
     var dataSets = 6;
     var range = 10000;
     var count = 200;
-    List<IScatterDataSet> sets = List();
+    List<IScatterDataSet> sets = [];
 
     List<ScatterShape> shapes = ScatterShape.values;
 
     for (int i = 0; i < dataSets; i++) {
-      List<Entry> entries = List();
+      List<Entry> entries = [];
 
       for (int j = 0; j < count; j++) {
         entries.add(Entry(
@@ -424,7 +420,7 @@ class ScrollingChartViewPagerState
       ScatterDataSet ds = ScatterDataSet(entries, _labels[i]);
       ds.setScatterShapeSize(12);
       ds.setScatterShape(shapes[i % shapes.length]);
-      ds.setColors1(ColorUtils.COLORFUL_COLORS);
+      ds.setColors1(ColorUtils.colorfulColors);
       ds.setScatterShapeSize(9);
       sets.add(ds);
     }
@@ -436,7 +432,7 @@ class ScrollingChartViewPagerState
   void _initPieData() {
     int count = 4;
 
-    List<PieEntry> entries1 = List();
+    List<PieEntry> entries1 = [];
 
     for (int i = 0; i < count; i++) {
       entries1.add(PieEntry(
@@ -444,9 +440,9 @@ class ScrollingChartViewPagerState
     }
 
     PieDataSet ds1 = PieDataSet(entries1, "Quarterly Revenues 2015");
-    ds1.setColors1(ColorUtils.VORDIPLOM_COLORS);
+    ds1.setColors1(ColorUtils.vordiplomColors);
     ds1.setSliceSpace(2);
-    ds1.setValueTextColor(ColorUtils.WHITE);
+    ds1.setValueTextColor(ColorUtils.white);
     ds1.setValueTextSize(12);
 
     _pieChartController.data = PieData(ds1);
@@ -456,7 +452,7 @@ class ScrollingChartViewPagerState
   Widget _initLineChart1() {
     var lineChart = LineChart(_lineChartController1);
     _lineChartController1.animator
-      ..reset()
+      ?..reset()
       ..animateX1(3000);
     return lineChart;
   }
@@ -464,7 +460,7 @@ class ScrollingChartViewPagerState
   Widget _initLineChart2() {
     var lineChart = LineChart(_lineChartController2);
     _lineChartController2.animator
-      ..reset()
+      ?..reset()
       ..animateX1(3000);
     return lineChart;
   }

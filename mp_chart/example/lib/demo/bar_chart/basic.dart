@@ -3,31 +3,37 @@ import 'dart:ui' as ui;
 
 import 'package:example/demo/action_state.dart';
 import 'package:example/demo/util.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:mp_chart/mp/chart/bar_chart.dart';
-import 'package:mp_chart/mp/controller/bar_chart_controller.dart';
-import 'package:mp_chart/mp/core/color/gradient_color.dart';
-import 'package:mp_chart/mp/core/common_interfaces.dart';
-import 'package:mp_chart/mp/core/data/bar_data.dart';
-import 'package:mp_chart/mp/core/data_interfaces/i_bar_data_set.dart';
-import 'package:mp_chart/mp/core/data_set/bar_data_set.dart';
-import 'package:mp_chart/mp/core/description.dart';
-import 'package:mp_chart/mp/core/entry/bar_entry.dart';
-import 'package:mp_chart/mp/core/entry/entry.dart';
-import 'package:mp_chart/mp/core/enums/legend_form.dart';
-import 'package:mp_chart/mp/core/enums/legend_orientation.dart';
-import 'package:mp_chart/mp/core/enums/legend_vertical_alignment.dart';
-import 'package:mp_chart/mp/core/enums/x_axis_position.dart';
-import 'package:mp_chart/mp/core/enums/y_axis_label_position.dart';
-import 'package:mp_chart/mp/core/highlight/highlight.dart';
-import 'package:mp_chart/mp/core/image_loader.dart';
-import 'package:mp_chart/mp/core/touch_listener.dart';
-import 'package:mp_chart/mp/core/chart_trans_listener.dart';
-import 'package:mp_chart/mp/core/utils/color_utils.dart';
-import 'package:mp_chart/mp/core/value_formatter/day_axis_value_formatter.dart';
-import 'package:mp_chart/mp/core/value_formatter/my_value_formatter.dart';
+import 'package:mp_chart_x/mp/chart/bar_chart.dart';
+import 'package:mp_chart_x/mp/controller/bar_chart_controller.dart';
+import 'package:mp_chart_x/mp/controller/bar_line_scatter_candle_bubble_controller.dart';
+import 'package:mp_chart_x/mp/core/color/gradient_color.dart';
+import 'package:mp_chart_x/mp/core/common_interfaces.dart';
+import 'package:mp_chart_x/mp/core/data/bar_data.dart';
+import 'package:mp_chart_x/mp/core/data_interfaces/i_bar_data_set.dart';
+import 'package:mp_chart_x/mp/core/data_set/bar_data_set.dart';
+import 'package:mp_chart_x/mp/core/description.dart';
+import 'package:mp_chart_x/mp/core/entry/bar_entry.dart';
+import 'package:mp_chart_x/mp/core/entry/entry.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_form.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_orientation.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_vertical_alignment.dart';
+import 'package:mp_chart_x/mp/core/enums/x_axis_position.dart';
+import 'package:mp_chart_x/mp/core/enums/y_axis_label_position.dart';
+import 'package:mp_chart_x/mp/core/highlight/highlight.dart';
+import 'package:mp_chart_x/mp/core/image_loader.dart';
+import 'package:mp_chart_x/mp/core/touch_listener.dart';
+import 'package:mp_chart_x/mp/core/chart_trans_listener.dart';
+import 'package:mp_chart_x/mp/core/utils/color_utils.dart';
+import 'package:mp_chart_x/mp/core/value_formatter/day_axis_value_formatter.dart';
+import 'package:mp_chart_x/mp/core/value_formatter/my_value_formatter.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:screenshot/screenshot.dart';
 
 class BarChartBasic extends StatefulWidget {
+  const BarChartBasic({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return BarChartBasicState();
@@ -36,6 +42,8 @@ class BarChartBasic extends StatefulWidget {
 
 class BarChartBasicState extends BarActionState<BarChartBasic>
     implements OnChartValueSelectedListener {
+  final _screenshotController = ScreenshotController();
+  bool isCapturing = false;
   var random = Random(1);
   int _count = 12;
   double _range = 50.0;
@@ -48,15 +56,36 @@ class BarChartBasicState extends BarActionState<BarChartBasic>
   }
 
   @override
+  Future<void> itemClick(String action) async {
+    super.itemClick(action);
+
+    switch (action) {
+      case 'K':
+        if ((defaultTargetPlatform == TargetPlatform.android ||
+                defaultTargetPlatform == TargetPlatform.iOS) &&
+            !(await Permission.storage.request().isGranted)) {
+          return;
+        }
+        captureImg(() {
+          capture();
+        });
+        break;
+    }
+  }
+
+  @override
   Widget getBody() {
     return Stack(
       children: <Widget>[
-        Positioned(
-          right: 0,
-          left: 0,
-          top: 0,
-          bottom: 100,
-          child: BarChart(controller),
+        Screenshot(
+          controller: _screenshotController,
+          child: Positioned(
+            right: 0,
+            left: 0,
+            top: 0,
+            bottom: 100,
+            child: BarChart(controller),
+          ),
         ),
         Positioned(
           left: 0,
@@ -90,7 +119,7 @@ class BarChartBasicState extends BarActionState<BarChartBasic>
                         textDirection: TextDirection.ltr,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: ColorUtils.BLACK,
+                            color: ColorUtils.black,
                             fontSize: 12,
                             fontWeight: FontWeight.bold),
                       ))),
@@ -120,7 +149,7 @@ class BarChartBasicState extends BarActionState<BarChartBasic>
                         textDirection: TextDirection.ltr,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: ColorUtils.BLACK,
+                            color: ColorUtils.black,
                             fontSize: 12,
                             fontWeight: FontWeight.bold),
                       ))),
@@ -138,6 +167,21 @@ class BarChartBasicState extends BarActionState<BarChartBasic>
     return "Bar Chart Basic";
   }
 
+  Future<Uint8List?> capture() async {
+    if (!isCapturing) {
+      isCapturing = true;
+      Uint8List? imgFile;
+      try {
+        imgFile = await _screenshotController.capture(pixelRatio: 3.0);
+        isCapturing = false;
+      } catch (e) {
+        isCapturing = false;
+      }
+      return imgFile;
+    }
+    return null;
+  }
+
   void _initController() {
     var desc = Description()..enabled = false;
     controller = BarChartController(
@@ -147,7 +191,7 @@ class BarChartBasicState extends BarActionState<BarChartBasic>
             ..setLabelCount2(8, false)
             ..typeface = Util.LIGHT
             ..setValueFormatter(MyValueFormatter("\$"))
-            ..position = YAxisLabelPosition.OUTSIDE_CHART
+            ..position = YAxisLabelPosition.outsideChart
             ..spacePercentTop = 15
             ..setAxisMinimum(0);
         },
@@ -162,23 +206,24 @@ class BarChartBasicState extends BarActionState<BarChartBasic>
         },
         legendSettingFunction: (legend, controller) {
           legend
-            ..verticalAlignment = LegendVerticalAlignment.BOTTOM
-            ..orientation = LegendOrientation.HORIZONTAL
+            ..verticalAlignment = LegendVerticalAlignment.bottom
+            ..orientation = LegendOrientation.horizontal
             ..drawInside = false
-            ..shape = LegendForm.SQUARE
+            ..shape = LegendForm.square
             ..formSize = 20
             ..textSize = 11
-            ..textColor = ColorUtils.RED
+            ..textColor = ColorUtils.red
             ..xEntrySpace = 4;
         },
         xAxisSettingFunction: (xAxis, controller) {
           xAxis
             ..typeface = Util.LIGHT
-            ..position = XAxisPosition.BOTTOM
+            ..position = XAxisPosition.bottom
             ..drawGridLines = false
             ..setGranularity(1.0)
             ..setLabelCount1(7)
-            ..setValueFormatter(DayAxisValueFormatter(controller));
+            ..setValueFormatter(DayAxisValueFormatter(
+                controller as BarLineScatterCandleBubbleController));
         },
         selectionListener: this,
         drawBarShadow: false,
@@ -197,7 +242,7 @@ class BarChartBasicState extends BarActionState<BarChartBasic>
   void _initData(int count, double range, ui.Image img) {
     double start = 1;
 
-    List<BarEntry> values = List();
+    List<BarEntry> values = <BarEntry>[];
 
     for (int i = start.toInt(); i < start + count; i++) {
       double val = (random.nextDouble() * (range + 1));
@@ -217,18 +262,18 @@ class BarChartBasicState extends BarActionState<BarChartBasic>
             int endColor = ContextCompat.getColor(this, android.R.color.holo_blue_bright);
             set1.setGradientColor(startColor, endColor);*/
 
-    Color startColor1 = ColorUtils.HOLO_ORANGE_LIGHT;
-    Color startColor2 = ColorUtils.HOLO_BLUE_LIGHT;
-    Color startColor3 = ColorUtils.HOLO_ORANGE_LIGHT;
-    Color startColor4 = ColorUtils.HOLO_GREEN_LIGHT;
-    Color startColor5 = ColorUtils.HOLO_RED_LIGHT;
-    Color endColor1 = ColorUtils.HOLO_BLUE_DARK;
-    Color endColor2 = ColorUtils.HOLO_PURPLE;
-    Color endColor3 = ColorUtils.HOLO_GREEN_DARK;
-    Color endColor4 = ColorUtils.HOLO_RED_DARK;
-    Color endColor5 = ColorUtils.HOLO_ORANGE_DARK;
+    Color startColor1 = ColorUtils.holoOrangeLight;
+    Color startColor2 = ColorUtils.holoBlueLight;
+    Color startColor3 = ColorUtils.holoOrangeLight;
+    Color startColor4 = ColorUtils.holoGreenLight;
+    Color startColor5 = ColorUtils.holoRedLight;
+    Color endColor1 = ColorUtils.holoBlueDark;
+    Color endColor2 = ColorUtils.holoPurple;
+    Color endColor3 = ColorUtils.holoGreenDark;
+    Color endColor4 = ColorUtils.holoRedDark;
+    Color endColor5 = ColorUtils.holoOrangeDark;
 
-    List<GradientColor> gradientColors = List();
+    List<GradientColor> gradientColors = <GradientColor>[];
     gradientColors.add(GradientColor(startColor1, endColor1));
     gradientColors.add(GradientColor(startColor2, endColor2));
     gradientColors.add(GradientColor(startColor3, endColor3));
@@ -237,12 +282,12 @@ class BarChartBasicState extends BarActionState<BarChartBasic>
 
     set1.setGradientColors(gradientColors);
 
-    List<IBarDataSet> dataSets = List();
+    List<IBarDataSet> dataSets = <IBarDataSet>[];
     dataSets.add(set1);
 
     controller.data = BarData(dataSets);
     controller.data
-      ..setValueTextSize(10)
+      ?..setValueTextSize(10)
       ..setValueTypeface(Util.LIGHT)
       ..barWidth = 0.9;
   }
@@ -257,7 +302,7 @@ class BarChartBasicState extends BarActionState<BarChartBasic>
   void onNothingSelected() {}
 
   @override
-  void onValueSelected(Entry e, Highlight h) {
+  void onValueSelected(Entry? e, Highlight? h) {
 //    if (e == null)
 //      return;
 //
@@ -278,7 +323,7 @@ class BarChartBasicState extends BarActionState<BarChartBasic>
 
 class MyChartTransListener with ChartTransListener {
   @override
-  void scale(double scaleX, double scaleY, double x, double y) {
+  void scale(double scaleX, double scaleY, double? x, double? y) {
     print("scale scaleX: $scaleX, scaleY: $scaleY, x: $x, y: $y");
   }
 
@@ -336,7 +381,7 @@ class MyTouchEventListener with OnTouchEventListener {
 
   @override
   TouchValueType valueType() {
-    return TouchValueType.SCREEN;
+    return TouchValueType.screen;
   }
 
   @override

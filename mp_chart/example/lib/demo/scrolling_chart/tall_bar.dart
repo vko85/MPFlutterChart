@@ -1,19 +1,21 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:mp_chart/mp/chart/bar_chart.dart';
-import 'package:mp_chart/mp/controller/bar_chart_controller.dart';
-import 'package:mp_chart/mp/core/data/bar_data.dart';
-import 'package:mp_chart/mp/core/data_interfaces/i_bar_data_set.dart';
-import 'package:mp_chart/mp/core/data_set/bar_data_set.dart';
-import 'package:mp_chart/mp/core/description.dart';
-import 'package:mp_chart/mp/core/entry/bar_entry.dart';
-import 'package:mp_chart/mp/core/enums/x_axis_position.dart';
-import 'package:mp_chart/mp/core/utils/color_utils.dart';
+import 'package:mp_chart_x/mp/chart/bar_chart.dart';
+import 'package:mp_chart_x/mp/controller/bar_chart_controller.dart';
+import 'package:mp_chart_x/mp/core/data/bar_data.dart';
+import 'package:mp_chart_x/mp/core/data_interfaces/i_bar_data_set.dart';
+import 'package:mp_chart_x/mp/core/data_set/bar_data_set.dart';
+import 'package:mp_chart_x/mp/core/description.dart';
+import 'package:mp_chart_x/mp/core/entry/bar_entry.dart';
+import 'package:mp_chart_x/mp/core/enums/x_axis_position.dart';
+import 'package:mp_chart_x/mp/core/utils/color_utils.dart';
 import 'package:example/demo/action_state.dart';
 import 'package:example/demo/util.dart';
 
 class ScrollingChartTallBar extends StatefulWidget {
+  const ScrollingChartTallBar({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return ScrollingChartTallBarState();
@@ -22,7 +24,7 @@ class ScrollingChartTallBar extends StatefulWidget {
 
 class ScrollingChartTallBarState
     extends SimpleActionState<ScrollingChartTallBar> {
-  BarChartController _controller;
+  late BarChartController _controller;
   var random = Random(1);
   bool _isParentMove = true;
   double _curX = 0.0;
@@ -90,7 +92,7 @@ class ScrollingChartTallBarState
   Widget _renderItem() {
     var barChart = BarChart(_controller);
     _controller.animator
-      ..reset()
+      ?..reset()
       ..animateY1(800);
     return Column(
         mainAxisSize: MainAxisSize.max,
@@ -104,11 +106,11 @@ class ScrollingChartTallBarState
                 textDirection: TextDirection.ltr,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    color: ColorUtils.BLACK,
+                    color: ColorUtils.black,
                     fontSize: 18,
                     fontWeight: FontWeight.bold),
               ))),
-          Container(
+          SizedBox(
               height: 1000,
               child: Padding(
                   padding: EdgeInsets.only(top: 100, bottom: 100),
@@ -121,7 +123,7 @@ class ScrollingChartTallBarState
                 textDirection: TextDirection.ltr,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    color: ColorUtils.BLACK,
+                    color: ColorUtils.black,
                     fontSize: 18,
                     fontWeight: FontWeight.bold),
               ))),
@@ -139,7 +141,7 @@ class ScrollingChartTallBarState
         },
         xAxisSettingFunction: (xAxis, controller) {
           xAxis
-            ..position = (XAxisPosition.BOTTOM)
+            ..position = (XAxisPosition.bottom)
             ..drawGridLines = (false);
         },
         pinchZoomEnabled: false,
@@ -158,7 +160,7 @@ class ScrollingChartTallBarState
   }
 
   BarData generateData() {
-    List<BarEntry> entries = List();
+    List<BarEntry> entries = [];
 
     for (int i = 0; i < 10; i++) {
       entries
@@ -166,10 +168,10 @@ class ScrollingChartTallBarState
     }
 
     BarDataSet d = BarDataSet(entries, "Data Set");
-    d.setColors1(ColorUtils.VORDIPLOM_COLORS);
+    d.setColors1(ColorUtils.vordiplomColors);
     d.setDrawValues(false);
 
-    List<IBarDataSet> sets = List();
+    List<IBarDataSet> sets = [];
     sets.add(d);
 
     return BarData(sets);

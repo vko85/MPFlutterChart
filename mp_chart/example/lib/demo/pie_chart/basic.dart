@@ -1,27 +1,29 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:mp_chart/mp/chart/pie_chart.dart';
-import 'package:mp_chart/mp/controller/pie_chart_controller.dart';
-import 'package:mp_chart/mp/core/common_interfaces.dart';
-import 'package:mp_chart/mp/core/data/pie_data.dart';
-import 'package:mp_chart/mp/core/data_set/pie_data_set.dart';
-import 'package:mp_chart/mp/core/description.dart';
-import 'package:mp_chart/mp/core/entry/entry.dart';
-import 'package:mp_chart/mp/core/entry/pie_entry.dart';
-import 'package:mp_chart/mp/core/enums/legend_horizontal_alignment.dart';
-import 'package:mp_chart/mp/core/enums/legend_orientation.dart';
-import 'package:mp_chart/mp/core/enums/legend_vertical_alignment.dart';
-import 'package:mp_chart/mp/core/highlight/highlight.dart';
-import 'package:mp_chart/mp/core/image_loader.dart';
-import 'package:mp_chart/mp/core/poolable/point.dart';
-import 'package:mp_chart/mp/core/render/pie_chart_renderer.dart';
-import 'package:mp_chart/mp/core/utils/color_utils.dart';
-import 'package:mp_chart/mp/core/value_formatter/percent_formatter.dart';
+import 'package:mp_chart_x/mp/chart/pie_chart.dart';
+import 'package:mp_chart_x/mp/controller/pie_chart_controller.dart';
+import 'package:mp_chart_x/mp/core/common_interfaces.dart';
+import 'package:mp_chart_x/mp/core/data/pie_data.dart';
+import 'package:mp_chart_x/mp/core/data_set/pie_data_set.dart';
+import 'package:mp_chart_x/mp/core/description.dart';
+import 'package:mp_chart_x/mp/core/entry/entry.dart';
+import 'package:mp_chart_x/mp/core/entry/pie_entry.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_horizontal_alignment.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_orientation.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_vertical_alignment.dart';
+import 'package:mp_chart_x/mp/core/highlight/highlight.dart';
+import 'package:mp_chart_x/mp/core/image_loader.dart';
+import 'package:mp_chart_x/mp/core/pool/point.dart';
+import 'package:mp_chart_x/mp/core/render/pie_chart_renderer.dart';
+import 'package:mp_chart_x/mp/core/utils/color_utils.dart';
+import 'package:mp_chart_x/mp/core/value_formatter/percent_formatter.dart';
 import 'package:example/demo/action_state.dart';
 import 'package:example/demo/util.dart';
 
 class PieChartBasic extends StatefulWidget {
+  const PieChartBasic({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return PieChartBasicState();
@@ -30,7 +32,7 @@ class PieChartBasic extends StatefulWidget {
 
 class PieChartBasicState extends PieActionState<PieChartBasic>
     implements OnChartValueSelectedListener {
-  PercentFormatter _formatter = PercentFormatter();
+  final PercentFormatter _formatter = PercentFormatter();
   var random = Random(1);
   int _count = 4;
   double _range = 10.0;
@@ -87,7 +89,7 @@ class PieChartBasicState extends PieActionState<PieChartBasic>
                         textDirection: TextDirection.ltr,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: ColorUtils.BLACK,
+                            color: ColorUtils.black,
                             fontSize: 12,
                             fontWeight: FontWeight.bold),
                       ))),
@@ -117,7 +119,7 @@ class PieChartBasicState extends PieActionState<PieChartBasic>
                         textDirection: TextDirection.ltr,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: ColorUtils.BLACK,
+                            color: ColorUtils.black,
                             fontSize: 12,
                             fontWeight: FontWeight.bold),
                       ))),
@@ -131,33 +133,25 @@ class PieChartBasicState extends PieActionState<PieChartBasic>
   }
 
   // ignore: non_constant_identifier_names
-  final List<String> PARTIES = List()
-    ..add("Party A")
-    ..add("Party B")
-    ..add("Party C")
-    ..add("Party D")
-    ..add("Party E")
-    ..add("Party F")
-    ..add("Party G")
-    ..add("Party H")
-    ..add("Party I")
-    ..add("Party J")
-    ..add("Party K")
-    ..add("Party L")
-    ..add("Party M")
-    ..add("Party N")
-    ..add("Party O")
-    ..add("Party P")
-    ..add("Party Q")
-    ..add("Party R")
-    ..add("Party S")
-    ..add("Party T")
-    ..add("Party U")
-    ..add("Party V")
-    ..add("Party W")
-    ..add("Party X")
-    ..add("Party Y")
-    ..add("Party Z");
+  final List<String> PARTIES = ["Party A", "Party B", "Party C", "Party D", "Party E", "Party F", "Party G","Party H"
+    ,"Party I"
+    ,"Party J"
+    ,"Party K"
+    ,"Party L"
+    ,"Party M"
+    ,"Party N"
+    ,"Party O"
+    ,"Party P"
+    ,"Party Q"
+    ,"Party R"
+    ,"Party S"
+    ,"Party T"
+    ,"Party U"
+    ,"Party V"
+    ,"Party W"
+    ,"Party X"
+    ,"Party Y"
+    ,"Party Z"];
 
   void _initController() {
     var desc = Description()
@@ -165,11 +159,11 @@ class PieChartBasicState extends PieActionState<PieChartBasic>
       ..enabled = true;
     controller = PieChartController(
         legendSettingFunction: (legend, controller) {
-          _formatter.setPieChartPainter(controller);
+          _formatter.setPieChartPainter(controller as PieChartController);
           legend
-            ..verticalAlignment = (LegendVerticalAlignment.TOP)
-            ..horizontalAlignment = (LegendHorizontalAlignment.RIGHT)
-            ..orientation = (LegendOrientation.VERTICAL)
+            ..verticalAlignment = (LegendVerticalAlignment.top)
+            ..horizontalAlignment = (LegendHorizontalAlignment.right)
+            ..orientation = (LegendOrientation.vertical)
             ..drawInside = (false)
             ..xEntrySpace = (7)
             ..yEntrySpace = (0)
@@ -177,10 +171,10 @@ class PieChartBasicState extends PieActionState<PieChartBasic>
         },
         rendererSettingFunction: (renderer) {
           (renderer as PieChartRenderer)
-            ..setHoleColor(ColorUtils.WHITE)
-            ..setTransparentCircleColor(ColorUtils.WHITE)
+            ..setHoleColor(ColorUtils.white)
+            ..setTransparentCircleColor(ColorUtils.white)
             ..setTransparentCircleAlpha(110)
-            ..setEntryLabelColor(ColorUtils.WHITE)
+            ..setEntryLabelColor(ColorUtils.white)
             ..setEntryLabelTextSize(12);
         },
         rotateEnabled: false,
@@ -201,7 +195,7 @@ class PieChartBasicState extends PieActionState<PieChartBasic>
 
   void _initPieData(int count, double range) async {
     var img = await ImageLoader.loadImage('assets/img/star.png');
-    List<PieEntry> entries = List();
+    List<PieEntry> entries = [];
 
     // NOTE: The order of the entries when being added to the entries array determines their position around the center of
     // the chart.
@@ -222,20 +216,30 @@ class PieChartBasicState extends PieActionState<PieChartBasic>
     dataSet.setSelectionShift(5);
 
     // add a lot of colors
-    List<Color> colors = List();
-    for (Color c in ColorUtils.VORDIPLOM_COLORS) colors.add(c);
-    for (Color c in ColorUtils.JOYFUL_COLORS) colors.add(c);
-    for (Color c in ColorUtils.COLORFUL_COLORS) colors.add(c);
-    for (Color c in ColorUtils.LIBERTY_COLORS) colors.add(c);
-    for (Color c in ColorUtils.PASTEL_COLORS) colors.add(c);
-    colors.add(ColorUtils.HOLO_BLUE);
+    List<Color> colors = [];
+    for (Color c in ColorUtils.vordiplomColors) {
+      colors.add(c);
+    }
+    for (Color c in ColorUtils.joyfulColors) {
+      colors.add(c);
+    }
+    for (Color c in ColorUtils.colorfulColors) {
+      colors.add(c);
+    }
+    for (Color c in ColorUtils.libertyColors) {
+      colors.add(c);
+    }
+    for (Color c in ColorUtils.pastelColors) {
+      colors.add(c);
+    }
+    colors.add(ColorUtils.holoBlue);
     dataSet.setColors1(colors);
 
     controller.data = PieData(dataSet);
     controller.data
-      ..setValueFormatter(_formatter)
+      ?..setValueFormatter(_formatter)
       ..setValueTextSize(11)
-      ..setValueTextColor(ColorUtils.WHITE)
+      ..setValueTextColor(ColorUtils.white)
       ..setValueTypeface(Util.LIGHT);
 
     setState(() {});
@@ -245,7 +249,7 @@ class PieChartBasicState extends PieActionState<PieChartBasic>
   void onNothingSelected() {}
 
   @override
-  void onValueSelected(Entry e, Highlight h) {}
+  void onValueSelected(Entry? e, Highlight? h) {}
 
   String _generateCenterSpannableText() {
     return "basic pie chart";

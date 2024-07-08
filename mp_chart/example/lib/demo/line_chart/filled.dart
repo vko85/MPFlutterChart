@@ -1,20 +1,22 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:mp_chart/mp/chart/line_chart.dart';
-import 'package:mp_chart/mp/controller/line_chart_controller.dart';
-import 'package:mp_chart/mp/core/data/line_data.dart';
-import 'package:mp_chart/mp/core/data_interfaces/i_line_data_set.dart';
-import 'package:mp_chart/mp/core/data_provider/line_data_provider.dart';
-import 'package:mp_chart/mp/core/data_set/line_data_set.dart';
-import 'package:mp_chart/mp/core/description.dart';
-import 'package:mp_chart/mp/core/entry/entry.dart';
-import 'package:mp_chart/mp/core/enums/axis_dependency.dart';
-import 'package:mp_chart/mp/core/fill_formatter/i_fill_formatter.dart';
-import 'package:mp_chart/mp/core/utils/color_utils.dart';
+import 'package:mp_chart_x/mp/chart/line_chart.dart';
+import 'package:mp_chart_x/mp/controller/line_chart_controller.dart';
+import 'package:mp_chart_x/mp/core/data/line_data.dart';
+import 'package:mp_chart_x/mp/core/data_interfaces/i_line_data_set.dart';
+import 'package:mp_chart_x/mp/core/data_provider/line_data_provider.dart';
+import 'package:mp_chart_x/mp/core/data_set/line_data_set.dart';
+import 'package:mp_chart_x/mp/core/description.dart';
+import 'package:mp_chart_x/mp/core/entry/entry.dart';
+import 'package:mp_chart_x/mp/core/enums/axis_dependency.dart';
+import 'package:mp_chart_x/mp/core/fill_formatter/i_fill_formatter.dart';
+import 'package:mp_chart_x/mp/core/utils/color_utils.dart';
 import 'package:example/demo/action_state.dart';
 
 class LineChartFilled extends StatefulWidget {
+  const LineChartFilled({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return LineChartFilledState();
@@ -22,7 +24,7 @@ class LineChartFilled extends StatefulWidget {
 }
 
 class LineChartFilledState extends SimpleActionState<LineChartFilled> {
-  LineChartController _controller;
+  late LineChartController _controller;
   var random = Random(1);
   int _count = 45;
   double _range = 100.0;
@@ -80,7 +82,7 @@ class LineChartFilledState extends SimpleActionState<LineChartFilled> {
                         textDirection: TextDirection.ltr,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: ColorUtils.BLACK,
+                            color: ColorUtils.black,
                             fontSize: 12,
                             fontWeight: FontWeight.bold),
                       ))),
@@ -110,7 +112,7 @@ class LineChartFilledState extends SimpleActionState<LineChartFilled> {
                         textDirection: TextDirection.ltr,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: ColorUtils.BLACK,
+                            color: ColorUtils.black,
                             fontSize: 12,
                             fontWeight: FontWeight.bold),
                       ))),
@@ -141,15 +143,15 @@ class LineChartFilledState extends SimpleActionState<LineChartFilled> {
           legend.enabled = (false);
           var formatter1 = (controller as LineChartController)
               .data
-              .getDataSetByIndex(0)
-              .getFillFormatter();
+              ?.getDataSetByIndex(0)
+              ?.getFillFormatter();
           if (formatter1 is A) {
             formatter1.setPainter(controller);
           }
-          var formatter2 = (controller as LineChartController)
+          var formatter2 = (controller)
               .data
-              .getDataSetByIndex(1)
-              .getFillFormatter();
+              ?.getDataSetByIndex(1)
+              ?.getFillFormatter();
           if (formatter2 is B) {
             formatter2.setPainter(controller);
           }
@@ -165,68 +167,68 @@ class LineChartFilledState extends SimpleActionState<LineChartFilled> {
         scaleYEnabled: true,
         pinchZoomEnabled: false,
         gridBackColor: _fillColor,
-        backgroundColor: ColorUtils.WHITE,
+        backgroundColor: ColorUtils.white,
         description: desc);
   }
 
   void _initLineData(int count, double range) {
-    List<Entry> values1 = new List();
+    List<Entry> values1 = [];
 
     for (int i = 0; i < count; i++) {
       double val = (random.nextDouble() * range) + 50;
-      values1.add(new Entry(x: i.toDouble(), y: val));
+      values1.add(Entry(x: i.toDouble(), y: val));
     }
 
-    List<Entry> values2 = new List();
+    List<Entry> values2 = [];
 
     for (int i = 0; i < count; i++) {
       double val = (random.nextDouble() * range) + 450;
-      values2.add(new Entry(x: i.toDouble(), y: val));
+      values2.add(Entry(x: i.toDouble(), y: val));
     }
 
     LineDataSet set1, set2;
 
     // create a dataset and give it a type
-    set1 = new LineDataSet(values1, "DataSet 1");
+    set1 = LineDataSet(values1, "DataSet 1");
 
-    set1.setAxisDependency(AxisDependency.LEFT);
+    set1.setAxisDependency(AxisDependency.left);
     set1.setColor1(Color.fromARGB(255, 255, 241, 46));
     set1.setDrawCircles(false);
     set1.setLineWidth(2);
     set1.setCircleRadius(3);
     set1.setFillAlpha(255);
     set1.setDrawFilled(true);
-    set1.setFillColor(ColorUtils.WHITE);
+    set1.setFillColor(ColorUtils.white);
     set1.setHighLightColor(Color.fromARGB(255, 244, 117, 117));
     set1.setDrawCircleHole(false);
     set1.setFillFormatter(A());
 
     // create a dataset and give it a type
-    set2 = new LineDataSet(values2, "DataSet 2");
-    set2.setAxisDependency(AxisDependency.LEFT);
+    set2 = LineDataSet(values2, "DataSet 2");
+    set2.setAxisDependency(AxisDependency.left);
     set2.setColor1(Color.fromARGB(255, 255, 241, 46));
     set2.setDrawCircles(false);
     set2.setLineWidth(2);
     set2.setCircleRadius(3);
     set2.setFillAlpha(255);
     set2.setDrawFilled(true);
-    set2.setFillColor(ColorUtils.WHITE);
+    set2.setFillColor(ColorUtils.white);
     set2.setDrawCircleHole(false);
     set2.setHighLightColor(Color.fromARGB(255, 244, 117, 117));
     set2.setFillFormatter(B());
 
     // create a data object with the data sets
-    _controller.data = LineData.fromList(List()..add(set1)..add(set2));
-    _controller.data.setDrawValues(false);
+    _controller.data = LineData.fromList([set1, set2]);
+    _controller.data?.setDrawValues(false);
 
     setState(() {});
   }
 
-  Color _fillColor = Color.fromARGB(150, 51, 181, 229);
+  final Color _fillColor = Color.fromARGB(150, 51, 181, 229);
 }
 
 class A implements IFillFormatter {
-  LineChartController _controller;
+  late LineChartController _controller;
 
   void setPainter(LineChartController controller) {
     _controller = controller;
@@ -234,13 +236,13 @@ class A implements IFillFormatter {
 
   @override
   double getFillLinePosition(
-      ILineDataSet dataSet, LineDataProvider dataProvider) {
-    return _controller?.painter?.axisLeft?.axisMinimum;
+      ILineDataSet dataSet, LineDataProvider? dataProvider) {
+    return _controller.painter?.axisLeft?.axisMinimum ?? 0;
   }
 }
 
 class B implements IFillFormatter {
-  LineChartController _controller;
+  late LineChartController _controller;
 
   void setPainter(LineChartController controller) {
     _controller = controller;
@@ -248,7 +250,7 @@ class B implements IFillFormatter {
 
   @override
   double getFillLinePosition(
-      ILineDataSet dataSet, LineDataProvider dataProvider) {
-    return _controller?.painter?.axisLeft?.axisMaximum;
+      ILineDataSet dataSet, LineDataProvider? dataProvider) {
+    return _controller.painter?.axisLeft?.axisMaximum ?? 0;
   }
 }

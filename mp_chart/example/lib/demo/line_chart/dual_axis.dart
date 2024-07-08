@@ -2,25 +2,27 @@ import 'dart:math';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
-import 'package:mp_chart/mp/chart/line_chart.dart';
-import 'package:mp_chart/mp/controller/line_chart_controller.dart';
-import 'package:mp_chart/mp/core/common_interfaces.dart';
-import 'package:mp_chart/mp/core/data/line_data.dart';
-import 'package:mp_chart/mp/core/data_set/line_data_set.dart';
-import 'package:mp_chart/mp/core/description.dart';
-import 'package:mp_chart/mp/core/entry/entry.dart';
-import 'package:mp_chart/mp/core/enums/axis_dependency.dart';
-import 'package:mp_chart/mp/core/enums/legend_form.dart';
-import 'package:mp_chart/mp/core/enums/legend_horizontal_alignment.dart';
-import 'package:mp_chart/mp/core/enums/legend_orientation.dart';
-import 'package:mp_chart/mp/core/enums/legend_vertical_alignment.dart';
-import 'package:mp_chart/mp/core/highlight/highlight.dart';
-import 'package:mp_chart/mp/core/image_loader.dart';
-import 'package:mp_chart/mp/core/utils/color_utils.dart';
+import 'package:mp_chart_x/mp/chart/line_chart.dart';
+import 'package:mp_chart_x/mp/controller/line_chart_controller.dart';
+import 'package:mp_chart_x/mp/core/common_interfaces.dart';
+import 'package:mp_chart_x/mp/core/data/line_data.dart';
+import 'package:mp_chart_x/mp/core/data_set/line_data_set.dart';
+import 'package:mp_chart_x/mp/core/description.dart';
+import 'package:mp_chart_x/mp/core/entry/entry.dart';
+import 'package:mp_chart_x/mp/core/enums/axis_dependency.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_form.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_horizontal_alignment.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_orientation.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_vertical_alignment.dart';
+import 'package:mp_chart_x/mp/core/highlight/highlight.dart';
+import 'package:mp_chart_x/mp/core/image_loader.dart';
+import 'package:mp_chart_x/mp/core/utils/color_utils.dart';
 import 'package:example/demo/action_state.dart';
 import 'package:example/demo/util.dart';
 
 class LineChartDualAxis extends StatefulWidget {
+  const LineChartDualAxis({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return LineChartDualAxisState();
@@ -86,7 +88,7 @@ class LineChartDualAxisState extends LineActionState<LineChartDualAxis>
                         textDirection: TextDirection.ltr,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: ColorUtils.BLACK,
+                            color: ColorUtils.black,
                             fontSize: 12,
                             fontWeight: FontWeight.bold),
                       ))),
@@ -116,7 +118,7 @@ class LineChartDualAxisState extends LineActionState<LineChartDualAxis>
                         textDirection: TextDirection.ltr,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: ColorUtils.BLACK,
+                            color: ColorUtils.black,
                             fontSize: 12,
                             fontWeight: FontWeight.bold),
                       ))),
@@ -133,11 +135,14 @@ class LineChartDualAxisState extends LineActionState<LineChartDualAxis>
   void onNothingSelected() {}
 
   @override
-  void onValueSelected(Entry e, Highlight h) {
-    controller?.centerViewToAnimated(
-        e.x,
-        e.y,
-        controller.data.getDataSetByIndex(h.dataSetIndex).getAxisDependency(),
+  void onValueSelected(Entry? e, Highlight? h) {
+    controller.centerViewToAnimated(
+        e?.x ?? 0,
+        e?.y ?? 0,
+        controller.data
+                ?.getDataSetByIndex(h?.dataSetIndex ?? 0)
+                ?.getAxisDependency() ??
+            AxisDependency.left,
         500);
   }
 
@@ -146,7 +151,7 @@ class LineChartDualAxisState extends LineActionState<LineChartDualAxis>
     controller = LineChartController(
         axisLeftSettingFunction: (axisLeft, controller) {
           axisLeft
-            ..textColor = (ColorUtils.HOLO_BLUE)
+            ..textColor = (ColorUtils.holoBlue)
             ..setAxisMaximum(200.0)
             ..setAxisMinimum(0.0)
             ..typeface = Util.LIGHT
@@ -156,7 +161,7 @@ class LineChartDualAxisState extends LineActionState<LineChartDualAxis>
         },
         axisRightSettingFunction: (axisRight, controller) {
           axisRight
-            ..textColor = (ColorUtils.RED)
+            ..textColor = (ColorUtils.red)
             ..setAxisMaximum(900.0)
             ..setAxisMinimum(-200)
             ..typeface = Util.LIGHT
@@ -166,19 +171,19 @@ class LineChartDualAxisState extends LineActionState<LineChartDualAxis>
         },
         legendSettingFunction: (legend, controller) {
           legend
-            ..shape = (LegendForm.LINE)
+            ..shape = (LegendForm.line)
             ..textSize = (11)
             ..typeface = Util.LIGHT
-            ..textColor = (ColorUtils.BLUE)
-            ..verticalAlignment = (LegendVerticalAlignment.BOTTOM)
-            ..horizontalAlignment = (LegendHorizontalAlignment.LEFT)
-            ..orientation = (LegendOrientation.HORIZONTAL)
+            ..textColor = (ColorUtils.blue)
+            ..verticalAlignment = (LegendVerticalAlignment.bottom)
+            ..horizontalAlignment = (LegendHorizontalAlignment.left)
+            ..orientation = (LegendOrientation.horizontal)
             ..drawInside = (false);
         },
         xAxisSettingFunction: (xAxis, controller) {
           xAxis
             ..typeface = Util.LIGHT
-            ..textColor = (ColorUtils.WHITE)
+            ..textColor = (ColorUtils.white)
             ..textSize = (11)
             ..drawGridLines = (false)
             ..drawAxisLine = (false);
@@ -191,35 +196,35 @@ class LineChartDualAxisState extends LineActionState<LineChartDualAxis>
         pinchZoomEnabled: true,
         selectionListener: this,
         highLightPerTapEnabled: true,
-        gridBackColor: ColorUtils.LTGRAY,
-        backgroundColor: ColorUtils.WHITE,
+        gridBackColor: ColorUtils.ltGray,
+        backgroundColor: ColorUtils.white,
         description: desc);
   }
 
   void _initLineData(int count, double range) async {
-    List<ui.Image> imgs = List(3);
-    imgs[0] = await ImageLoader.loadImage('assets/img/star.png');
-    imgs[1] = await ImageLoader.loadImage('assets/img/add.png');
-    imgs[2] = await ImageLoader.loadImage('assets/img/close.png');
-    List<Entry> values1 = List();
+    List<ui.Image> imgs = [];
+    imgs.add(await ImageLoader.loadImage('assets/img/star.png'));
+    imgs.add(await ImageLoader.loadImage('assets/img/add.png'));
+    imgs.add(await ImageLoader.loadImage('assets/img/close.png'));
+    List<Entry> values1 = [];
 
     for (int i = 0; i < count; i++) {
       double val = (random.nextDouble() * (range / 2.0)) + 50;
       values1.add(Entry(x: i.toDouble(), y: val, icon: imgs[0]));
     }
 
-    List<Entry> values2 = List();
+    List<Entry> values2 = [];
 
     for (int i = 0; i < count; i++) {
       double val = (random.nextDouble() * range) + 450;
-      values2.add(new Entry(x: i.toDouble(), y: val, icon: imgs[1]));
+      values2.add(Entry(x: i.toDouble(), y: val, icon: imgs[1]));
     }
 
-    List<Entry> values3 = List();
+    List<Entry> values3 = [];
 
     for (int i = 0; i < count; i++) {
       double val = (random.nextDouble() * range) + 500;
-      values3.add(new Entry(x: i.toDouble(), y: val, icon: imgs[2]));
+      values3.add(Entry(x: i.toDouble(), y: val, icon: imgs[2]));
     }
 
     LineDataSet set1, set2, set3;
@@ -227,50 +232,49 @@ class LineChartDualAxisState extends LineActionState<LineChartDualAxis>
     // create a dataset and give it a type
     set1 = LineDataSet(values1, "DataSet 1");
 
-    set1.setAxisDependency(AxisDependency.LEFT);
-    set1.setColor1(ColorUtils.HOLO_BLUE);
-    set1.setCircleColor(ColorUtils.WHITE);
+    set1.setAxisDependency(AxisDependency.left);
+    set1.setColor1(ColorUtils.holoBlue);
+    set1.setCircleColor(ColorUtils.white);
     set1.setLineWidth(2);
     set1.setCircleRadius(3);
     set1.setFillAlpha(65);
-    set1.setFillColor(ColorUtils.HOLO_BLUE);
+    set1.setFillColor(ColorUtils.holoBlue);
     set1.setHighLightColor(Color.fromARGB(255, 244, 117, 117));
     set1.setDrawCircleHole(false);
-    //set1.setFillFormatter(new MyFillFormatter(0f));
+    //set1.setFillFormatter(MyFillFormatter(0f));
     //set1.setDrawHorizontalHighlightIndicator(false);
     //set1.setVisible(false);
     //set1.setCircleHoleColor(Color.WHITE);
 
     // create a dataset and give it a type
     set2 = LineDataSet(values2, "DataSet 2");
-    set2.setAxisDependency(AxisDependency.RIGHT);
-    set2.setColor1(ColorUtils.RED);
-    set2.setCircleColor(ColorUtils.WHITE);
+    set2.setAxisDependency(AxisDependency.right);
+    set2.setColor1(ColorUtils.red);
+    set2.setCircleColor(ColorUtils.white);
     set2.setLineWidth(2);
     set2.setCircleRadius(3);
     set2.setFillAlpha(65);
-    set2.setFillColor(ColorUtils.RED);
+    set2.setFillColor(ColorUtils.red);
     set2.setDrawCircleHole(false);
     set2.setHighLightColor(Color.fromARGB(255, 244, 117, 117));
-    //set2.setFillFormatter(new MyFillFormatter(900f));
+    //set2.setFillFormatter(MyFillFormatter(900f));
 
-    set3 = new LineDataSet(values3, "DataSet 3");
-    set3.setAxisDependency(AxisDependency.RIGHT);
-    set3.setColor1(ColorUtils.YELLOW);
-    set3.setCircleColor(ColorUtils.WHITE);
+    set3 = LineDataSet(values3, "DataSet 3");
+    set3.setAxisDependency(AxisDependency.right);
+    set3.setColor1(ColorUtils.yellow);
+    set3.setCircleColor(ColorUtils.white);
     set3.setLineWidth(2);
     set3.setCircleRadius(3);
     set3.setFillAlpha(65);
-    set3.setFillColor(Color.fromARGB(200, ColorUtils.YELLOW.red,
-        ColorUtils.YELLOW.green, ColorUtils.YELLOW.blue));
+    set3.setFillColor(Color.fromARGB(200, ColorUtils.yellow.red,
+        ColorUtils.yellow.green, ColorUtils.yellow.blue));
     set3.setDrawCircleHole(false);
     set3.setHighLightColor(Color.fromARGB(255, 244, 117, 117));
 
     // create a data object with the data sets
-    controller.data =
-        LineData.fromList(List()..add(set1)..add(set2)..add(set3));
+    controller.data = LineData.fromList([set1, set2, set3]);
     controller.data
-      ..setValueTextColor(ColorUtils.WHITE)
+      ?..setValueTextColor(ColorUtils.white)
       ..setValueTextSize(9);
 
     setState(() {});
@@ -279,7 +283,7 @@ class LineChartDualAxisState extends LineActionState<LineChartDualAxis>
   Widget _initLineChart() {
     var lineChart = LineChart(controller);
     controller.animator
-      ..reset()
+      ?..reset()
       ..animateX1(1500);
     return lineChart;
   }

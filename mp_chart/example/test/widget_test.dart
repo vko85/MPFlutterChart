@@ -42,7 +42,7 @@ void main() {
 //        0.0, 0.0, 1.0, 0.0,
 //        64.5, 1343.2734, 0.0, 1.0);
 //
-//    List<double> list = List()
+//    List<double> list = []
 //      ..add(0)
 //      ..add(0.0)
 //      ..add(10)
@@ -77,7 +77,7 @@ void main() {
 //        28, 285.0, 0.0, 1.0);
 //    print(L);
 //
-//    List<double> list2 = List()
+//    List<double> list2 = []
 //      ..add(0)
 //      ..add(0.0)
 //      ..add(10)
@@ -118,7 +118,7 @@ void main() {
 ////    print(Z);
 //    print("mMBuffer1 3 -> $mMBuffer1");
 //
-//    StringBuffer b = new StringBuffer();
+//    StringBuffer b = StringBuffer();
 //    for (int i = 0; i < 1; i++) {
 //      if (i == 0) b.write(".");
 //      b.write("0");
@@ -130,7 +130,7 @@ void main() {
     print(double.parse("0"));
     print(double.parse("0.0"));
 //    Util.loadAsset("othersine.txt").then((value) {
-////      _data = List();
+////      _data = [];
 //      List<String> lines = value.split("\\n");
 //      for (int i = 0; i < lines.length; i++) {
 //        var datas = lines[i].split("#");
@@ -166,18 +166,16 @@ void main() {
     try {
       var len = d3.toString().split(".")[1].length;
       var value = "0.";
-      for(var i = 0; i < len; i++){
+      for (var i = 0; i < len; i++) {
         value += "0";
       }
       value += "1";
-      if(d3 >= 0){
+      if (d3 >= 0) {
         res = double.parse(value);
       } else {
         res = -double.parse(value);
       }
-    } catch (e) {
-
-    }
+    } catch (e) {}
     print(res);
   });
 }

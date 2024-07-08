@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:mp_chart/mp/core/adapter_android_mp.dart';
+import 'package:mp_chart_x/mp/core/adapter_android_mp.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 abstract class Util {
@@ -10,7 +10,7 @@ abstract class Util {
   }
 
   static int currentTimeMillis() {
-    return new DateTime.now().millisecondsSinceEpoch;
+    return DateTime.now().millisecondsSinceEpoch;
   }
 
   static void openGithub() {
@@ -19,8 +19,8 @@ abstract class Util {
 
   static void _launchURL() async {
     const url = 'https://github.com/SunPointed/mp_flutter_chart';
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
     } else {
       throw 'Could not launch $url';
     }
@@ -36,8 +36,7 @@ abstract class Util {
 
   // ignore: non_constant_identifier_names
   static TypeFace BOLD =
-  TypeFace(fontFamily: "OpenSans", fontWeight: FontWeight.w700);
-
+      TypeFace(fontFamily: "OpenSans", fontWeight: FontWeight.w700);
 
   // ignore: non_constant_identifier_names
   static TypeFace EXTRA_BOLD =

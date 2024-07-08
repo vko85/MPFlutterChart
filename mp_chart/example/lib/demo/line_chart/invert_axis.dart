@@ -1,20 +1,22 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:mp_chart/mp/chart/line_chart.dart';
-import 'package:mp_chart/mp/controller/line_chart_controller.dart';
-import 'package:mp_chart/mp/core/common_interfaces.dart';
-import 'package:mp_chart/mp/core/data/line_data.dart';
-import 'package:mp_chart/mp/core/data_set/line_data_set.dart';
-import 'package:mp_chart/mp/core/description.dart';
-import 'package:mp_chart/mp/core/entry/entry.dart';
-import 'package:mp_chart/mp/core/enums/legend_form.dart';
-import 'package:mp_chart/mp/core/highlight/highlight.dart';
-import 'package:mp_chart/mp/core/image_loader.dart';
-import 'package:mp_chart/mp/core/utils/color_utils.dart';
+import 'package:mp_chart_x/mp/chart/line_chart.dart';
+import 'package:mp_chart_x/mp/controller/line_chart_controller.dart';
+import 'package:mp_chart_x/mp/core/common_interfaces.dart';
+import 'package:mp_chart_x/mp/core/data/line_data.dart';
+import 'package:mp_chart_x/mp/core/data_set/line_data_set.dart';
+import 'package:mp_chart_x/mp/core/description.dart';
+import 'package:mp_chart_x/mp/core/entry/entry.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_form.dart';
+import 'package:mp_chart_x/mp/core/highlight/highlight.dart';
+import 'package:mp_chart_x/mp/core/image_loader.dart';
+import 'package:mp_chart_x/mp/core/utils/color_utils.dart';
 import 'package:example/demo/action_state.dart';
 
 class LineChartInvertAxis extends StatefulWidget {
+  const LineChartInvertAxis({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return LineChartInvertAxisState();
@@ -79,7 +81,7 @@ class LineChartInvertAxisState extends LineActionState<LineChartInvertAxis>
                         textDirection: TextDirection.ltr,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: ColorUtils.BLACK,
+                            color: ColorUtils.black,
                             fontSize: 12,
                             fontWeight: FontWeight.bold),
                       ))),
@@ -109,7 +111,7 @@ class LineChartInvertAxisState extends LineActionState<LineChartInvertAxis>
                         textDirection: TextDirection.ltr,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: ColorUtils.BLACK,
+                            color: ColorUtils.black,
                             fontSize: 12,
                             fontWeight: FontWeight.bold),
                       ))),
@@ -126,7 +128,7 @@ class LineChartInvertAxisState extends LineActionState<LineChartInvertAxis>
   void onNothingSelected() {}
 
   @override
-  void onValueSelected(Entry e, Highlight h) {}
+  void onValueSelected(Entry? e, Highlight? h) {}
 
   void _initController() {
     var desc = Description()..enabled = false;
@@ -140,7 +142,7 @@ class LineChartInvertAxisState extends LineActionState<LineChartInvertAxis>
           axisRight.enabled = (false);
         },
         legendSettingFunction: (legend, controller) {
-          legend.shape = (LegendForm.LINE);
+          legend.shape = (LegendForm.line);
         },
         xAxisSettingFunction: (xAxis, controller) {
           xAxis
@@ -159,7 +161,7 @@ class LineChartInvertAxisState extends LineActionState<LineChartInvertAxis>
 
   void _initLineData(int count, double range) async {
     var img = await ImageLoader.loadImage('assets/img/star.png');
-    List<Entry> entries = List();
+    List<Entry> entries = [];
 
     for (int i = 0; i < count; i++) {
       double xVal = (random.nextDouble() * range);
@@ -171,23 +173,24 @@ class LineChartInvertAxisState extends LineActionState<LineChartInvertAxis>
     entries.sort((entry1, entry2) {
       double diff = entry1.x - entry2.x;
 
-      if (diff == 0)
+      if (diff == 0) {
         return 0;
-      else {
-        if (diff > 0)
+      } else {
+        if (diff > 0) {
           return 1;
-        else
+        } else {
           return -1;
+        }
       }
     });
 
     // create a dataset and give it a type
-    LineDataSet set1 = new LineDataSet(entries, "DataSet 1");
+    LineDataSet set1 = LineDataSet(entries, "DataSet 1");
     set1.setLineWidth(1.5);
     set1.setCircleRadius(4);
 
     // create a data object with the data sets
-    controller.data = LineData.fromList(List()..add(set1));
+    controller.data = LineData.fromList([set1]);
 
     setState(() {});
   }

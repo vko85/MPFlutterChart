@@ -1,21 +1,23 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:mp_chart/mp/chart/bar_chart.dart';
-import 'package:mp_chart/mp/controller/bar_chart_controller.dart';
-import 'package:mp_chart/mp/core/data/bar_data.dart';
-import 'package:mp_chart/mp/core/data_set/bar_data_set.dart';
-import 'package:mp_chart/mp/core/description.dart';
-import 'package:mp_chart/mp/core/entry/bar_entry.dart';
-import 'package:mp_chart/mp/core/enums/legend_form.dart';
-import 'package:mp_chart/mp/core/enums/legend_horizontal_alignment.dart';
-import 'package:mp_chart/mp/core/enums/legend_orientation.dart';
-import 'package:mp_chart/mp/core/enums/legend_vertical_alignment.dart';
-import 'package:mp_chart/mp/core/utils/color_utils.dart';
+import 'package:mp_chart_x/mp/chart/bar_chart.dart';
+import 'package:mp_chart_x/mp/controller/bar_chart_controller.dart';
+import 'package:mp_chart_x/mp/core/data/bar_data.dart';
+import 'package:mp_chart_x/mp/core/data_set/bar_data_set.dart';
+import 'package:mp_chart_x/mp/core/description.dart';
+import 'package:mp_chart_x/mp/core/entry/bar_entry.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_form.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_horizontal_alignment.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_orientation.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_vertical_alignment.dart';
+import 'package:mp_chart_x/mp/core/utils/color_utils.dart';
 import 'package:example/demo/action_state.dart';
 import 'package:example/demo/util.dart';
 
 class BarChartSine extends StatefulWidget {
+  const BarChartSine({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return BarChartSineState();
@@ -23,7 +25,7 @@ class BarChartSine extends StatefulWidget {
 }
 
 class BarChartSineState extends BarActionState<BarChartSine> {
-  List<BarEntry> _data;
+  final List<BarEntry> _data = [];
   var random = Random(1);
   int _count = 150;
 
@@ -31,7 +33,7 @@ class BarChartSineState extends BarActionState<BarChartSine> {
   void initState() {
     _initController();
     Util.loadAsset("othersine.txt").then((value) {
-      _data = List();
+      _data.clear();
       List<String> lines = value.split("\n");
       for (int i = 0; i < lines.length; i++) {
         var datas = lines[i].split("#");
@@ -91,7 +93,7 @@ class BarChartSineState extends BarActionState<BarChartSine> {
                         textDirection: TextDirection.ltr,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: ColorUtils.BLACK,
+                            color: ColorUtils.black,
                             fontSize: 12,
                             fontWeight: FontWeight.bold),
                       ))),
@@ -127,11 +129,11 @@ class BarChartSineState extends BarActionState<BarChartSine> {
         },
         legendSettingFunction: (legend, controller) {
           legend
-            ..verticalAlignment = (LegendVerticalAlignment.BOTTOM)
-            ..horizontalAlignment = (LegendHorizontalAlignment.LEFT)
-            ..orientation = (LegendOrientation.HORIZONTAL)
+            ..verticalAlignment = (LegendVerticalAlignment.bottom)
+            ..horizontalAlignment = (LegendHorizontalAlignment.left)
+            ..orientation = (LegendOrientation.horizontal)
             ..drawInside = (false)
-            ..shape = (LegendForm.SQUARE)
+            ..shape = (LegendForm.square)
             ..formSize = (9)
             ..textSize = (11)
             ..xEntrySpace = (4);
@@ -152,9 +154,7 @@ class BarChartSineState extends BarActionState<BarChartSine> {
   }
 
   void _initBarData(int count) {
-    if (_data == null) return;
-
-    List<BarEntry> entries = List();
+    List<BarEntry> entries = <BarEntry>[];
     for (int i = 0; i < count; i++) {
       entries.add(_data[i]);
     }
@@ -162,9 +162,9 @@ class BarChartSineState extends BarActionState<BarChartSine> {
     BarDataSet set = BarDataSet(entries, "Sinus Function");
     set.setColor1(Color.fromARGB(255, 240, 120, 124));
 
-    controller.data = BarData(List()..add(set));
+    controller.data = BarData([set]);
     controller.data
-      ..setValueTextSize(10)
+      ?..setValueTextSize(10)
       ..setValueTypeface(Util.LIGHT)
       ..setDrawValues(false)
       ..barWidth = (0.8);
@@ -175,7 +175,7 @@ class BarChartSineState extends BarActionState<BarChartSine> {
   Widget _initBarChart() {
     var barChart = BarChart(controller);
     controller.animator
-      ..reset()
+      ?..reset()
       ..animateXY1(1500, 1500);
     return barChart;
   }

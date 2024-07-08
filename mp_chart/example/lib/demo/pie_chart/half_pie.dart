@@ -1,24 +1,26 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:mp_chart/mp/chart/pie_chart.dart';
-import 'package:mp_chart/mp/controller/pie_chart_controller.dart';
-import 'package:mp_chart/mp/core/animator.dart';
-import 'package:mp_chart/mp/core/data/pie_data.dart';
-import 'package:mp_chart/mp/core/data_set/pie_data_set.dart';
-import 'package:mp_chart/mp/core/description.dart';
-import 'package:mp_chart/mp/core/entry/pie_entry.dart';
-import 'package:mp_chart/mp/core/enums/legend_horizontal_alignment.dart';
-import 'package:mp_chart/mp/core/enums/legend_orientation.dart';
-import 'package:mp_chart/mp/core/enums/legend_vertical_alignment.dart';
-import 'package:mp_chart/mp/core/image_loader.dart';
-import 'package:mp_chart/mp/core/render/pie_chart_renderer.dart';
-import 'package:mp_chart/mp/core/utils/color_utils.dart';
-import 'package:mp_chart/mp/core/value_formatter/percent_formatter.dart';
+import 'package:mp_chart_x/mp/chart/pie_chart.dart';
+import 'package:mp_chart_x/mp/controller/pie_chart_controller.dart';
+import 'package:mp_chart_x/mp/core/animator.dart';
+import 'package:mp_chart_x/mp/core/data/pie_data.dart';
+import 'package:mp_chart_x/mp/core/data_set/pie_data_set.dart';
+import 'package:mp_chart_x/mp/core/description.dart';
+import 'package:mp_chart_x/mp/core/entry/pie_entry.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_horizontal_alignment.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_orientation.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_vertical_alignment.dart';
+import 'package:mp_chart_x/mp/core/image_loader.dart';
+import 'package:mp_chart_x/mp/core/render/pie_chart_renderer.dart';
+import 'package:mp_chart_x/mp/core/utils/color_utils.dart';
+import 'package:mp_chart_x/mp/core/value_formatter/percent_formatter.dart';
 import 'package:example/demo/action_state.dart';
 import 'package:example/demo/util.dart';
 
 class PieChartHalfPie extends StatefulWidget {
+  const PieChartHalfPie({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return PieChartHalfPieState();
@@ -26,7 +28,7 @@ class PieChartHalfPie extends StatefulWidget {
 }
 
 class PieChartHalfPieState extends SimpleActionState<PieChartHalfPie> {
-  PieChartController _controller;
+  late PieChartController _controller;
   var random = Random(1);
 
   @override
@@ -49,43 +51,42 @@ class PieChartHalfPieState extends SimpleActionState<PieChartHalfPie> {
   }
 
   // ignore: non_constant_identifier_names
-  final List<String> PARTIES = List()
-    ..add("Party A")
-    ..add("Party B")
-    ..add("Party C")
-    ..add("Party D")
-    ..add("Party E")
-    ..add("Party F")
-    ..add("Party G")
-    ..add("Party H")
-    ..add("Party I")
-    ..add("Party J")
-    ..add("Party K")
-    ..add("Party L")
-    ..add("Party M")
-    ..add("Party N")
-    ..add("Party O")
-    ..add("Party P")
-    ..add("Party Q")
-    ..add("Party R")
-    ..add("Party S")
-    ..add("Party T")
-    ..add("Party U")
-    ..add("Party V")
-    ..add("Party W")
-    ..add("Party X")
-    ..add("Party Y")
-    ..add("Party Z");
+  final List<String> PARTIES = ["Party A"
+    ,"Party B"
+    ,"Party C"
+    ,"Party D"
+    ,"Party E"
+    ,"Party F"
+    ,"Party G"
+    ,"Party H"
+    ,"Party I"
+    ,"Party J"
+    ,"Party K"
+    ,"Party L"
+    ,"Party M"
+    ,"Party N"
+    ,"Party O"
+    ,"Party P"
+    ,"Party Q"
+    ,"Party R"
+    ,"Party S"
+    ,"Party T"
+    ,"Party U"
+    ,"Party V"
+    ,"Party W"
+    ,"Party X"
+    ,"Party Y"
+    ,"Party Z"];
 
   void _initController() {
     var desc = Description()..enabled = false;
     _controller = PieChartController(
         legendSettingFunction: (legend, controller) {
-          _formatter.setPieChartPainter(controller);
+          _formatter.setPieChartPainter(controller as PieChartController);
           legend
-            ..verticalAlignment = (LegendVerticalAlignment.TOP)
-            ..horizontalAlignment = (LegendHorizontalAlignment.CENTER)
-            ..orientation = (LegendOrientation.HORIZONTAL)
+            ..verticalAlignment = (LegendVerticalAlignment.top)
+            ..horizontalAlignment = (LegendHorizontalAlignment.center)
+            ..orientation = (LegendOrientation.horizontal)
             ..drawInside = (false)
             ..xEntrySpace = (7)
             ..yEntrySpace = (0)
@@ -93,10 +94,10 @@ class PieChartHalfPieState extends SimpleActionState<PieChartHalfPie> {
         },
         rendererSettingFunction: (renderer) {
           (renderer as PieChartRenderer)
-            ..setHoleColor(ColorUtils.WHITE)
-            ..setTransparentCircleColor(ColorUtils.WHITE)
+            ..setHoleColor(ColorUtils.white)
+            ..setTransparentCircleColor(ColorUtils.white)
             ..setTransparentCircleAlpha(110)
-            ..setEntryLabelColor(ColorUtils.WHITE)
+            ..setEntryLabelColor(ColorUtils.white)
             ..setEntryLabelTextSize(12);
         },
         rotateEnabled: false,
@@ -117,17 +118,17 @@ class PieChartHalfPieState extends SimpleActionState<PieChartHalfPie> {
         description: desc);
   }
 
-  PercentFormatter _formatter = PercentFormatter();
+  final PercentFormatter _formatter = PercentFormatter();
 
   void _initPieData() async {
     var img = await ImageLoader.loadImage('assets/img/star.png');
     var count = 4;
     var range = 100;
 
-    List<PieEntry> values = List();
+    List<PieEntry> values = [];
 
     for (int i = 0; i < count; i++) {
-      values.add(new PieEntry(
+      values.add(PieEntry(
           icon: img,
           value: ((random.nextDouble() * range) + range / 5),
           label: PARTIES[i % PARTIES.length]));
@@ -137,12 +138,12 @@ class PieChartHalfPieState extends SimpleActionState<PieChartHalfPie> {
     dataSet.setSliceSpace(3);
     dataSet.setSelectionShift(5);
 
-    dataSet.setColors1(ColorUtils.MATERIAL_COLORS);
+    dataSet.setColors1(ColorUtils.materialColors);
     //dataSet.setSelectionShift(0f);
 
     _controller.data = PieData(dataSet)
-      ..setValueFormatter(new PercentFormatter())
-      ..setValueTextColor(ColorUtils.WHITE)
+      ..setValueFormatter(PercentFormatter())
+      ..setValueTextColor(ColorUtils.white)
       ..setValueTypeface(Util.LIGHT);
 
     setState(() {});
@@ -150,7 +151,7 @@ class PieChartHalfPieState extends SimpleActionState<PieChartHalfPie> {
 
   Widget _initPieChart() {
     var pieChart = PieChart(_controller);
-    _controller.animator.animateY2(1400, Easing.EaseInOutQuad);
+    _controller.animator?.animateY2(1400, Easing.easeInOutQuad);
     return pieChart;
   }
 }

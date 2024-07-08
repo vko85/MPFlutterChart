@@ -2,19 +2,21 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:mp_chart/mp/chart/bar_chart.dart';
-import 'package:mp_chart/mp/controller/bar_chart_controller.dart';
-import 'package:mp_chart/mp/core/data/bar_data.dart';
-import 'package:mp_chart/mp/core/data_set/bar_data_set.dart';
-import 'package:mp_chart/mp/core/description.dart';
-import 'package:mp_chart/mp/core/entry/bar_entry.dart';
-import 'package:mp_chart/mp/core/enums/x_axis_position.dart';
-import 'package:mp_chart/mp/core/utils/color_utils.dart';
-import 'package:mp_chart/mp/core/value_formatter/value_formatter.dart';
+import 'package:mp_chart_x/mp/chart/bar_chart.dart';
+import 'package:mp_chart_x/mp/controller/bar_chart_controller.dart';
+import 'package:mp_chart_x/mp/core/data/bar_data.dart';
+import 'package:mp_chart_x/mp/core/data_set/bar_data_set.dart';
+import 'package:mp_chart_x/mp/core/description.dart';
+import 'package:mp_chart_x/mp/core/entry/bar_entry.dart';
+import 'package:mp_chart_x/mp/core/enums/x_axis_position.dart';
+import 'package:mp_chart_x/mp/core/utils/color_utils.dart';
+import 'package:mp_chart_x/mp/core/value_formatter/value_formatter.dart';
 import 'package:example/demo/action_state.dart';
 import 'package:example/demo/util.dart';
 
 class BarChartNegative extends StatefulWidget {
+  const BarChartNegative({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return BarChartNegativeState();
@@ -22,8 +24,8 @@ class BarChartNegative extends StatefulWidget {
 }
 
 class BarChartNegativeState extends SimpleActionState<BarChartNegative> {
-  BarChartController _controller;
-  List<Data> _data = List();
+  late BarChartController _controller;
+  final List<Data> _data = [];
 
   @override
   void initState() {
@@ -58,8 +60,8 @@ class BarChartNegativeState extends SimpleActionState<BarChartNegative> {
   }
 
   void _initBarData() {
-    List<BarEntry> values = List();
-    List<Color> colors = List();
+    List<BarEntry> values = <BarEntry>[];
+    List<Color> colors = <Color>[];
 
     Color green = Color.fromARGB(255, 110, 190, 102);
     Color red = Color.fromARGB(255, 211, 74, 88);
@@ -70,10 +72,11 @@ class BarChartNegativeState extends SimpleActionState<BarChartNegative> {
       values.add(entry);
 
       // specific colors
-      if (d.yValue >= 0)
+      if (d.yValue >= 0) {
         colors.add(red);
-      else
+      } else {
         colors.add(green);
+      }
     }
 
     BarDataSet set;
@@ -82,9 +85,9 @@ class BarChartNegativeState extends SimpleActionState<BarChartNegative> {
     set.setColors1(colors);
     set.setValueTextColors(colors);
 
-    _controller.data = BarData(List()..add(set));
+    _controller.data = BarData([set]);
     _controller.data
-      ..setValueTextSize(13)
+      ?..setValueTextSize(13)
       ..setValueTypeface(Util.REGULAR)
       ..setValueFormatter(Formatter())
       ..barWidth = (0.8);
@@ -101,7 +104,7 @@ class BarChartNegativeState extends SimpleActionState<BarChartNegative> {
             ..drawAxisLine = (false)
             ..drawGridLines = (false)
             ..setDrawZeroLine(false)
-            ..zeroLineColor = ColorUtils.GRAY
+            ..zeroLineColor = ColorUtils.gray
             ..zeroLineWidth = 0.7;
         },
         axisRightSettingFunction: (axisRight, controller) {
@@ -112,11 +115,11 @@ class BarChartNegativeState extends SimpleActionState<BarChartNegative> {
         },
         xAxisSettingFunction: (xAxis, controller) {
           xAxis
-            ..position = (XAxisPosition.BOTTOM)
+            ..position = (XAxisPosition.bottom)
             ..typeface = Util.LIGHT
             ..drawGridLines = (false)
             ..drawAxisLine = (false)
-            ..textColor = (ColorUtils.LTGRAY)
+            ..textColor = (ColorUtils.ltGray)
             ..textSize = (13)
             ..setLabelCount1(5)
             ..centerAxisLabels = (true)
@@ -159,7 +162,7 @@ class Data {
 }
 
 class Formatter extends ValueFormatter {
-  NumberFormat _format;
+  NumberFormat _format = NumberFormat("######.0");
 
   Formatter() : super() {
     _format = NumberFormat("######.0");

@@ -1,17 +1,19 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:mp_chart/mp/chart/line_chart.dart';
-import 'package:mp_chart/mp/controller/line_chart_controller.dart';
-import 'package:mp_chart/mp/core/data/line_data.dart';
-import 'package:mp_chart/mp/core/data_set/line_data_set.dart';
-import 'package:mp_chart/mp/core/description.dart';
-import 'package:mp_chart/mp/core/entry/entry.dart';
-import 'package:mp_chart/mp/core/enums/mode.dart';
-import 'package:mp_chart/mp/core/utils/color_utils.dart';
+import 'package:mp_chart_x/mp/chart/line_chart.dart';
+import 'package:mp_chart_x/mp/controller/line_chart_controller.dart';
+import 'package:mp_chart_x/mp/core/data/line_data.dart';
+import 'package:mp_chart_x/mp/core/data_set/line_data_set.dart';
+import 'package:mp_chart_x/mp/core/description.dart';
+import 'package:mp_chart_x/mp/core/entry/entry.dart';
+import 'package:mp_chart_x/mp/core/enums/mode.dart';
+import 'package:mp_chart_x/mp/core/utils/color_utils.dart';
 import 'package:example/demo/action_state.dart';
 
 class LineChartPerformance extends StatefulWidget {
+  const LineChartPerformance({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return LineChartPerformanceState();
@@ -20,7 +22,7 @@ class LineChartPerformance extends StatefulWidget {
 
 class LineChartPerformanceState
     extends SimpleActionState<LineChartPerformance> {
-  LineChartController _controller;
+  late LineChartController _controller;
   var random = Random(1);
   double _range = 100.0;
   int _count = 0;
@@ -77,7 +79,7 @@ class LineChartPerformanceState
                         textDirection: TextDirection.ltr,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: ColorUtils.BLACK,
+                            color: ColorUtils.black,
                             fontSize: 12,
                             fontWeight: FontWeight.bold),
                       ))),
@@ -117,27 +119,27 @@ class LineChartPerformanceState
   }
 
   void _initLineData(double range) {
-    List<Entry> values = List();
+    List<Entry> values = [];
 
     _count = (range + 1000).toInt();
 
     for (int i = 0; i < _count; i++) {
       double val = (random.nextDouble() * (range + 1)) + 3;
-      values.add(new Entry(x: i * 0.001, y: val));
+      values.add(Entry(x: i * 0.001, y: val));
     }
 
     // create a dataset and give it a type
-    LineDataSet set1 = new LineDataSet(values, "DataSet 1");
+    LineDataSet set1 = LineDataSet(values, "DataSet 1");
 
-    set1.setColor1(ColorUtils.BLACK);
+    set1.setColor1(ColorUtils.black);
     set1.setLineWidth(0.5);
     set1.setDrawValues(false);
     set1.setDrawCircles(false);
-    set1.setMode(Mode.LINEAR);
+    set1.setMode(Mode.linear);
     set1.setDrawFilled(false);
 
     // create a data object with the data sets
-    _controller.data = LineData.fromList(List()..add(set1));
+    _controller.data = LineData.fromList([set1]);
 
     setState(() {});
   }

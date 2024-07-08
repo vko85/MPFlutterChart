@@ -1,19 +1,21 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:mp_chart/mp/chart/candlestick_chart.dart';
-import 'package:mp_chart/mp/controller/candlestick_chart_controller.dart';
-import 'package:mp_chart/mp/core/data/candle_data.dart';
-import 'package:mp_chart/mp/core/data_set/candle_data_set.dart';
-import 'package:mp_chart/mp/core/description.dart';
-import 'package:mp_chart/mp/core/entry/candle_entry.dart';
-import 'package:mp_chart/mp/core/enums/axis_dependency.dart';
-import 'package:mp_chart/mp/core/enums/x_axis_position.dart';
-import 'package:mp_chart/mp/core/image_loader.dart';
-import 'package:mp_chart/mp/core/utils/color_utils.dart';
+import 'package:mp_chart_x/mp/chart/candlestick_chart.dart';
+import 'package:mp_chart_x/mp/controller/candlestick_chart_controller.dart';
+import 'package:mp_chart_x/mp/core/data/candle_data.dart';
+import 'package:mp_chart_x/mp/core/data_set/candle_data_set.dart';
+import 'package:mp_chart_x/mp/core/description.dart';
+import 'package:mp_chart_x/mp/core/entry/candle_entry.dart';
+import 'package:mp_chart_x/mp/core/enums/axis_dependency.dart';
+import 'package:mp_chart_x/mp/core/enums/x_axis_position.dart';
+import 'package:mp_chart_x/mp/core/image_loader.dart';
+import 'package:mp_chart_x/mp/core/utils/color_utils.dart';
 import 'package:example/demo/action_state.dart';
 
 class OtherChartCandlestick extends StatefulWidget {
+  const OtherChartCandlestick({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return OtherChartCandlestickState();
@@ -78,14 +80,14 @@ class OtherChartCandlestickState
                         textDirection: TextDirection.ltr,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: ColorUtils.BLACK,
+                            color: ColorUtils.black,
                             fontSize: 12,
                             fontWeight: FontWeight.bold),
                       ))),
                 ],
               ),
               Container(
-                  decoration: new BoxDecoration(
+                  decoration: BoxDecoration(
                     color: Colors.white,
                   ),
                   child: Row(
@@ -113,7 +115,7 @@ class OtherChartCandlestickState
                             textDirection: TextDirection.ltr,
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                color: ColorUtils.BLACK,
+                                color: ColorUtils.black,
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold),
                           ))),
@@ -143,11 +145,11 @@ class OtherChartCandlestickState
         },
         xAxisSettingFunction: (xAxis, controller) {
           xAxis
-            ..position = (XAxisPosition.BOTTOM)
+            ..position = (XAxisPosition.bottom)
             ..drawGridLines = (true);
         },
         drawGridBackground: false,
-        backgroundColor: ColorUtils.WHITE,
+        backgroundColor: ColorUtils.white,
         dragXEnabled: true,
         dragYEnabled: true,
         scaleXEnabled: true,
@@ -161,7 +163,7 @@ class OtherChartCandlestickState
     var img = await ImageLoader.loadImage('assets/img/star.png');
 //    chart.resetTracking();
 
-    List<CandleEntry> values = List();
+    List<CandleEntry> values = [];
 
     for (int i = 0; i < count; i++) {
       double multi = (range + 1);
@@ -187,18 +189,18 @@ class OtherChartCandlestickState
     CandleDataSet set1 = CandleDataSet(values, "Data Set");
 
     set1.setDrawIcons(false);
-    set1.setAxisDependency(AxisDependency.LEFT);
+    set1.setAxisDependency(AxisDependency.left);
 //        set1.setColor(Color.rgb(80, 80, 80));
-    set1.setShadowColor(ColorUtils.DKGRAY);
+    set1.setShadowColor(ColorUtils.dkGray);
     set1.setShadowWidth(0.7);
-    set1.setDecreasingColor(ColorUtils.RED);
+    set1.setDecreasingColor(ColorUtils.red);
     set1.setDecreasingPaintStyle(PaintingStyle.fill);
     set1.setIncreasingColor(Color.fromARGB(255, 122, 242, 84));
     set1.setIncreasingPaintStyle(PaintingStyle.stroke);
-    set1.setNeutralColor(ColorUtils.BLUE);
+    set1.setNeutralColor(ColorUtils.blue);
     //set1.setHighlightLineWidth(1f);
 
-    controller.data = CandleData.fromList(List()..add(set1));
+    controller.data = CandleData.fromList([set1]);
 
     setState(() {});
   }

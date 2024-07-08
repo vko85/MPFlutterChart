@@ -1,19 +1,21 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:mp_chart/mp/chart/bar_chart.dart';
-import 'package:mp_chart/mp/controller/bar_chart_controller.dart';
-import 'package:mp_chart/mp/core/data/bar_data.dart';
-import 'package:mp_chart/mp/core/data_interfaces/i_bar_data_set.dart';
-import 'package:mp_chart/mp/core/data_set/bar_data_set.dart';
-import 'package:mp_chart/mp/core/description.dart';
-import 'package:mp_chart/mp/core/entry/bar_entry.dart';
-import 'package:mp_chart/mp/core/enums/x_axis_position.dart';
-import 'package:mp_chart/mp/core/image_loader.dart';
-import 'package:mp_chart/mp/core/utils/color_utils.dart';
+import 'package:mp_chart_x/mp/chart/bar_chart.dart';
+import 'package:mp_chart_x/mp/controller/bar_chart_controller.dart';
+import 'package:mp_chart_x/mp/core/data/bar_data.dart';
+import 'package:mp_chart_x/mp/core/data_interfaces/i_bar_data_set.dart';
+import 'package:mp_chart_x/mp/core/data_set/bar_data_set.dart';
+import 'package:mp_chart_x/mp/core/description.dart';
+import 'package:mp_chart_x/mp/core/entry/bar_entry.dart';
+import 'package:mp_chart_x/mp/core/enums/x_axis_position.dart';
+import 'package:mp_chart_x/mp/core/image_loader.dart';
+import 'package:mp_chart_x/mp/core/utils/color_utils.dart';
 import 'package:example/demo/action_state.dart';
 
 class BarChartBasic2 extends StatefulWidget {
+  const BarChartBasic2({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return BarChartBasic2State();
@@ -78,7 +80,7 @@ class BarChartBasic2State extends BarActionState<BarChartBasic2> {
                         textDirection: TextDirection.ltr,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: ColorUtils.BLACK,
+                            color: ColorUtils.black,
                             fontSize: 12,
                             fontWeight: FontWeight.bold),
                       ))),
@@ -108,7 +110,7 @@ class BarChartBasic2State extends BarActionState<BarChartBasic2> {
                         textDirection: TextDirection.ltr,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: ColorUtils.BLACK,
+                            color: ColorUtils.black,
                             fontSize: 12,
                             fontWeight: FontWeight.bold),
                       ))),
@@ -123,26 +125,26 @@ class BarChartBasic2State extends BarActionState<BarChartBasic2> {
 
   void _initBarData(int count, double range) async {
     var img = await ImageLoader.loadImage('assets/img/star.png');
-    List<BarEntry> values = List();
+    List<BarEntry> values = <BarEntry>[];
 
     for (int i = 0; i < count; i++) {
       double multi = (range + 1);
       double val = (random.nextDouble() * multi) + multi / 3;
-      values.add(new BarEntry(x: i.toDouble(), y: val, icon: img));
+      values.add(BarEntry(x: i.toDouble(), y: val, icon: img));
     }
 
     BarDataSet set1;
 
-    set1 = new BarDataSet(values, "Data Set");
-    set1.setColors1(ColorUtils.VORDIPLOM_COLORS);
+    set1 = BarDataSet(values, "Data Set");
+    set1.setColors1(ColorUtils.vordiplomColors);
     set1.setDrawValues(false);
 
-    List<IBarDataSet> dataSets = List();
+    List<IBarDataSet> dataSets = <IBarDataSet>[];
     dataSets.add(set1);
 
     controller.data = BarData(dataSets);
     controller.data
-      ..setValueTextSize(10)
+      ?..setValueTextSize(10)
       ..barWidth = 0.9;
 
     setState(() {});
@@ -159,7 +161,7 @@ class BarChartBasic2State extends BarActionState<BarChartBasic2> {
       },
       xAxisSettingFunction: (xAxis, controller) {
         xAxis
-          ..position = XAxisPosition.BOTTOM
+          ..position = XAxisPosition.bottom
           ..drawGridLines = false;
       },
       drawGridBackground: false,
@@ -177,7 +179,7 @@ class BarChartBasic2State extends BarActionState<BarChartBasic2> {
   Widget _initBarChart() {
     var barChart = BarChart(controller);
     controller.animator
-      ..reset()
+      ?..reset()
       ..animateY1(1500);
     return barChart;
   }

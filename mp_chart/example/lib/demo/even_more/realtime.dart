@@ -4,21 +4,22 @@ import 'dart:math';
 import 'package:example/demo/action_state.dart';
 import 'package:example/demo/util.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:mp_chart/mp/chart/line_chart.dart';
-import 'package:mp_chart/mp/controller/line_chart_controller.dart';
-import 'package:mp_chart/mp/core/common_interfaces.dart';
-import 'package:mp_chart/mp/core/data/line_data.dart';
-import 'package:mp_chart/mp/core/data_interfaces/i_line_data_set.dart';
-import 'package:mp_chart/mp/core/data_set/line_data_set.dart';
-import 'package:mp_chart/mp/core/description.dart';
-import 'package:mp_chart/mp/core/entry/entry.dart';
-import 'package:mp_chart/mp/core/enums/axis_dependency.dart';
-import 'package:mp_chart/mp/core/enums/legend_form.dart';
-import 'package:mp_chart/mp/core/highlight/highlight.dart';
-import 'package:mp_chart/mp/core/utils/color_utils.dart';
+import 'package:mp_chart_x/mp/chart/line_chart.dart';
+import 'package:mp_chart_x/mp/controller/line_chart_controller.dart';
+import 'package:mp_chart_x/mp/core/common_interfaces.dart';
+import 'package:mp_chart_x/mp/core/data/line_data.dart';
+import 'package:mp_chart_x/mp/core/data_interfaces/i_line_data_set.dart';
+import 'package:mp_chart_x/mp/core/data_set/line_data_set.dart';
+import 'package:mp_chart_x/mp/core/description.dart';
+import 'package:mp_chart_x/mp/core/entry/entry.dart';
+import 'package:mp_chart_x/mp/core/enums/axis_dependency.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_form.dart';
+import 'package:mp_chart_x/mp/core/highlight/highlight.dart';
+import 'package:mp_chart_x/mp/core/utils/color_utils.dart';
 
 class EvenMoreRealtime extends StatefulWidget {
+  const EvenMoreRealtime({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return EvenMoreRealtimeState();
@@ -27,7 +28,7 @@ class EvenMoreRealtime extends StatefulWidget {
 
 class EvenMoreRealtimeState extends ActionState<EvenMoreRealtime>
     implements OnChartValueSelectedListener {
-  LineChartController controller;
+  late LineChartController controller;
   var random = Random(1);
   var isMultipleRun = false;
 
@@ -54,15 +55,14 @@ class EvenMoreRealtimeState extends ActionState<EvenMoreRealtime>
 
   @override
   getBuilder() {
-    return (BuildContext context) =>
-    <PopupMenuItem<String>>[
-      item('View on GitHub', 'A'),
-      item('Add Entry', 'B'),
-      item('Clear Chart', 'C'),
-      item('Add Multiple', 'D'),
-      item('Save to Gallery', 'E'),
-      item('Update Random Single Entry', 'F'),
-    ];
+    return (BuildContext context) => <PopupMenuItem<String>>[
+          item('View on GitHub', 'A'),
+          item('Add Entry', 'B'),
+          item('Clear Chart', 'C'),
+          item('Add Multiple', 'D'),
+          item('Save to Gallery', 'E'),
+          item('Update Random Single Entry', 'F'),
+        ];
   }
 
   @override
@@ -93,9 +93,9 @@ class EvenMoreRealtimeState extends ActionState<EvenMoreRealtime>
         controller.state.setStateIfNotDispose();
         break;
       case 'E':
-        captureImg(() {
-          controller.state.capture();
-        });
+        // captureImg(() {
+        //   controller.state.capture();
+        // });
         break;
       case 'F':
         _updateEntry();
@@ -104,19 +104,18 @@ class EvenMoreRealtimeState extends ActionState<EvenMoreRealtime>
   }
 
   void _initController() {
-    var desc = Description()
-      ..enabled = false;
+    var desc = Description()..enabled = false;
     controller = LineChartController(
         legendSettingFunction: (legend, controller) {
           legend
-            ..shape = LegendForm.LINE
+            ..shape = LegendForm.line
             ..typeface = Util.LIGHT
-            ..textColor = ColorUtils.WHITE;
+            ..textColor = ColorUtils.white;
         },
         xAxisSettingFunction: (xAxis, controller) {
           xAxis
             ..typeface = Util.LIGHT
-            ..textColor = ColorUtils.WHITE
+            ..textColor = ColorUtils.white
             ..drawGridLines = true
             ..avoidFirstLastClipping = true
             ..enabled = true;
@@ -124,7 +123,7 @@ class EvenMoreRealtimeState extends ActionState<EvenMoreRealtime>
         axisLeftSettingFunction: (axisLeft, controller) {
           axisLeft
             ..typeface = Util.LIGHT
-            ..textColor = ColorUtils.WHITE
+            ..textColor = ColorUtils.white
             ..axisMaximum = 100.0
             ..axisMinimum = 0.0
             ..drawGridLines = true;
@@ -137,12 +136,12 @@ class EvenMoreRealtimeState extends ActionState<EvenMoreRealtime>
         dragYEnabled: true,
         scaleXEnabled: true,
         scaleYEnabled: true,
-        backgroundColor: ColorUtils.LTGRAY,
+        backgroundColor: ColorUtils.ltGray,
         selectionListener: this,
         pinchZoomEnabled: true,
         description: desc);
 
-    LineData data = controller?.data;
+    LineData? data = controller.data;
 
     if (data == null) {
       data = LineData();
@@ -154,13 +153,13 @@ class EvenMoreRealtimeState extends ActionState<EvenMoreRealtime>
   void onNothingSelected() {}
 
   @override
-  void onValueSelected(Entry e, Highlight h) {}
+  void onValueSelected(Entry? e, Highlight? h) {}
 
   void _addEntry() {
-    LineData data = controller.data;
+    LineData? data = controller.data;
 
     if (data != null) {
-      ILineDataSet set = data.getDataSetByIndex(0);
+      ILineDataSet? set = data.getDataSetByIndex(0);
       // set.addEntry(...); // can be called as well
 
       if (set == null) {
@@ -182,15 +181,15 @@ class EvenMoreRealtimeState extends ActionState<EvenMoreRealtime>
       // move to the latest entry
       controller.moveViewToX(data.getEntryCount().toDouble());
 
-      controller.state?.setStateIfNotDispose();
+      controller.state.setStateIfNotDispose();
     }
   }
 
-  void _updateEntry(){
-    LineData data = controller.data;
+  void _updateEntry() {
+    LineData? data = controller.data;
 
     if (data != null) {
-      ILineDataSet set = data.getDataSetByIndex(0);
+      ILineDataSet? set = data.getDataSetByIndex(0);
       // set.addEntry(...); // can be called as well
 
       if (set == null) {
@@ -198,15 +197,15 @@ class EvenMoreRealtimeState extends ActionState<EvenMoreRealtime>
         data.addDataSet(set);
       }
 
-      if(set.getEntryCount() == 0){
+      if (set.getEntryCount() == 0) {
         return;
       }
 
       //for test ChartData's updateEntryByIndex
       var index = (random.nextDouble() * set.getEntryCount()).toInt();
-      var x =  set.getEntryForIndex(index).x;
-      data.updateEntryByIndex(index, Entry(x: x,
-          y: (random.nextDouble() * 40) + 30.0), 0);
+      var x = set.getEntryForIndex(index)?.x??0;
+      data.updateEntryByIndex(
+          index, Entry(x: x, y: (random.nextDouble() * 40) + 30.0), 0);
 
       data.notifyDataChanged();
 
@@ -217,13 +216,13 @@ class EvenMoreRealtimeState extends ActionState<EvenMoreRealtime>
       // move to the latest entry
       controller.moveViewToX(data.getEntryCount().toDouble());
 
-      controller.state?.setStateIfNotDispose();
+      controller.state.setStateIfNotDispose();
     }
   }
 
   void _clearChart() {
     controller.data?.clearValues();
-    controller.state?.setStateIfNotDispose();
+    controller.state.setStateIfNotDispose();
   }
 
   void _addMultiple() {
@@ -243,16 +242,16 @@ class EvenMoreRealtimeState extends ActionState<EvenMoreRealtime>
   }
 
   LineDataSet _createSet() {
-    LineDataSet set = LineDataSet(null, "Dynamic Data");
-    set.setAxisDependency(AxisDependency.LEFT);
+    LineDataSet set = LineDataSet([], "Dynamic Data");
+    set.setAxisDependency(AxisDependency.left);
     set.setColor1(ColorUtils.getHoloBlue());
-    set.setCircleColor(ColorUtils.WHITE);
+    set.setCircleColor(ColorUtils.white);
     set.setLineWidth(2.0);
     set.setCircleRadius(4.0);
     set.setFillAlpha(65);
     set.setFillColor(ColorUtils.getHoloBlue());
     set.setHighLightColor(Color.fromARGB(255, 244, 117, 117));
-    set.setValueTextColor(ColorUtils.WHITE);
+    set.setValueTextColor(ColorUtils.white);
     set.setValueTextSize(9.0);
     set.setDrawValues(false);
     return set;

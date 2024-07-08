@@ -2,22 +2,24 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
-import 'package:mp_chart/mp/chart/line_chart.dart';
-import 'package:mp_chart/mp/controller/line_chart_controller.dart';
-import 'package:mp_chart/mp/core/data/line_data.dart';
-import 'package:mp_chart/mp/core/data_set/line_data_set.dart';
-import 'package:mp_chart/mp/core/description.dart';
-import 'package:mp_chart/mp/core/entry/entry.dart';
-import 'package:mp_chart/mp/core/enums/axis_dependency.dart';
-import 'package:mp_chart/mp/core/enums/x_axis_position.dart';
-import 'package:mp_chart/mp/core/enums/y_axis_label_position.dart';
-import 'package:mp_chart/mp/core/image_loader.dart';
-import 'package:mp_chart/mp/core/utils/color_utils.dart';
-import 'package:mp_chart/mp/core/value_formatter/value_formatter.dart';
+import 'package:mp_chart_x/mp/chart/line_chart.dart';
+import 'package:mp_chart_x/mp/controller/line_chart_controller.dart';
+import 'package:mp_chart_x/mp/core/data/line_data.dart';
+import 'package:mp_chart_x/mp/core/data_set/line_data_set.dart';
+import 'package:mp_chart_x/mp/core/description.dart';
+import 'package:mp_chart_x/mp/core/entry/entry.dart';
+import 'package:mp_chart_x/mp/core/enums/axis_dependency.dart';
+import 'package:mp_chart_x/mp/core/enums/x_axis_position.dart';
+import 'package:mp_chart_x/mp/core/enums/y_axis_label_position.dart';
+import 'package:mp_chart_x/mp/core/image_loader.dart';
+import 'package:mp_chart_x/mp/core/utils/color_utils.dart';
+import 'package:mp_chart_x/mp/core/value_formatter/value_formatter.dart';
 import 'package:example/demo/action_state.dart';
 import 'package:example/demo/util.dart';
 
 class EvenMoreHourly extends StatefulWidget {
+  const EvenMoreHourly({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return EvenMoreHourlyState();
@@ -81,7 +83,7 @@ class EvenMoreHourlyState extends LineActionState<EvenMoreHourly> {
                         textDirection: TextDirection.ltr,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: ColorUtils.BLACK,
+                            color: ColorUtils.black,
                             fontSize: 12,
                             fontWeight: FontWeight.bold),
                       ))),
@@ -99,7 +101,7 @@ class EvenMoreHourlyState extends LineActionState<EvenMoreHourly> {
     controller = LineChartController(
         axisLeftSettingFunction: (axisLeft, controller) {
           axisLeft
-            ..position = (YAxisLabelPosition.INSIDE_CHART)
+            ..position = (YAxisLabelPosition.insideChart)
 //      ..setTypeface(tfLight)
             ..textColor = (Color.fromARGB(255, 51, 181, 229))
             ..drawGridLines = (true)
@@ -118,10 +120,10 @@ class EvenMoreHourlyState extends LineActionState<EvenMoreHourly> {
         },
         xAxisSettingFunction: (xAxis, controller) {
           xAxis
-            ..position = (XAxisPosition.TOP_INSIDE)
+            ..position = (XAxisPosition.topInside)
 //        ..setTypeface(tfLight)
             ..textSize = (10)
-            ..textColor = (ColorUtils.WHITE)
+            ..textColor = (ColorUtils.white)
             ..drawAxisLine = (false)
             ..drawGridLines = (true)
             ..textColor = (Color.fromARGB(255, 255, 192, 56))
@@ -130,7 +132,7 @@ class EvenMoreHourlyState extends LineActionState<EvenMoreHourly> {
             ..setValueFormatter(A());
         },
         highLightPerTapEnabled: true,
-        backgroundColor: ColorUtils.WHITE,
+        backgroundColor: ColorUtils.white,
         drawGridBackground: false,
         dragXEnabled: true,
         dragYEnabled: true,
@@ -146,7 +148,7 @@ class EvenMoreHourlyState extends LineActionState<EvenMoreHourly> {
     // now in hours
     int now = Util.currentTimeMillis();
 
-    List<Entry> values = List();
+    List<Entry> values = <Entry>[];
 
     // count = hours
     double to = now + count;
@@ -159,7 +161,7 @@ class EvenMoreHourlyState extends LineActionState<EvenMoreHourly> {
 
     // create a dataset and give it a type
     LineDataSet set1 = LineDataSet(values, "DataSet 1");
-    set1.setAxisDependency(AxisDependency.LEFT);
+    set1.setAxisDependency(AxisDependency.left);
     set1.setColor1(ColorUtils.getHoloBlue());
     set1.setValueTextColor(ColorUtils.getHoloBlue());
     set1.setLineWidth(1.5);
@@ -171,9 +173,9 @@ class EvenMoreHourlyState extends LineActionState<EvenMoreHourly> {
     set1.setDrawCircleHole(false);
 
     // create a data object with the data sets
-    controller.data = LineData.fromList(List()..add(set1));
+    controller.data = LineData.fromList([set1]);
     controller.data
-      ..setValueTextColor(ColorUtils.getHoloBlue())
+      ?..setValueTextColor(ColorUtils.getHoloBlue())
       ..setValueTextSize(9);
 
     setState(() {});

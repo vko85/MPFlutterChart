@@ -2,27 +2,29 @@ import 'dart:math';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
-import 'package:mp_chart/mp/chart/bubble_chart.dart';
-import 'package:mp_chart/mp/controller/bubble_chart_controller.dart';
-import 'package:mp_chart/mp/core/common_interfaces.dart';
-import 'package:mp_chart/mp/core/data/bubble_data.dart';
-import 'package:mp_chart/mp/core/data_interfaces/i_bubble_data_set.dart';
-import 'package:mp_chart/mp/core/data_set/bubble_data_set.dart';
-import 'package:mp_chart/mp/core/description.dart';
-import 'package:mp_chart/mp/core/entry/bubble_entry.dart';
-import 'package:mp_chart/mp/core/entry/entry.dart';
-import 'package:mp_chart/mp/core/enums/legend_horizontal_alignment.dart';
-import 'package:mp_chart/mp/core/enums/legend_orientation.dart';
-import 'package:mp_chart/mp/core/enums/legend_vertical_alignment.dart';
-import 'package:mp_chart/mp/core/enums/x_axis_position.dart';
-import 'package:mp_chart/mp/core/highlight/highlight.dart';
-import 'package:mp_chart/mp/core/image_loader.dart';
-import 'package:mp_chart/mp/core/poolable/point.dart';
-import 'package:mp_chart/mp/core/utils/color_utils.dart';
+import 'package:mp_chart_x/mp/chart/bubble_chart.dart';
+import 'package:mp_chart_x/mp/controller/bubble_chart_controller.dart';
+import 'package:mp_chart_x/mp/core/common_interfaces.dart';
+import 'package:mp_chart_x/mp/core/data/bubble_data.dart';
+import 'package:mp_chart_x/mp/core/data_interfaces/i_bubble_data_set.dart';
+import 'package:mp_chart_x/mp/core/data_set/bubble_data_set.dart';
+import 'package:mp_chart_x/mp/core/description.dart';
+import 'package:mp_chart_x/mp/core/entry/bubble_entry.dart';
+import 'package:mp_chart_x/mp/core/entry/entry.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_horizontal_alignment.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_orientation.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_vertical_alignment.dart';
+import 'package:mp_chart_x/mp/core/enums/x_axis_position.dart';
+import 'package:mp_chart_x/mp/core/highlight/highlight.dart';
+import 'package:mp_chart_x/mp/core/image_loader.dart';
+import 'package:mp_chart_x/mp/core/pool/point.dart';
+import 'package:mp_chart_x/mp/core/utils/color_utils.dart';
 import 'package:example/demo/action_state.dart';
 import 'package:example/demo/util.dart';
 
 class OtherChartBubble extends StatefulWidget {
+  const OtherChartBubble({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return OtherChartBubbleState();
@@ -87,7 +89,7 @@ class OtherChartBubbleState extends BubbleActionState<OtherChartBubble>
                         textDirection: TextDirection.ltr,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: ColorUtils.BLACK,
+                            color: ColorUtils.black,
                             fontSize: 12,
                             fontWeight: FontWeight.bold),
                       ))),
@@ -117,7 +119,7 @@ class OtherChartBubbleState extends BubbleActionState<OtherChartBubble>
                         textDirection: TextDirection.ltr,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: ColorUtils.BLACK,
+                            color: ColorUtils.black,
                             fontSize: 12,
                             fontWeight: FontWeight.bold),
                       ))),
@@ -146,14 +148,14 @@ class OtherChartBubbleState extends BubbleActionState<OtherChartBubble>
         legendSettingFunction: (legend, controller) {
           legend
             ..typeface = Util.LIGHT
-            ..verticalAlignment = (LegendVerticalAlignment.TOP)
-            ..horizontalAlignment = (LegendHorizontalAlignment.RIGHT)
-            ..orientation = (LegendOrientation.VERTICAL)
+            ..verticalAlignment = (LegendVerticalAlignment.top)
+            ..horizontalAlignment = (LegendHorizontalAlignment.right)
+            ..orientation = (LegendOrientation.vertical)
             ..drawInside = (false);
         },
         xAxisSettingFunction: (xAxis, controller) {
           xAxis
-            ..position = (XAxisPosition.BOTTOM)
+            ..position = (XAxisPosition.bottom)
             ..typeface = Util.LIGHT;
         },
         drawGridBackground: false,
@@ -168,13 +170,13 @@ class OtherChartBubbleState extends BubbleActionState<OtherChartBubble>
   }
 
   void _initBubbleData(int count, double range) async {
-    List<ui.Image> imgs = List(3);
-    imgs[0] = await ImageLoader.loadImage('assets/img/star.png');
-    imgs[1] = await ImageLoader.loadImage('assets/img/add.png');
-    imgs[2] = await ImageLoader.loadImage('assets/img/close.png');
-    List<BubbleEntry> values1 = List();
-    List<BubbleEntry> values2 = List();
-    List<BubbleEntry> values3 = List();
+    List<ui.Image> imgs = [];
+    imgs.add(await ImageLoader.loadImage('assets/img/star.png'));
+    imgs.add(await ImageLoader.loadImage('assets/img/add.png'));
+    imgs.add(await ImageLoader.loadImage('assets/img/close.png'));
+    List<BubbleEntry> values1 = [];
+    List<BubbleEntry> values2 = [];
+    List<BubbleEntry> values3 = [];
 
     for (int i = 0; i < count; i++) {
       values1.add(BubbleEntry(
@@ -197,20 +199,20 @@ class OtherChartBubbleState extends BubbleActionState<OtherChartBubble>
     // create a dataset and give it a type
     BubbleDataSet set1 = BubbleDataSet(values1, "DS 1");
     set1.setDrawIcons(false);
-    set1.setColor3(ColorUtils.COLORFUL_COLORS[0], 130);
+    set1.setColor3(ColorUtils.colorfulColors[0], 130);
     set1.setDrawValues(true);
 
     BubbleDataSet set2 = BubbleDataSet(values2, "DS 2");
     set2.setDrawIcons(false);
     set2.setIconsOffset(MPPointF(0, 15));
-    set2.setColor3(ColorUtils.COLORFUL_COLORS[1], 130);
+    set2.setColor3(ColorUtils.colorfulColors[1], 130);
     set2.setDrawValues(true);
 
     BubbleDataSet set3 = BubbleDataSet(values3, "DS 3");
-    set3.setColor3(ColorUtils.COLORFUL_COLORS[2], 130);
+    set3.setColor3(ColorUtils.colorfulColors[2], 130);
     set3.setDrawValues(true);
 
-    List<IBubbleDataSet> dataSets = List();
+    List<IBubbleDataSet> dataSets = [];
     dataSets.add(set1); // add the data sets
     dataSets.add(set2);
     dataSets.add(set3);
@@ -218,10 +220,10 @@ class OtherChartBubbleState extends BubbleActionState<OtherChartBubble>
     // create a data object with the data sets
     controller.data = BubbleData.fromList(dataSets);
     controller.data
-      ..setDrawValues(false)
+      ?..setDrawValues(false)
       ..setValueTypeface(Util.LIGHT)
       ..setValueTextSize(8)
-      ..setValueTextColor(ColorUtils.WHITE)
+      ..setValueTextColor(ColorUtils.white)
       ..setHighlightCircleWidth(1.5);
 
     setState(() {});
@@ -231,5 +233,5 @@ class OtherChartBubbleState extends BubbleActionState<OtherChartBubble>
   void onNothingSelected() {}
 
   @override
-  void onValueSelected(Entry e, Highlight h) {}
+  void onValueSelected(Entry? e, Highlight? h) {}
 }

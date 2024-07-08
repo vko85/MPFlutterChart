@@ -1,25 +1,27 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:mp_chart/mp/chart/radar_chart.dart';
-import 'package:mp_chart/mp/controller/radar_chart_controller.dart';
-import 'package:mp_chart/mp/core/animator.dart';
-import 'package:mp_chart/mp/core/data/radar_data.dart';
-import 'package:mp_chart/mp/core/data_interfaces/i_radar_data_set.dart';
-import 'package:mp_chart/mp/core/data_set/radar_data_set.dart';
-import 'package:mp_chart/mp/core/description.dart';
-import 'package:mp_chart/mp/core/entry/radar_entry.dart';
-import 'package:mp_chart/mp/core/enums/legend_horizontal_alignment.dart';
-import 'package:mp_chart/mp/core/enums/legend_orientation.dart';
-import 'package:mp_chart/mp/core/enums/legend_vertical_alignment.dart';
-import 'package:mp_chart/mp/core/image_loader.dart';
-import 'package:mp_chart/mp/core/utils/color_utils.dart';
-import 'package:mp_chart/mp/core/utils/utils.dart';
-import 'package:mp_chart/mp/core/value_formatter/value_formatter.dart';
+import 'package:mp_chart_x/mp/chart/radar_chart.dart';
+import 'package:mp_chart_x/mp/controller/radar_chart_controller.dart';
+import 'package:mp_chart_x/mp/core/animator.dart';
+import 'package:mp_chart_x/mp/core/data/radar_data.dart';
+import 'package:mp_chart_x/mp/core/data_interfaces/i_radar_data_set.dart';
+import 'package:mp_chart_x/mp/core/data_set/radar_data_set.dart';
+import 'package:mp_chart_x/mp/core/description.dart';
+import 'package:mp_chart_x/mp/core/entry/radar_entry.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_horizontal_alignment.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_orientation.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_vertical_alignment.dart';
+import 'package:mp_chart_x/mp/core/image_loader.dart';
+import 'package:mp_chart_x/mp/core/utils/color_utils.dart';
+import 'package:mp_chart_x/mp/core/utils/utils.dart';
+import 'package:mp_chart_x/mp/core/value_formatter/value_formatter.dart';
 import 'package:example/demo/action_state.dart';
 import 'package:example/demo/util.dart';
 
 class OtherChartRadar extends StatefulWidget {
+  const OtherChartRadar({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return OtherChartRadarState();
@@ -69,15 +71,15 @@ class OtherChartRadarState extends RadarActionState<OtherChartRadar> {
         },
         legendSettingFunction: (legend, controller) {
           legend
-            ..verticalAlignment = (LegendVerticalAlignment.TOP)
-            ..horizontalAlignment = (LegendHorizontalAlignment.CENTER)
-            ..orientation = (LegendOrientation.HORIZONTAL)
+            ..verticalAlignment = (LegendVerticalAlignment.top)
+            ..horizontalAlignment = (LegendHorizontalAlignment.center)
+            ..orientation = (LegendOrientation.horizontal)
             ..drawInside = (false)
             ..typeface = Util.LIGHT
             ..xEntrySpace = (7)
             ..yEntrySpace = (5)
             ..formSize = Utils.convertDpToPixel(25)
-            ..textColor = (ColorUtils.RED);
+            ..textColor = (ColorUtils.red);
         },
         xAxisSettingFunction: (xAxis, controller) {
           xAxis
@@ -85,15 +87,15 @@ class OtherChartRadarState extends RadarActionState<OtherChartRadar> {
             ..typeface = Util.LIGHT
             ..yOffset = (0)
             ..xOffset = (0)
-            ..textColor = (ColorUtils.WHITE)
+            ..textColor = (ColorUtils.white)
             ..setValueFormatter(A());
         },
         webLineWidth: 1.0,
         webAlpha: 100,
         innerWebLineWidth: 1.0,
-        webColor: ColorUtils.LTGRAY,
-        webColorInner: ColorUtils.LTGRAY,
-        backgroundColor: ColorUtils.DKGRAY,
+        webColor: ColorUtils.ltGray,
+        webColorInner: ColorUtils.ltGray,
+        backgroundColor: ColorUtils.dkGray,
         description: desc);
   }
 
@@ -103,8 +105,8 @@ class OtherChartRadarState extends RadarActionState<OtherChartRadar> {
     double min = 20;
     int cnt = 5;
 
-    List<RadarEntry> entries1 = List();
-    List<RadarEntry> entries2 = List();
+    List<RadarEntry> entries1 = [];
+    List<RadarEntry> entries2 = [];
 
     // NOTE: The order of the entries when being added to the entries array determines their position around the center of
     // the chart.
@@ -127,23 +129,23 @@ class OtherChartRadarState extends RadarActionState<OtherChartRadar> {
 
     RadarDataSet set2 = RadarDataSet(entries2, "This Week");
     set2.setColor1(Color.fromARGB(255, 121, 162, 175));
-    set2.setGradientColor(ColorUtils.BLUE, ColorUtils.YELLOW);
+    set2.setGradientColor(ColorUtils.blue, ColorUtils.yellow);
     set2.setDrawFilled(true);
     set2.setFillAlpha(180);
     set2.setLineWidth(2);
     set2.setDrawHighlightCircleEnabled(true);
     set2.setDrawHighlightIndicators(false);
 
-    List<IRadarDataSet> sets = List();
+    List<IRadarDataSet> sets = [];
     sets.add(set1);
     sets.add(set2);
 
     controller.data = RadarData.fromList(sets);
     controller.data
-      ..setValueTypeface(Util.LIGHT)
+      ?..setValueTypeface(Util.LIGHT)
       ..setValueTextSize(8)
       ..setDrawValues(false)
-      ..setValueTextColor(ColorUtils.WHITE);
+      ..setValueTextColor(ColorUtils.white);
 
     setState(() {});
   }
@@ -151,19 +153,14 @@ class OtherChartRadarState extends RadarActionState<OtherChartRadar> {
   Widget _initCandleChart() {
     var radarChart = RadarChart(controller);
     controller.animator
-      ..reset()
-      ..animateXY2(1400, 1400, Easing.EaseInOutQuad);
+      ?..reset()
+      ..animateXY2(1400, 1400, Easing.easeInOutQuad);
     return radarChart;
   }
 }
 
 class A extends ValueFormatter {
-  final List<String> mActivities = List()
-    ..add("Burger")
-    ..add("Steak")
-    ..add("Salad")
-    ..add("Pasta")
-    ..add("Pizza");
+  final List<String> mActivities = ["Burger", "Steak", "Salad", "Pasta", "Pizza"];
 
   @override
   String getFormattedValue1(double value) {

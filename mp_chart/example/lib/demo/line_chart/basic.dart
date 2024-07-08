@@ -1,23 +1,26 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:mp_chart/mp/chart/line_chart.dart';
-import 'package:mp_chart/mp/controller/line_chart_controller.dart';
-import 'package:mp_chart/mp/core/adapter_android_mp.dart';
-import 'package:mp_chart/mp/core/data/line_data.dart';
-import 'package:mp_chart/mp/core/data_interfaces/i_line_data_set.dart';
-import 'package:mp_chart/mp/core/data_set/line_data_set.dart';
-import 'package:mp_chart/mp/core/description.dart';
-import 'package:mp_chart/mp/core/entry/entry.dart';
-import 'package:mp_chart/mp/core/enums/legend_form.dart';
-import 'package:mp_chart/mp/core/enums/limit_label_postion.dart';
-import 'package:mp_chart/mp/core/image_loader.dart';
-import 'package:mp_chart/mp/core/limit_line.dart';
-import 'package:mp_chart/mp/core/utils/color_utils.dart';
+import 'package:mp_chart_x/mp/chart/line_chart.dart';
+import 'package:mp_chart_x/mp/controller/line_chart_controller.dart';
+import 'package:mp_chart_x/mp/core/adapter_android_mp.dart';
+import 'package:mp_chart_x/mp/core/data/line_data.dart';
+import 'package:mp_chart_x/mp/core/data_interfaces/i_line_data_set.dart';
+import 'package:mp_chart_x/mp/core/data_set/line_data_set.dart';
+import 'package:mp_chart_x/mp/core/description.dart';
+import 'package:mp_chart_x/mp/core/entry/entry.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_form.dart';
+import 'package:mp_chart_x/mp/core/enums/limit_label_postion.dart';
+import 'package:mp_chart_x/mp/core/enums/x_axis_position.dart';
+import 'package:mp_chart_x/mp/core/image_loader.dart';
+import 'package:mp_chart_x/mp/core/limit_line.dart';
+import 'package:mp_chart_x/mp/core/utils/color_utils.dart';
 import 'package:example/demo/action_state.dart';
 import 'package:example/demo/util.dart';
 
 class LineChartBasic extends StatefulWidget {
+  const LineChartBasic({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return LineChartBasicState();
@@ -79,7 +82,7 @@ class LineChartBasicState extends LineActionState<LineChartBasic> {
                         textDirection: TextDirection.ltr,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: ColorUtils.BLACK,
+                            color: ColorUtils.black,
                             fontSize: 12,
                             fontWeight: FontWeight.bold),
                       ))),
@@ -109,7 +112,7 @@ class LineChartBasicState extends LineActionState<LineChartBasic> {
                         textDirection: TextDirection.ltr,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: ColorUtils.BLACK,
+                            color: ColorUtils.black,
                             fontSize: 12,
                             fontWeight: FontWeight.bold),
                       ))),
@@ -138,7 +141,7 @@ class LineChartBasicState extends LineActionState<LineChartBasic> {
     LimitLine ll1 = LimitLine(150, "Upper Limit");
     ll1.setLineWidth(4);
     ll1.enableDashedLine(10, 10, 0);
-    ll1.labelPosition = (LimitLabelPosition.LEFT_CENTER);
+    ll1.labelPosition = (LimitLabelPosition.leftCenter);
     ll1.drawBackground = true;
     ll1.textSize = (10);
     ll1.typeface = Util.EXTRA_BOLD;
@@ -146,19 +149,19 @@ class LineChartBasicState extends LineActionState<LineChartBasic> {
     ll2.drawBackground = true;
     ll2.setLineWidth(4);
     ll2.enableDashedLine(10, 10, 0);
-    ll2.labelPosition = (LimitLabelPosition.RIGHT_CENTER);
+    ll2.labelPosition = (LimitLabelPosition.rightCenter);
     ll2.textSize = (10);
     ll2.typeface = Util.EXTRA_BOLD;
     LimitLine ll3 = LimitLine(10, "Upper Limit");
     ll3.setLineWidth(4);
     ll3.enableDashedLine(10, 10, 0);
-    ll3.labelPosition = (LimitLabelPosition.CENTER_TOP);
+    ll3.labelPosition = (LimitLabelPosition.centerTop);
     ll3.textSize = (10);
     ll3.typeface = Util.EXTRA_BOLD;
     LimitLine ll4 = LimitLine(20, "Lower Limit");
     ll4.setLineWidth(4);
     ll4.enableDashedLine(10, 10, 0);
-    ll4.labelPosition = (LimitLabelPosition.CENTER_BOTTOM);
+    ll4.labelPosition = (LimitLabelPosition.centerBottom);
     ll4.textSize = (10);
     ll4.typeface = Util.EXTRA_BOLD;
     controller = LineChartController(
@@ -176,7 +179,7 @@ class LineChartBasicState extends LineActionState<LineChartBasic> {
           axisRight.enabled = (false);
         },
         legendSettingFunction: (legend, controller) {
-          legend.shape = (LegendForm.LINE);
+          legend.shape = (LegendForm.line);
         },
         xAxisSettingFunction: (xAxis, controller) {
           xAxis
@@ -184,10 +187,23 @@ class LineChartBasicState extends LineActionState<LineChartBasic> {
             ..addLimitLine(ll4)
             ..drawLimitLineBehindData = true
             ..enableAxisLineDashedLine(5, 5, 0)
-            ..enableGridDashedLine(10, 10, 0);
+            ..enableGridDashedLine(10, 10, 0)
+            ..enabled = (true)
+            ..axisMaximum = 10
+            ..axisMinimum = 7
+            ..entryCount = _count
+            ..decimals = 10
+            ..setLabelCount3(_count > 9 ? 9 : _count)
+            ..centerAxisLabels = true
+            ..drawLimitLineBehindData = true
+            ..setLabelCount2(_count > 9 ? 9 : _count, false)
+            ..drawAxisLine = (false)
+            ..drawGridLines = (false)
+            ..position = (XAxisPosition.bottom);
+          // ..setValueFormatter(valueFormatter);
         },
         drawGridBackground: false,
-        backgroundColor: ColorUtils.WHITE,
+        backgroundColor: ColorUtils.white,
         dragXEnabled: true,
         dragYEnabled: true,
         scaleXEnabled: true,
@@ -198,7 +214,7 @@ class LineChartBasicState extends LineActionState<LineChartBasic> {
 
   void _initLineData(int count, double range) async {
     var img = await ImageLoader.loadImage('assets/img/star.png');
-    List<Entry> values = List();
+    List<Entry> values = <Entry>[];
 
     for (int i = 0; i < count; i++) {
       double val = (random.nextDouble() * range) - 30;
@@ -216,9 +232,9 @@ class LineChartBasicState extends LineActionState<LineChartBasic> {
     set1.enableDashedLine(10, 5, 0);
 
     // black lines and points
-    set1.setColor1(ColorUtils.BLACK);
-    set1.setCircleColor(ColorUtils.BLACK);
-    set1.setHighLightColor(ColorUtils.PURPLE);
+    set1.setColor1(ColorUtils.black);
+    set1.setCircleColor(ColorUtils.black);
+    set1.setHighLightColor(ColorUtils.purple);
 
     // line thickness and point size
     set1.setLineWidth(1);
@@ -243,9 +259,9 @@ class LineChartBasicState extends LineActionState<LineChartBasic> {
 //    set1.setFillFormatter(A(lineChart.painter));
 
     // set color of filled area
-    set1.setGradientColor(ColorUtils.BLUE, ColorUtils.RED);
+    set1.setGradientColor(ColorUtils.blue, ColorUtils.red);
 
-    List<ILineDataSet> dataSets = List();
+    List<ILineDataSet> dataSets = <ILineDataSet>[];
     dataSets.add(set1); // add the data sets
 
     // create a data object with the data sets
@@ -257,7 +273,7 @@ class LineChartBasicState extends LineActionState<LineChartBasic> {
   Widget _initLineChart() {
     var lineChart = LineChart(controller);
     controller.animator
-      ..reset()
+      ?..reset()
       ..animateX1(1500);
     return lineChart;
   }

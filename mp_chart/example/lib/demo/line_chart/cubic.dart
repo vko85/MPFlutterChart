@@ -1,23 +1,26 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:mp_chart/mp/chart/line_chart.dart';
-import 'package:mp_chart/mp/controller/line_chart_controller.dart';
-import 'package:mp_chart/mp/core/data/line_data.dart';
-import 'package:mp_chart/mp/core/data_interfaces/i_line_data_set.dart';
-import 'package:mp_chart/mp/core/data_provider/line_data_provider.dart';
-import 'package:mp_chart/mp/core/data_set/line_data_set.dart';
-import 'package:mp_chart/mp/core/description.dart';
-import 'package:mp_chart/mp/core/entry/entry.dart';
-import 'package:mp_chart/mp/core/enums/mode.dart';
-import 'package:mp_chart/mp/core/enums/y_axis_label_position.dart';
-import 'package:mp_chart/mp/core/fill_formatter/i_fill_formatter.dart';
-import 'package:mp_chart/mp/core/image_loader.dart';
-import 'package:mp_chart/mp/core/utils/color_utils.dart';
+import 'package:mp_chart_x/mp/chart/line_chart.dart';
+import 'package:mp_chart_x/mp/controller/line_chart_controller.dart';
+import 'package:mp_chart_x/mp/core/data/line_data.dart';
+import 'package:mp_chart_x/mp/core/data_interfaces/i_line_data_set.dart';
+import 'package:mp_chart_x/mp/core/data_provider/line_data_provider.dart';
+import 'package:mp_chart_x/mp/core/data_set/line_data_set.dart';
+import 'package:mp_chart_x/mp/core/description.dart';
+import 'package:mp_chart_x/mp/core/entry/entry.dart';
+import 'package:mp_chart_x/mp/core/enums/mode.dart';
+import 'package:mp_chart_x/mp/core/enums/x_axis_position.dart';
+import 'package:mp_chart_x/mp/core/enums/y_axis_label_position.dart';
+import 'package:mp_chart_x/mp/core/fill_formatter/i_fill_formatter.dart';
+import 'package:mp_chart_x/mp/core/image_loader.dart';
+import 'package:mp_chart_x/mp/core/utils/color_utils.dart';
 import 'package:example/demo/action_state.dart';
 import 'package:example/demo/util.dart';
 
 class LineChartCubic extends StatefulWidget {
+  const LineChartCubic({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return LineChartCubicState();
@@ -82,7 +85,7 @@ class LineChartCubicState extends LineActionState<LineChartCubic> {
                         textDirection: TextDirection.ltr,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: ColorUtils.BLACK,
+                            color: ColorUtils.black,
                             fontSize: 12,
                             fontWeight: FontWeight.bold),
                       ))),
@@ -112,7 +115,7 @@ class LineChartCubicState extends LineActionState<LineChartCubic> {
                         textDirection: TextDirection.ltr,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: ColorUtils.BLACK,
+                            color: ColorUtils.black,
                             fontSize: 12,
                             fontWeight: FontWeight.bold),
                       ))),
@@ -132,10 +135,10 @@ class LineChartCubicState extends LineActionState<LineChartCubic> {
           axisLeft
             ..typeface = Util.LIGHT
             ..setLabelCount2(6, false)
-            ..textColor = (ColorUtils.WHITE)
-            ..position = (YAxisLabelPosition.INSIDE_CHART)
+            ..textColor = (ColorUtils.white)
+            ..position = (YAxisLabelPosition.insideChart)
             ..drawGridLines = (false)
-            ..axisLineColor = (ColorUtils.WHITE);
+            ..axisLineColor = (ColorUtils.white);
         },
         axisRightSettingFunction: (axisRight, controller) {
           axisRight.enabled = (false);
@@ -143,16 +146,31 @@ class LineChartCubicState extends LineActionState<LineChartCubic> {
         legendSettingFunction: (legend, controller) {
           (controller as LineChartController).setViewPortOffsets(0, 0, 0, 0);
           legend.enabled = (false);
-          var data = (controller as LineChartController).data;
+          var data = controller.data;
           if (data != null) {
-            var formatter = data.getDataSetByIndex(0).getFillFormatter();
+            var formatter = data.getDataSetByIndex(0)?.getFillFormatter();
             if (formatter is A) {
               formatter.setPainter(controller);
             }
           }
         },
         xAxisSettingFunction: (xAxis, controller) {
-          xAxis.enabled = (false);
+          xAxis
+            ..drawLimitLineBehindData = true
+            ..enableAxisLineDashedLine(5, 5, 0)
+            ..enableGridDashedLine(10, 10, 0)
+            ..enabled = (true)
+            ..axisMaximum = 10
+            ..axisMinimum = 7
+            ..entryCount = _count
+            ..decimals = 10
+            ..setLabelCount3(_count > 9 ? 9 : _count)
+            ..centerAxisLabels = true
+            ..drawLimitLineBehindData = true
+            ..setLabelCount2(_count > 9 ? 9 : _count, false)
+            ..drawAxisLine = (false)
+            ..drawGridLines = (false)
+            ..position = (XAxisPosition.bottom);
         },
         drawGridBackground: true,
         dragXEnabled: true,
@@ -160,6 +178,8 @@ class LineChartCubicState extends LineActionState<LineChartCubic> {
         scaleXEnabled: true,
         scaleYEnabled: true,
         pinchZoomEnabled: false,
+        maxVisibleCount: 7,
+        autoScaleMinMaxEnabled: true,
         gridBackColor: Color.fromARGB(255, 104, 241, 175),
         backgroundColor: Color.fromARGB(255, 104, 241, 175),
         description: desc);
@@ -167,7 +187,7 @@ class LineChartCubicState extends LineActionState<LineChartCubic> {
 
   void _initLineData(int count, double range) async {
     var img = await ImageLoader.loadImage('assets/img/star.png');
-    List<Entry> values = List();
+    List<Entry> values = [];
 
     for (int i = 0; i < count; i++) {
       double val = (random.nextDouble() * (range + 1)) + 20;
@@ -178,22 +198,22 @@ class LineChartCubicState extends LineActionState<LineChartCubic> {
     // create a dataset and give it a type
     set1 = LineDataSet(values, "DataSet 1");
 
-    set1.setMode(Mode.CUBIC_BEZIER);
+    set1.setMode(Mode.cubicBezier);
     set1.setCubicIntensity(0.2);
     set1.setDrawFilled(true);
     set1.setDrawCircles(false);
     set1.setLineWidth(1.8);
     set1.setCircleRadius(4);
-    set1.setCircleColor(ColorUtils.WHITE);
+    set1.setCircleColor(ColorUtils.white);
     set1.setHighLightColor(Color.fromARGB(255, 244, 117, 117));
-    set1.setColor1(ColorUtils.WHITE);
-    set1.setFillColor(ColorUtils.WHITE);
+    set1.setColor1(ColorUtils.white);
+    set1.setFillColor(ColorUtils.white);
     set1.setFillAlpha(100);
     set1.setDrawHorizontalHighlightIndicator(false);
     set1.setFillFormatter(A());
 
     // create a data object with the data sets
-    controller.data = LineData.fromList(List()..add(set1))
+    controller.data = LineData.fromList([set1])
       ..setValueTypeface(Util.LIGHT)
       ..setValueTextSize(9)
       ..setDrawValues(false);
@@ -204,14 +224,14 @@ class LineChartCubicState extends LineActionState<LineChartCubic> {
   Widget _initLineChart() {
     var lineChart = LineChart(controller);
     controller.animator
-      ..reset()
+      ?..reset()
       ..animateXY1(2000, 2000);
     return lineChart;
   }
 }
 
 class A implements IFillFormatter {
-  LineChartController _controller;
+  late LineChartController _controller;
 
   void setPainter(LineChartController controller) {
     _controller = controller;
@@ -219,7 +239,7 @@ class A implements IFillFormatter {
 
   @override
   double getFillLinePosition(
-      ILineDataSet dataSet, LineDataProvider dataProvider) {
-    return _controller?.painter?.axisLeft?.axisMinimum;
+      ILineDataSet dataSet, LineDataProvider? dataProvider) {
+    return _controller.painter?.axisLeft?.axisMinimum ?? 0;
   }
 }

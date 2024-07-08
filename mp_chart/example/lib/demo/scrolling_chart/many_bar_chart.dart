@@ -1,19 +1,21 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:mp_chart/mp/chart/bar_chart.dart';
-import 'package:mp_chart/mp/controller/bar_chart_controller.dart';
-import 'package:mp_chart/mp/core/data/bar_data.dart';
-import 'package:mp_chart/mp/core/data_interfaces/i_bar_data_set.dart';
-import 'package:mp_chart/mp/core/data_set/bar_data_set.dart';
-import 'package:mp_chart/mp/core/description.dart';
-import 'package:mp_chart/mp/core/entry/bar_entry.dart';
-import 'package:mp_chart/mp/core/enums/x_axis_position.dart';
-import 'package:mp_chart/mp/core/utils/color_utils.dart';
+import 'package:mp_chart_x/mp/chart/bar_chart.dart';
+import 'package:mp_chart_x/mp/controller/bar_chart_controller.dart';
+import 'package:mp_chart_x/mp/core/data/bar_data.dart';
+import 'package:mp_chart_x/mp/core/data_interfaces/i_bar_data_set.dart';
+import 'package:mp_chart_x/mp/core/data_set/bar_data_set.dart';
+import 'package:mp_chart_x/mp/core/description.dart';
+import 'package:mp_chart_x/mp/core/entry/bar_entry.dart';
+import 'package:mp_chart_x/mp/core/enums/x_axis_position.dart';
+import 'package:mp_chart_x/mp/core/utils/color_utils.dart';
 import 'package:example/demo/action_state.dart';
 import 'package:example/demo/util.dart';
 
 class ScrollingChartManyBar extends StatefulWidget {
+  const ScrollingChartManyBar({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return ScrollingChartManyBarState();
@@ -22,7 +24,7 @@ class ScrollingChartManyBar extends StatefulWidget {
 
 class ScrollingChartManyBarState
     extends SimpleActionState<ScrollingChartManyBar> {
-  List<BarChartController> _controllers = List();
+  final List<BarChartController> _controllers = [];
   var random = Random(1);
   bool _isParentMove = true;
   double _curX = 0.0;
@@ -104,7 +106,7 @@ class ScrollingChartManyBarState
           },
           xAxisSettingFunction: (xAxis, controller) {
             xAxis
-              ..position = (XAxisPosition.BOTTOM)
+              ..position = (XAxisPosition.bottom)
               ..drawGridLines = (false);
           },
           drawGridBackground: false,
@@ -120,9 +122,9 @@ class ScrollingChartManyBarState
   Widget _renderItem(int index) {
     var barChart = BarChart(_controllers[index]);
     _controllers[index].animator
-      ..reset()
+      ?..reset()
       ..animateY1(700);
-    return Container(height: 200, child: barChart);
+    return SizedBox(height: 200, child: barChart);
   }
 
   void _initBarDatas() {
@@ -132,18 +134,18 @@ class ScrollingChartManyBarState
   }
 
   BarData generateData(int cnt) {
-    List<BarEntry> entries = List();
+    List<BarEntry> entries = [];
 
     for (int i = 0; i < 12; i++) {
       entries
           .add(BarEntry(x: i.toDouble(), y: (random.nextDouble() * 70) + 30));
     }
 
-    BarDataSet d = BarDataSet(entries, "New DataSet $cnt");
-    d.setColors1(ColorUtils.VORDIPLOM_COLORS);
+    BarDataSet d = BarDataSet(entries, "DataSet $cnt");
+    d.setColors1(ColorUtils.vordiplomColors);
     d.setBarShadowColor(Color.fromARGB(255, 203, 203, 203));
 
-    List<IBarDataSet> sets = List();
+    List<IBarDataSet> sets = [];
     sets.add(d);
 
     BarData cd = BarData(sets);

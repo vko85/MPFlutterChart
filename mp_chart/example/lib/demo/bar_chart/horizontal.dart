@@ -1,28 +1,28 @@
 import 'dart:math';
 
-import 'package:mp_chart/mp/controller/horizontal_bar_chart_controller.dart';
-import 'package:mp_chart/mp/core/common_interfaces.dart';
+import 'package:mp_chart_x/mp/controller/horizontal_bar_chart_controller.dart';
+import 'package:mp_chart_x/mp/core/common_interfaces.dart';
 import 'package:flutter/material.dart';
-import 'package:mp_chart/mp/chart/horizontal_bar_chart.dart';
-import 'package:mp_chart/mp/core/data/bar_data.dart';
-import 'package:mp_chart/mp/core/data_interfaces/i_bar_data_set.dart';
-import 'package:mp_chart/mp/core/data_set/bar_data_set.dart';
-import 'package:mp_chart/mp/core/description.dart';
-import 'package:mp_chart/mp/core/entry/bar_entry.dart';
-import 'package:mp_chart/mp/core/entry/entry.dart';
-import 'package:mp_chart/mp/core/enums/legend_horizontal_alignment.dart';
-import 'package:mp_chart/mp/core/enums/legend_orientation.dart';
-import 'package:mp_chart/mp/core/enums/legend_vertical_alignment.dart';
-import 'package:mp_chart/mp/core/enums/limit_label_postion.dart';
-import 'package:mp_chart/mp/core/enums/x_axis_position.dart';
-import 'package:mp_chart/mp/core/highlight/highlight.dart';
-import 'package:mp_chart/mp/core/image_loader.dart';
-import 'package:mp_chart/mp/core/limit_line.dart';
-import 'package:mp_chart/mp/core/utils/color_utils.dart';
+import 'package:mp_chart_x/mp/chart/horizontal_bar_chart.dart';
+import 'package:mp_chart_x/mp/core/data/bar_data.dart';
+import 'package:mp_chart_x/mp/core/data_interfaces/i_bar_data_set.dart';
+import 'package:mp_chart_x/mp/core/data_set/bar_data_set.dart';
+import 'package:mp_chart_x/mp/core/description.dart';
+import 'package:mp_chart_x/mp/core/entry/bar_entry.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_horizontal_alignment.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_orientation.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_vertical_alignment.dart';
+import 'package:mp_chart_x/mp/core/enums/limit_label_postion.dart';
+import 'package:mp_chart_x/mp/core/enums/x_axis_position.dart';
+import 'package:mp_chart_x/mp/core/image_loader.dart';
+import 'package:mp_chart_x/mp/core/limit_line.dart';
+import 'package:mp_chart_x/mp/core/utils/color_utils.dart';
 import 'package:example/demo/action_state.dart';
 import 'package:example/demo/util.dart';
 
 class BarChartHorizontal extends StatefulWidget {
+  const BarChartHorizontal({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return BarChartHorizontalState();
@@ -89,7 +89,7 @@ class BarChartHorizontalState
                         textDirection: TextDirection.ltr,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: ColorUtils.BLACK,
+                            color: ColorUtils.black,
                             fontSize: 12,
                             fontWeight: FontWeight.bold),
                       ))),
@@ -119,7 +119,7 @@ class BarChartHorizontalState
                         textDirection: TextDirection.ltr,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: ColorUtils.BLACK,
+                            color: ColorUtils.black,
                             fontSize: 12,
                             fontWeight: FontWeight.bold),
                       ))),
@@ -136,7 +136,7 @@ class BarChartHorizontalState
     var img = await ImageLoader.loadImage('assets/img/star.png');
     double barWidth = 9;
     double spaceForBar = 10;
-    List<BarEntry> values = List();
+    List<BarEntry> values = <BarEntry>[];
 
     for (int i = 0; i < count; i++) {
       double val = random.nextDouble() * range;
@@ -149,12 +149,12 @@ class BarChartHorizontalState
 
     set1.setDrawIcons(false);
 
-    List<IBarDataSet> dataSets = List();
+    List<IBarDataSet> dataSets = <IBarDataSet>[];
     dataSets.add(set1);
 
     controller.data = BarData(dataSets);
     controller.data
-      ..setValueTextSize(10)
+      ?..setValueTextSize(10)
       ..setValueTypeface(Util.LIGHT)
       ..barWidth = barWidth;
 
@@ -165,28 +165,28 @@ class BarChartHorizontalState
     LimitLine ll1 = LimitLine(47, "Upper Limit");
     ll1.setLineWidth(1);
     ll1.enableDashedLine(10, 10, 0);
-    ll1.labelPosition = (LimitLabelPosition.CENTER_TOP);
+    ll1.labelPosition = (LimitLabelPosition.centerTop);
     ll1.textSize = (10);
     ll1.typeface = Util.EXTRA_BOLD;
     var desc = Description()..enabled = false;
     LimitLine ll2 = LimitLine(10, "Lower Limit");
     ll2.setLineWidth(1);
     ll2.enableDashedLine(10, 10, 0);
-    ll2.labelPosition = (LimitLabelPosition.CENTER_BOTTOM);
+    ll2.labelPosition = (LimitLabelPosition.centerBottom);
     ll2.textSize = (10);
     ll2.typeface = Util.EXTRA_BOLD;
     LimitLine ll3 = LimitLine(47, "Upper Limit");
     ll3.setLineWidth(1);
     ll3.drawBackground = true;
     ll3.enableDashedLine(10, 10, 0);
-    ll3.labelPosition = (LimitLabelPosition.LEFT_CENTER);
+    ll3.labelPosition = (LimitLabelPosition.leftCenter);
     ll3.textSize = (10);
     ll3.typeface = Util.EXTRA_BOLD;
     LimitLine ll4 = LimitLine(10, "Lower Limit");
     ll4.drawBackground = true;
     ll4.setLineWidth(1);
     ll4.enableDashedLine(10, 10, 0);
-    ll4.labelPosition = (LimitLabelPosition.RIGHT_CENTER);
+    ll4.labelPosition = (LimitLabelPosition.rightCenter);
     ll4.textSize = (10);
     ll4.typeface = Util.EXTRA_BOLD;
     controller = HorizontalBarChartController(
@@ -208,9 +208,9 @@ class BarChartHorizontalState
         },
         legendSettingFunction: (legend, controller) {
           legend
-            ..verticalAlignment = (LegendVerticalAlignment.BOTTOM)
-            ..horizontalAlignment = (LegendHorizontalAlignment.LEFT)
-            ..orientation = (LegendOrientation.HORIZONTAL)
+            ..verticalAlignment = (LegendVerticalAlignment.bottom)
+            ..horizontalAlignment = (LegendHorizontalAlignment.left)
+            ..orientation = (LegendOrientation.horizontal)
             ..drawInside = (false)
             ..formSize = (8)
             ..xEntrySpace = (4);
@@ -219,7 +219,7 @@ class BarChartHorizontalState
           xAxis
             ..addLimitLine(ll3)
             ..addLimitLine(ll4)
-            ..position = XAxisPosition.BOTTOM
+            ..position = XAxisPosition.bottom
             ..typeface = Util.LIGHT
             ..drawAxisLine = true
             ..drawGridLines = false
@@ -242,7 +242,7 @@ class BarChartHorizontalState
   Widget _initBarChart() {
     var barChart = HorizontalBarChart(controller);
     controller.animator
-      ..reset()
+      ?..reset()
       ..animateY1(2500);
     return barChart;
   }
@@ -251,7 +251,7 @@ class BarChartHorizontalState
   void onNothingSelected() {}
 
   @override
-  void onValueSelected(Entry e, Highlight h) {
+  void onValueSelected( e,  h) {
 //    if (e == null)
 //      return;
 //

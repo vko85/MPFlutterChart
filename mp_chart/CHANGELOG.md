@@ -1,3 +1,5 @@
+## 1.0.2 2023-4-25
+* Updated for Flutter 2.12 to use updated Dart nullsafety
 ## 0.3.1 2020-10-30
 * Updated for Flutter 1.22.0 to use updated Dart intl package 0.17.0-nullsafety.1.
 ## 0.3.0 2020-09-18

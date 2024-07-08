@@ -1,28 +1,30 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:mp_chart/mp/chart/bar_chart.dart';
-import 'package:mp_chart/mp/controller/bar_chart_controller.dart';
-import 'package:mp_chart/mp/core/common_interfaces.dart';
-import 'package:mp_chart/mp/core/data/bar_data.dart';
-import 'package:mp_chart/mp/core/data_interfaces/i_bar_data_set.dart';
-import 'package:mp_chart/mp/core/data_set/bar_data_set.dart';
-import 'package:mp_chart/mp/core/description.dart';
-import 'package:mp_chart/mp/core/entry/bar_entry.dart';
-import 'package:mp_chart/mp/core/entry/entry.dart';
-import 'package:mp_chart/mp/core/enums/legend_form.dart';
-import 'package:mp_chart/mp/core/enums/legend_horizontal_alignment.dart';
-import 'package:mp_chart/mp/core/enums/legend_orientation.dart';
-import 'package:mp_chart/mp/core/enums/legend_vertical_alignment.dart';
-import 'package:mp_chart/mp/core/enums/x_axis_position.dart';
-import 'package:mp_chart/mp/core/highlight/highlight.dart';
-import 'package:mp_chart/mp/core/image_loader.dart';
-import 'package:mp_chart/mp/core/utils/color_utils.dart';
-import 'package:mp_chart/mp/core/value_formatter/my_value_formatter.dart';
-import 'package:mp_chart/mp/core/value_formatter/stacked_value_formatter.dart';
+import 'package:mp_chart_x/mp/chart/bar_chart.dart';
+import 'package:mp_chart_x/mp/controller/bar_chart_controller.dart';
+import 'package:mp_chart_x/mp/core/common_interfaces.dart';
+import 'package:mp_chart_x/mp/core/data/bar_data.dart';
+import 'package:mp_chart_x/mp/core/data_interfaces/i_bar_data_set.dart';
+import 'package:mp_chart_x/mp/core/data_set/bar_data_set.dart';
+import 'package:mp_chart_x/mp/core/description.dart';
+import 'package:mp_chart_x/mp/core/entry/bar_entry.dart';
+import 'package:mp_chart_x/mp/core/entry/entry.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_form.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_horizontal_alignment.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_orientation.dart';
+import 'package:mp_chart_x/mp/core/enums/legend_vertical_alignment.dart';
+import 'package:mp_chart_x/mp/core/enums/x_axis_position.dart';
+import 'package:mp_chart_x/mp/core/highlight/highlight.dart';
+import 'package:mp_chart_x/mp/core/image_loader.dart';
+import 'package:mp_chart_x/mp/core/utils/color_utils.dart';
+import 'package:mp_chart_x/mp/core/value_formatter/my_value_formatter.dart';
+import 'package:mp_chart_x/mp/core/value_formatter/stacked_value_formatter.dart';
 import 'package:example/demo/action_state.dart';
 
 class BarChartStacked extends StatefulWidget {
+  const BarChartStacked({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return BarChartStackedState();
@@ -88,7 +90,7 @@ class BarChartStackedState extends BarActionState<BarChartStacked>
                         textDirection: TextDirection.ltr,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: ColorUtils.BLACK,
+                            color: ColorUtils.black,
                             fontSize: 12,
                             fontWeight: FontWeight.bold),
                       ))),
@@ -118,7 +120,7 @@ class BarChartStackedState extends BarActionState<BarChartStacked>
                         textDirection: TextDirection.ltr,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: ColorUtils.BLACK,
+                            color: ColorUtils.black,
                             fontSize: 12,
                             fontWeight: FontWeight.bold),
                       ))),
@@ -133,7 +135,7 @@ class BarChartStackedState extends BarActionState<BarChartStacked>
 
   void _initBarData(int count, double range) async {
     var img = await ImageLoader.loadImage('assets/img/star.png');
-    List<BarEntry> values = List();
+    List<BarEntry> values = <BarEntry>[];
 
     for (int i = 0; i < count; i++) {
       double mul = (range + 1);
@@ -143,7 +145,7 @@ class BarChartStackedState extends BarActionState<BarChartStacked>
 
       values.add(BarEntry.fromListYVals(
           x: i.toDouble(),
-          vals: List()..add(val1)..add(val2)..add(val3),
+          vals: [val1, val2, val3],
           icon: img));
     }
 
@@ -152,25 +154,21 @@ class BarChartStackedState extends BarActionState<BarChartStacked>
     set1 = BarDataSet(values, "Statistics Vienna 2014");
     set1.setDrawIcons(false);
     set1.setColors1(_getColors());
-    set1.setStackLabels(
-        List()..add("Births")..add("Divorces")..add("Marriages"));
+    set1.setStackLabels(["Births", "Divorces", "Marriages"]);
 
-    List<IBarDataSet> dataSets = List();
+    List<IBarDataSet> dataSets = <IBarDataSet>[];
     dataSets.add(set1);
 
     controller.data = BarData(dataSets);
     controller.data
-      ..setValueFormatter(StackedValueFormatter(false, "", 1))
-      ..setValueTextColor(ColorUtils.WHITE);
+      ?..setValueFormatter(StackedValueFormatter(false, "", 1))
+      ..setValueTextColor(ColorUtils.white);
 
     setState(() {});
   }
 
   List<Color> _getColors() {
-    return List()
-      ..add(ColorUtils.MATERIAL_COLORS[0])
-      ..add(ColorUtils.MATERIAL_COLORS[1])
-      ..add(ColorUtils.MATERIAL_COLORS[2]);
+    return [ColorUtils.materialColors[0], ColorUtils.materialColors[1], ColorUtils.materialColors[2]];
   }
 
   void _initController() {
@@ -186,17 +184,17 @@ class BarChartStackedState extends BarActionState<BarChartStacked>
         },
         legendSettingFunction: (legend, controller) {
           legend
-            ..verticalAlignment = (LegendVerticalAlignment.BOTTOM)
-            ..horizontalAlignment = (LegendHorizontalAlignment.RIGHT)
-            ..orientation = (LegendOrientation.HORIZONTAL)
+            ..verticalAlignment = (LegendVerticalAlignment.bottom)
+            ..horizontalAlignment = (LegendHorizontalAlignment.right)
+            ..orientation = (LegendOrientation.horizontal)
             ..drawInside = (false)
-            ..shape = (LegendForm.SQUARE)
+            ..shape = (LegendForm.square)
             ..formSize = (8)
             ..formToTextSpace = (4)
             ..xEntrySpace = (6);
         },
         xAxisSettingFunction: (xAxis, controller) {
-          xAxis.position = (XAxisPosition.TOP);
+          xAxis.position = (XAxisPosition.top);
         },
         drawGridBackground: false,
         dragXEnabled: true,
@@ -217,5 +215,5 @@ class BarChartStackedState extends BarActionState<BarChartStacked>
   void onNothingSelected() {}
 
   @override
-  void onValueSelected(Entry e, Highlight h) {}
+  void onValueSelected(Entry? e, Highlight? h) {}
 }
