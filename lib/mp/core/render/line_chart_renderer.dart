@@ -667,8 +667,8 @@ class LineChartRenderer extends LineRadarRenderer {
         // Calculate the position and size of the rectangle
         double rectWidth = valuePaint!.width + 8; // Add padding around the text
         double rectHeight = valuePaint!.height; // Add padding around the text
-        if (rectWidth<27) {
-          rectWidth = 27; // Add same background width
+        if (rectWidth<29) {
+          rectWidth = 29; // Add same background width
         }
         if (rectHeight<22) {
           valueYOffset = ((22 - rectHeight) / 2.75).toInt();
