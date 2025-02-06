@@ -670,9 +670,9 @@ class LineChartRenderer extends LineRadarRenderer {
         if (rectWidth<27) {
           rectWidth = 27; // Add same background width
         }
-        if (rectHeight<27) {
-          valueYOffset = ((27 - rectHeight) / 2.75).toInt();
-          rectHeight = 27; // Add padding around the text
+        if (rectHeight<22) {
+          valueYOffset = ((22 - rectHeight) / 2.75).toInt();
+          rectHeight = 22; // Add padding around the text
         }
         double rectLeft = x - rectWidth / 2;
         double rectTop = y - rectHeight;
